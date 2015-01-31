@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
             params.add(new BasicNameValuePair("password", Psw));
 
            String resultServer  = getHttpPost(url,params);
-            String ser = new String();
+
     } catch (Exception e) {
              Log.e("Error", e.getMessage());
             e.printStackTrace();
