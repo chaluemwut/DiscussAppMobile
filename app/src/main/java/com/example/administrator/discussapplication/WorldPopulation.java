@@ -4,27 +4,27 @@ package com.example.administrator.discussapplication;
  * Created by Administrator on 1/30/2015.
 */
     public class WorldPopulation {
-        private String username;
-        private String password;
+        private String status;
+        private String is_user;
         //private String population;
        // private String flag;
 
-        public String getUsername() {
-            return username;
+        public String getStatus() {
+            return status;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setStatus(String is_user) {
+            this.status = status;
         }
 
-        public String getPassword() {
-            return password;
+        public String getIs_user() {
+            return is_user;
         }
 
 
 
-       public void setPassword(String password) {
-            this.password = password;
+       public void setIs_user(String is_user) {
+            this.is_user = is_user;
         }
 /*
         public String getPopulation() {
