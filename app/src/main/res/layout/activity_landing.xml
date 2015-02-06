@@ -4,9 +4,112 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.administrator.discussapplication.LandingActivity">
+    tools:context="com.example.administrator.discussapplication.LandingActivity"
+    android:background="#ffdde4ee">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:spinnerMode="dropdown"
+        android:layout_marginBottom="10dp" />
+
+    <GridView
+
+        android:id="@+id/gridImg"
+
+        android:nestedScrollingEnabled="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_above="@+id/Advt"
+        android:layout_below="@+id/TB" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:id="@+id/Advt"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/gridImg"
+        android:layout_alignEnd="@+id/gridImg"
+        android:layout_alignParentBottom="true"
+        android:background="#ff173871" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:background="#ff6fb9ff"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User :"
+            android:id="@+id/txtUser"
+            android:layout_alignTop="@+id/imgBtn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:autoText="false"
+            android:textColor="#ff173871"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/txtName"
+            android:layout_alignBottom="@+id/txtUser"
+            android:layout_toRightOf="@+id/txtUser"
+            android:layout_toEndOf="@+id/txtUser"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fffcf6ff"
+            android:textSize="16dp"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtn"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/gridImg"
+            android:layout_below="@+id/spinner"
+            android:src="@drawable/bt_logout"
+            android:background="#ff6fb9ff"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Board"
+        android:id="@+id/TB"
+        android:textColor="#ff6fb9ff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>
