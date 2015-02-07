@@ -8,5 +8,6 @@
     <string name="PassWord">Password</string>
     <string name="LOGIN">LOGIN</string>
     <string name="title_activity_landing">LandingActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
 
 </resources>
