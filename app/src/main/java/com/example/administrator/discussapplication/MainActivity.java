@@ -5,19 +5,8 @@ import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,56 +15,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ImageView image = (ImageView) this.findViewById(R.id.image);
-        ImageView image2 = (ImageView) this.findViewById(R.id.image2);
-        ImageView image3 = (ImageView) this.findViewById(R.id.image3);
-        final EditText EDuser = (EditText) this.findViewById(R.id.editText1);
-        final EditText EDpass = (EditText) this.findViewById(R.id.editText1);
-        Button BtnLogin = (Button) this.findViewById(R.id.btn_login);
+        setContentView(R.layout.activity_main);
+        ImageView image = (ImageView) this.findViewById(R.id.Logo_Main);
         image.setImageResource(R.drawable.logo1_1);
-        image2.setImageResource(R.drawable.bt_id);
-        image3.setImageResource(R.drawable.bt_psw);
-        final TextView Text2 = (TextView)findViewById(R.id.text2);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        BtnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String qMessage1 = EDpass.getText().toString();
-                String qMessage2 = EDuser.getText().toString();
-                try {
-                    URL url = new URL("http://192.168.1.112:8070/DiscussApp/LoginAPI?"+qMessage1+"&"+qMessage2);
-                    Scanner sc = new Scanner(url.openStream());
-                    StringBuffer buf = new StringBuffer();
-                    while(sc.hasNext()){
-                        buf.append(sc.next());
-                        JSONObject jsonObject = new JSONObject(buf.toString());
-                        String status = jsonObject.getString("status");
-                        String is_user = jsonObject.getString("is_user");
-                        Text2.setText(is_user);
-                    }
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
-
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
