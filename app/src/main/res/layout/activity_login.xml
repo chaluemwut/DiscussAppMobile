@@ -114,13 +114,7 @@
         android:paddingLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/regis"
-        android:layout_toEndOf="@+id/regis" />
+        android:layout_toEndOf="@+id/regis" /><![CDATA[
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text2"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/relativeLayout"
-        android:layout_alignStart="@+id/relativeLayout" />
-    ></RelativeLayout>
+    >]]>
+</RelativeLayout>

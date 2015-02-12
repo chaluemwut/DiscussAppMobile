@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +35,7 @@ public class LoginActivity extends ActionBarActivity {
         image.setImageResource(R.drawable.logo1_1);
         image2.setImageResource(R.drawable.bt_id);
         image3.setImageResource(R.drawable.bt_psw);
-        final TextView Text2 = (TextView)findViewById(R.id.text2);
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -56,7 +55,7 @@ public class LoginActivity extends ActionBarActivity {
                         JSONObject jsonObject = new JSONObject(buf.toString());
                         String status = jsonObject.getString("status");
                         String is_user = jsonObject.getString("is_user");
-                        Text2.setText(is_user);
+                      //  Text2.setText(is_user);
                     }
 
                 } catch (MalformedURLException e) {
