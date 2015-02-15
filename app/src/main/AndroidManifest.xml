@@ -9,30 +9,46 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!-- Splash screen -->
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name=".SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:noHistory="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:label="DiscussApplication"
+            >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="LoginActivity"
+            >
+        </activity>
+        <activity
             android:name=".LandingActivity"
-            android:label="@string/title_activity_landing" >
+            android:label="LandingActivity" >
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="RegisterActivity" >
         </activity>
         <activity
             android:name=".CommentActivity"
-            android:label="@string/title_activity_comment" >
+            android:label="CommentActivity" >
         </activity>
         <activity
             android:name=".PostActivity"
-            android:label="@string/title_activity_post" >
+            android:label="PostActivity" >
         </activity>
     </application>
 

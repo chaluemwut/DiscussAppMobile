@@ -25,9 +25,13 @@ public class LandingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        ImageButton bt_logout = (ImageButton)this.findViewById(R.id.imgBtn);
+        ImageButton bt_logout = (ImageButton)this.findViewById(R.id.imgBtn3);
+        ImageButton bt_setup = (ImageButton)this.findViewById(R.id.imgBtn2);
+        ImageButton bt_create = (ImageButton)this.findViewById(R.id.imgBtn1);
         ImageView Avt = (ImageView)this.findViewById(R.id.Advt);
-        bt_logout.setImageResource(R.drawable.bt_logout);
+        bt_logout.setImageResource(R.drawable.bt_logout1);
+        bt_setup.setImageResource(R.drawable.bt_setup);
+        bt_create.setImageResource(R.drawable.bt_add);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
 

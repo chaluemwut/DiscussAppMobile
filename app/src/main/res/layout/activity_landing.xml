@@ -53,50 +53,48 @@
         android:background="#ff6fb9ff"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/bt_id"
+            android:layout_marginLeft="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User :"
-            android:id="@+id/txtUser"
-            android:layout_alignTop="@+id/imgBtn"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:autoText="false"
-            android:textColor="#ff173871"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="name"
             android:id="@+id/txtName"
             android:layout_alignBottom="@+id/txtUser"
             android:layout_toRightOf="@+id/txtUser"
             android:layout_toEndOf="@+id/txtUser"
             android:layout_marginLeft="10dp"
             android:textColor="#fffcf6ff"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:layout_gravity="center" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtn"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_above="@+id/gridImg"
-            android:layout_below="@+id/spinner"
-            android:src="@drawable/bt_logout"
-            android:background="#ff6fb9ff"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:id="@+id/imgBtn1"
+            android:src="@drawable/bt_add"
+            android:layout_marginLeft="80dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtn2"
+            android:src="@drawable/bt_setup" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtn3"
+            android:src="@drawable/bt_logout1" />
+
     </LinearLayout>
 
     <TextView

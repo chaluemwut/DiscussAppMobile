@@ -30,7 +30,7 @@ public class LoginActivity extends ActionBarActivity {
         ImageView image2 = (ImageView) this.findViewById(R.id.image2);
         ImageView image3 = (ImageView) this.findViewById(R.id.image3);
         final EditText EDuser = (EditText) this.findViewById(R.id.editText1);
-        final EditText EDpass = (EditText) this.findViewById(R.id.editText1);
+        final EditText EDpass = (EditText) this.findViewById(R.id.editText2);
         Button BtnLogin = (Button) this.findViewById(R.id.btn_login);
         image.setImageResource(R.drawable.logo1_1);
         image2.setImageResource(R.drawable.bt_id);
