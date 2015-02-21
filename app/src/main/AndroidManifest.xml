@@ -50,6 +50,7 @@
             android:name=".PostActivity"
             android:label="PostActivity" >
         </activity>
+
     </application>
 
 </manifest>

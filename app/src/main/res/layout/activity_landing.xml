@@ -43,7 +43,8 @@
         android:layout_alignRight="@+id/gridImg"
         android:layout_alignEnd="@+id/gridImg"
         android:layout_alignParentBottom="true"
-        android:background="#ff173871" />
+        android:background="#ff173871"
+        android:layout_alignTop="@+id/btnPre" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -109,5 +110,25 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prev"
+        android:id="@+id/btnPre"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/btnNext"
+        android:layout_below="@+id/gridImg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
