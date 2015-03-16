@@ -1,5 +1,6 @@
 package com.example.administrator.discussapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -38,21 +39,21 @@ public class LandingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        ImageButton bt_logout = (ImageButton) this.findViewById(R.id.imgBtn3);
-        ImageButton bt_setup = (ImageButton) this.findViewById(R.id.imgBtn2);
-        ImageButton bt_create = (ImageButton) this.findViewById(R.id.imgBtn1);
+        ImageButton Btn_logout = (ImageButton) this.findViewById(R.id.imgBtnLogout);
+        ImageButton Btn_setup = (ImageButton) this.findViewById(R.id.imgBtnSet);
+        ImageButton Btn_post = (ImageButton) this.findViewById(R.id.imgBtnPost);
         ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
-        bt_logout.setImageResource(R.drawable.bt_logout1);
-        bt_setup.setImageResource(R.drawable.bt_setup);
-        bt_create.setImageResource(R.drawable.bt_add);
+        Btn_logout.setImageResource(R.drawable.bt_logout1);
+        Btn_setup.setImageResource(R.drawable.bt_setup);
+        Btn_post.setImageResource(R.drawable.bt_add);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
 
         arrList.add("--SELECTE--");
-        arrList.add("Mercury");
-        arrList.add("Venus");
-        arrList.add("Earth");
-        arrList.add("Mars");
+        arrList.add("IT Computer Notebook");
+        arrList.add("Cemera");
+        arrList.add("Talephone");
+        arrList.add("Clothing");
 
         ArrayAdapter<String> arrAd = new ArrayAdapter<String>(LandingActivity.this,
                 android.R.layout.simple_spinner_item,
@@ -97,6 +98,21 @@ public class LandingActivity extends ActionBarActivity {
                     }
                 });
 
+        /// End Grid//
+/// Start button set //
+        Btn_post.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent it = new Intent(getApplicationContext(), PostActivity.class);
+                //it.putExtra("key1", inPutIpAddress);
+                //it.putExtra("key2", inPutSub);
+               // it.putExtra("key3", inPutGp);
+                System.out.println("");
+                startActivity(it);
+
+            }
+        });
             }
 
 

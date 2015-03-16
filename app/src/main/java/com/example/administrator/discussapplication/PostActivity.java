@@ -1,9 +1,12 @@
 package com.example.administrator.discussapplication;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class PostActivity extends ActionBarActivity {
@@ -12,6 +15,22 @@ public class PostActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        Button Btn_back = (Button) this.findViewById(R.id.post_bt_back);
+
+        /// Start button back
+        Btn_back.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                //it.putExtra("key1", inPutIpAddress);
+                //it.putExtra("key2", inPutSub);
+                // it.putExtra("key3", inPutGp);
+                System.out.println("");
+                startActivity(it);
+
+            }
+        });
     }
 
 
