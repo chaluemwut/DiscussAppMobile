@@ -11,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#ffffffff"
-        android:id="@+id/relativeLayout2">
+        android:id="@+id/relativeLayout2"
+        android:layout_above="@+id/linearLayout3"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -135,7 +137,9 @@
             android:background="#ffdde4ee"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -153,11 +157,12 @@
             android:text="Create by :"
             android:id="@+id/textView5"
             android:textSize="18dp"
-            android:layout_below="@+id/textView10"
+            android:layout_below="@+id/button"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -166,10 +171,10 @@
             android:id="@+id/textView6"
             android:textSize="18dp"
             android:layout_alignTop="@+id/textView5"
-            android:layout_toRightOf="@+id/textView5"
             android:layout_toEndOf="@+id/textView5"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_toRightOf="@+id/textView5"
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -187,13 +192,11 @@
             android:layout_height="wrap_content"
             android:text="Password"
             android:id="@+id/textView9"
-            android:layout_below="@+id/button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignBottom="@+id/editText5"
             android:gravity="center_vertical"
             android:textSize="18dp"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/textView5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp" />
 
         <EditText
@@ -202,12 +205,14 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/editText5"
-            android:layout_below="@+id/button"
-            android:layout_toRightOf="@+id/textView9"
-            android:layout_toEndOf="@+id/textView9"
             android:background="#ffdde4ee"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_alignRight="@+id/editText4"
+            android:layout_alignEnd="@+id/editText4"
+            android:layout_alignTop="@+id/textView9"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_alignStart="@+id/textView6"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -217,7 +222,8 @@
             android:textColor="#ffff3227"
             android:layout_below="@+id/editText5"
             android:layout_alignLeft="@+id/editText5"
-            android:layout_alignStart="@+id/editText5" />
+            android:layout_alignStart="@+id/editText5"
+            android:layout_marginBottom="20dp" />
 
     </RelativeLayout>
 
@@ -225,11 +231,13 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout2"
-        android:layout_centerHorizontal="true"
         android:gravity="right"
         android:background="#ff173871"
-        android:layout_marginTop="15dp">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3"
+        android:layout_marginTop="10dp">
 
         <Button
             android:layout_width="match_parent"
