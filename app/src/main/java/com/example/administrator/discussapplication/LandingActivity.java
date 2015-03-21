@@ -40,11 +40,11 @@ public class LandingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
         ImageButton Btn_logout = (ImageButton) this.findViewById(R.id.imgBtnLogout);
-        ImageButton Btn_setup = (ImageButton) this.findViewById(R.id.imgBtnSet);
+        ImageButton Btn_profile = (ImageButton) this.findViewById(R.id.imgBtnSet);
         ImageButton Btn_post = (ImageButton) this.findViewById(R.id.imgBtnPost);
         ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
         Btn_logout.setImageResource(R.drawable.bt_logout1);
-        Btn_setup.setImageResource(R.drawable.bt_setup);
+        Btn_profile.setImageResource(R.drawable.bt_setup);
         Btn_post.setImageResource(R.drawable.bt_add);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
@@ -113,7 +113,23 @@ public class LandingActivity extends ActionBarActivity {
 
             }
         });
+        Btn_profile.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent it = new Intent(getApplicationContext(), ProfileActivity.class);
+                //it.putExtra("key1", inPutIpAddress);
+                //it.putExtra("key2", inPutSub);
+                // it.putExtra("key3", inPutGp);
+                System.out.println("");
+                startActivity(it);
+
             }
+        });
+
+
+
+    }
 
 
 

@@ -67,7 +67,8 @@
             android:layout_alignBottom="@+id/editText"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ff173871" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -93,7 +94,8 @@
             android:gravity="center_vertical"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ff173871" />
 
         <EditText
             android:layout_width="match_parent"
@@ -126,7 +128,8 @@
             android:layout_alignParentStart="true"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ff173871" />
 
         <EditText
             android:layout_width="match_parent"
@@ -162,7 +165,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:textColor="#ff173871" />
 
         <TextView
             android:layout_width="match_parent"
@@ -174,7 +178,8 @@
             android:layout_toEndOf="@+id/textView5"
             android:layout_alignBottom="@+id/textView5"
             android:layout_toRightOf="@+id/textView5"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ff6fb9ff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -197,7 +202,8 @@
             android:layout_below="@+id/textView5"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ff173871" />
 
         <EditText
             android:layout_width="wrap_content"
