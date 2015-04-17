@@ -27,7 +27,8 @@ public class LandingActivity extends ActionBarActivity {
     public int indexRowStart = 0;
     public int indexRowEnd = 0;
     public int TotalRows = 0;
-    public GridView gridV;
+    public GridView gridV1;
+    public GridView gridV2;
 
     public Button btnNext;
     public Button btnPre;
@@ -82,13 +83,13 @@ public class LandingActivity extends ActionBarActivity {
 
 
            /// Start Grid//
-        gridV=(GridView) findViewById(R.id.gridImg1);
+        gridV1=(GridView) findViewById(R.id.gridImg1);
 
 
-        gridV.setAdapter(new ImageAdapter(this));
+        gridV1.setAdapter(new ImageAdapter(this));
 
 
-        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener()  {
+        gridV1.setOnItemClickListener(new AdapterView.OnItemClickListener()  {
 
                     public void onItemClick(AdapterView<?> arg0, View view,int position,long arg3) {
                         Toast.makeText(getApplicationContext(), GridViewConfig.getResim_list().
@@ -96,6 +97,20 @@ public class LandingActivity extends ActionBarActivity {
 
                     }
                 });
+        gridV2=(GridView) findViewById(R.id.gridImg2);
+
+
+        gridV2.setAdapter(new ImageAdapter(this));
+
+
+        gridV2.setOnItemClickListener(new AdapterView.OnItemClickListener()  {
+
+            public void onItemClick(AdapterView<?> arg0, View view,int position,long arg3) {
+                Toast.makeText(getApplicationContext(), GridViewConfig.getResim_list().
+                        get(position), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         /// End Grid//
 /// Start button set //

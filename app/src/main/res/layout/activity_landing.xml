@@ -41,7 +41,7 @@
             android:layout_width="60dp"
             android:layout_height="79dp"
             android:id="@+id/imageView"
-            android:src="@drawable/bt_id"
+            android:src="@drawable/add_image"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.15" />
 
@@ -109,7 +109,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="edit"
+                android:text="Proflie"
                 android:id="@+id/bt_edit"
                 android:background="#ffffc548"
                 android:textColor="#ff173871"
@@ -122,7 +122,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NEW Board"
+        android:text=" NEW Board "
         android:id="@+id/TB"
         android:textColor="#fff1ffff"
         android:textSize="18dp"
@@ -146,7 +146,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TOP Board"
+        android:text=" TOP Board "
         android:id="@+id/textView31"
         android:layout_below="@+id/gridImg1"
         android:layout_alignParentLeft="true"
@@ -168,5 +168,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#ffffffff" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:id="@+id/imageView3"
+        android:background="#ff173871"
+        android:layout_below="@+id/gridImg2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
