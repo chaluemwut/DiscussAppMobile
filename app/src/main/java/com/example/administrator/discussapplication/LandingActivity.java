@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,13 +38,13 @@ public class LandingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        ImageButton Btn_logout = (ImageButton) this.findViewById(R.id.imgBtnLogout);
-        ImageButton Btn_profile = (ImageButton) this.findViewById(R.id.imgBtnSet);
-        ImageButton Btn_post = (ImageButton) this.findViewById(R.id.imgBtnPost);
+        //ImageButton Btn_logout = (ImageButton) this.findViewById(R.id.imgBtnLogout);
+        //ImageButton Btn_profile = (ImageButton) this.findViewById(R.id.imgBtnSet);
+       // ImageButton Btn_post = (ImageButton) this.findViewById(R.id.imgBtnPost);
         ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
-        Btn_logout.setImageResource(R.drawable.bt_logout1);
-        Btn_profile.setImageResource(R.drawable.bt_setup);
-        Btn_post.setImageResource(R.drawable.bt_add);
+       // Btn_logout.setImageResource(R.drawable.bt_logout1);
+        Button Btn_profile =(Button)this.findViewById(R.id.bt_edit);
+        Button Btn_post=(Button)this.findViewById(R.id.bt_post);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
 
@@ -83,7 +82,7 @@ public class LandingActivity extends ActionBarActivity {
 
 
            /// Start Grid//
-        gridV=(GridView) findViewById(R.id.gridImg);
+        gridV=(GridView) findViewById(R.id.gridImg1);
 
 
         gridV.setAdapter(new ImageAdapter(this));

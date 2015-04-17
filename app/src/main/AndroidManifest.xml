@@ -51,6 +51,10 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name=".AlltopicActivity"
+            android:label="@string/title_activity_alltopic" >
+        </activity>
     </application>
 
 </manifest>

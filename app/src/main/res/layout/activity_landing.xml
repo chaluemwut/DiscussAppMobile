@@ -11,103 +11,162 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:spinnerMode="dropdown"
-        android:layout_marginBottom="10dp" />
-
-    <GridView
-
-        android:id="@+id/gridImg"
-
-        android:nestedScrollingEnabled="false"
+        android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:layout_above="@+id/Advt"
-        android:layout_below="@+id/TB"
-        android:numColumns="2" />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="5dp"
         android:id="@+id/Advt"
+        android:background="#ff173871"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/gridImg"
-        android:layout_alignEnd="@+id/gridImg"
-        android:layout_alignParentBottom="true"
-        android:background="#ff173871" />
+        android:layout_marginBottom="155dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:id="@+id/linearLayout"
         android:background="#ff6fb9ff"
-        android:layout_below="@+id/spinner"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center_vertical">
+        android:layout_alignParentStart="true">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="79dp"
             android:id="@+id/imageView"
             android:src="@drawable/bt_id"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.15" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="name"
-            android:id="@+id/txtName"
-            android:layout_alignBottom="@+id/txtUser"
-            android:layout_toRightOf="@+id/txtUser"
-            android:layout_toEndOf="@+id/txtUser"
-            android:layout_marginLeft="10dp"
-            android:textColor="#fffcf6ff"
-            android:textSize="14dp"
-            android:layout_gravity="center" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imgBtnPost"
-            android:src="@drawable/bt_add"
-            android:layout_marginLeft="80dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post"
+                android:id="@+id/textView27"
+                android:layout_marginTop="10dp"
+                android:textColor="#ffffc548"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imgBtnSet"
-            android:src="@drawable/bt_setup" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView28"
+                android:textColor="#ffffffff" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imgBtnLogout"
-            android:src="@drawable/bt_logout1" />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post"
+                android:id="@+id/bt_post"
+                android:background="#ffffc548"
+                android:textColor="#ff173871"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Answer"
+                android:id="@+id/textView29"
+                android:layout_marginTop="10dp"
+                android:textColor="#ffffc548"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView30"
+                android:textColor="#ffffffff" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="edit"
+                android:id="@+id/bt_edit"
+                android:background="#ffffc548"
+                android:textColor="#ff173871"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Top Board"
+        android:text="NEW Board"
         android:id="@+id/TB"
-        android:textColor="#ff6fb9ff"
+        android:textColor="#fff1ffff"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/spinner"
+        android:background="#ffffc548"
+        android:layout_margin="5dp" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridImg1"
+        android:layout_below="@+id/TB"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/Advt"
+        android:background="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOP Board"
+        android:id="@+id/textView31"
+        android:layout_below="@+id/gridImg1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#fffaf9ff"
+        android:background="#ffffc548"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridImg2"
+        android:layout_below="@+id/textView31"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffffff" />
 
 </RelativeLayout>

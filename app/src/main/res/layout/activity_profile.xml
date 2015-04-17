@@ -31,12 +31,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back"
+                android:text="&lt;"
                 android:id="@+id/button5"
                 android:textColorHighlight="#ff48c9ff"
                 android:textColor="#ffffffff"
-                android:shadowColor="#ff3d3d3d"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="25dp"
+                android:background="#ff6fb9ff" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,23 +62,8 @@
             android:id="@+id/imageView2"
             android:src="@drawable/add_image2"
             android:layout_below="@+id/linearLayout4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText6"
-            android:enabled="false"
-            android:focusable="true"
-            android:background="#ffdde4ee"
-            android:focusableInTouchMode="false"
-            android:editable="true"
-            android:layout_alignTop="@+id/imageView2"
-            android:layout_toRightOf="@+id/imageView2"
-            android:layout_toEndOf="@+id/imageView2"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_toRightOf="@+id/textView22"
+            android:layout_toEndOf="@+id/textView22" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,10 +72,9 @@
             android:id="@+id/textView14"
             android:textColor="#ffff3227"
             android:textSize="10dp"
-            android:layout_below="@+id/editText6"
-            android:layout_alignLeft="@+id/textView13"
-            android:layout_alignStart="@+id/textView13"
-            android:layout_marginRight="10dp" />
+            android:layout_below="@+id/imageView2"
+            android:layout_toRightOf="@+id/textView19"
+            android:layout_toEndOf="@+id/textView19" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,7 +95,7 @@
             android:layout_below="@+id/imageView2"
             android:layout_toRightOf="@+id/textView12"
             android:layout_toEndOf="@+id/textView12"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:textColor="#ff6fb9ff" />
 
@@ -344,17 +328,6 @@
                 android:layout_weight="1"
                 android:textColor="#ffffffff" />
         </LinearLayout>
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Browse"
-            android:id="@+id/button9"
-            android:layout_below="@+id/textView14"
-            android:layout_alignLeft="@+id/editText6"
-            android:layout_alignStart="@+id/editText6"
-            android:layout_alignBottom="@+id/imageView2" />
 
     </RelativeLayout>
 
