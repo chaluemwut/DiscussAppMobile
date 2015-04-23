@@ -29,7 +29,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:id="@+id/linearLayout"
         android:background="#ff6fb9ff"
         android:gravity="center_vertical"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="Post"
                 android:id="@+id/textView27"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:textColor="#ffffc548"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="Answer"
                 android:id="@+id/textView29"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:textColor="#ffffc548"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -109,7 +109,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Proflie"
+                android:text=" Proflie "
                 android:id="@+id/bt_edit"
                 android:background="#ffffc548"
                 android:textColor="#ff173871"

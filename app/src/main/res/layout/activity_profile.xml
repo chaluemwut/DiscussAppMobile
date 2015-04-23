@@ -26,17 +26,16 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="&lt;"
-                android:id="@+id/button5"
-                android:textColorHighlight="#ff48c9ff"
-                android:textColor="#ffffffff"
-                android:layout_marginLeft="25dp"
-                android:background="#ff6fb9ff" />
+                android:id="@+id/imageButton"
+                android:src="@drawable/back"
+                android:background="#ff6fb9ff"
+                android:layout_margin="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,18 +51,18 @@
                 android:textIsSelectable="false"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:layout_marginLeft="40dp" />
+                android:layout_marginLeft="60dp" />
 
         </LinearLayout>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:id="@+id/imageView2"
             android:src="@drawable/add_image"
             android:layout_below="@+id/linearLayout4"
-            android:layout_toRightOf="@+id/textView16"
-            android:layout_toEndOf="@+id/textView16" />
+            android:layout_alignLeft="@+id/editText7"
+            android:layout_alignStart="@+id/editText7" />
 
         <TextView
             android:layout_width="wrap_content"

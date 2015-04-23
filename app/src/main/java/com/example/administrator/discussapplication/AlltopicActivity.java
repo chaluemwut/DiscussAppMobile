@@ -1,7 +1,9 @@
 package com.example.administrator.discussapplication;
 
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -12,81 +14,90 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 public class AlltopicActivity extends Activity {
+    private static String url = "http://192.168.237.126:8070/DiscussAppWeb/jsonAllCat";
 
+    //JSON Node Names
+    private static final String TAG_cat_id = "cat_id";
+    private static final String TAG_cat_topic = "cat_topic";
+    private static final String TAG_DATE = "date";
+    private static final String TAG_DATA = "data";
+
+    JSONArray Data = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alltopic);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        // Hashmap for ListView
+        ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
         // listView1
-        final ListView lisView1 = (ListView)findViewById(R.id.listView1);
+        final ListView lisView1 = (ListView) findViewById(R.id.listView1);
+        // Creating new JSON Parser
+        JSONParser jParser = new JSONParser();
+        // Getting JSON from URL
+        JSONObject json = jParser.getJSONFromUrl(url);
+        /*** Sample JSON Code ***'
+         [{
+         "MemberID":"1",
+         "Name":"Weerachai",
+         "Tel":"0819876107"
+         },
+         {
+         "MemberID":"2",
+         "Name":"Win",
+         "Tel":"021978032"
+         },
+         {
+         "MemberID":"3",
+         "Name":"Eak",
+         "Tel":"0876543210"
+         }]
+         */
+
+        // String strJSON = "[{\"MemberID\":\"1\",\"Name\":\"Weerachai\",\"Tel\":\"0819876107\"}" +
+        //        ",{\"MemberID\":\"2\",\"Name\":\"Win\",\"Tel\":\"021978032\"}" +
+        //         ",{\"MemberID\":\"3\",\"Name\":\"Eak\",\"Tel\":\"0876543210\"}]";
 
         try {
 
-            JSONArray data = createJSON();
 
-            ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
-            HashMap<String, String> map;
-
-            for(int i = 0; i < data.length(); i++){
-                JSONObject c = data.getJSONObject(i);
-                map = new HashMap<String, String>();
-                map.put("MemberID", c.getString("MemberID"));
-                map.put("Name", c.getString("Name"));
-                map.put("Tel", c.getString("Tel"));
+// Getting JSON Array
+            Data = json.getJSONArray(TAG_DATA);
+            //JSONObject c = Data.getJSONObject(0);
+                   // Storing  JSON item in a Variable
+            //String catID = c.getString(TAG_cat_id);
+            //String catTopic = c.getString(TAG_cat_topic);
+          //  String date = c.getString(TAG_DATE);
+            for (int i = 0; i < Data.length(); i++) {
+                JSONObject c = Data.getJSONObject(i);
+                 String catID = c.getString(TAG_cat_id);
+                String catTopic = c.getString(TAG_cat_topic);
+                String date = c.getString(TAG_DATE);
+                HashMap<String, String> map = new HashMap<String, String>();
+               // map = new HashMap<String, String>();
+                map.put(TAG_cat_id,catID);
+                map.put(TAG_cat_topic, catTopic);
+                map.put(TAG_DATE, date);
                 MyArrList.add(map);
+
             }
 
 
             SimpleAdapter sAdap;
             sAdap = new SimpleAdapter(AlltopicActivity.this, MyArrList, R.layout.activity_column_alltopic,
-                    new String[] {"MemberID", "Name", "Tel"}, new int[] {R.id.ColMemberID, R.id.ColName, R.id.ColTel});
+                    new String[]{"cat_id", "cat_topic", "date"}, new int[]{R.id.ColMemberID, R.id.ColName, R.id.ColTel});
             lisView1.setAdapter(sAdap);
 
+
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
-    /*** Create JSON ****/
-    private JSONArray createJSON() throws JSONException
-    {
-
-        ArrayList<JSONObject> MyArrJson = new ArrayList<JSONObject >();
-        JSONObject object;
-
-        /*** Rows 1 ***/
-        object = new JSONObject();
-        object.put("MemberID","1");
-        object.put("Name", "Weerachai");
-        object.put("Tel", "0819876107");
-        MyArrJson.add(object);
-
-        /*** Rows 2 ***/
-        object = new JSONObject();
-        object.put("MemberID","2");
-        object.put("Name", "Win");
-        object.put("Tel", "021978032");
-        MyArrJson.add(object);
-
-        /*** Rows 3 ***/
-        object = new JSONObject();
-        object.put("MemberID","3");
-        object.put("Name", "Eak");
-        object.put("Tel", "0876543210");
-        MyArrJson.add(object);
-
-        JSONArray json = new JSONArray(MyArrJson);
-        return json;
-    }
-
-
-    @Override
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_alltopic, menu);
         return true;

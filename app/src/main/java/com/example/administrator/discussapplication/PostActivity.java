@@ -1,12 +1,12 @@
 package com.example.administrator.discussapplication;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class PostActivity extends ActionBarActivity {
@@ -15,7 +15,7 @@ public class PostActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        Button Btn_back = (Button) this.findViewById(R.id.post_bt_back);
+        ImageButton Btn_back = (ImageButton) this.findViewById(R.id.imageButton2);
 
         /// Start button back
         Btn_back.setOnClickListener(new View.OnClickListener() {

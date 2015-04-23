@@ -41,9 +41,9 @@ public class LandingActivity extends ActionBarActivity {
         setContentView(R.layout.activity_landing);
         //ImageButton Btn_logout = (ImageButton) this.findViewById(R.id.imgBtnLogout);
         //ImageButton Btn_profile = (ImageButton) this.findViewById(R.id.imgBtnSet);
-       // ImageButton Btn_post = (ImageButton) this.findViewById(R.id.imgBtnPost);
+       // ImageButton Btn_back = (ImageButton) this.findViewById(R.id.imageButton2);
         ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
-       // Btn_logout.setImageResource(R.drawable.bt_logout1);
+       // Btn_back.setImageResource(R.drawable.back);
         Button Btn_profile =(Button)this.findViewById(R.id.bt_edit);
         Button Btn_post=(Button)this.findViewById(R.id.bt_post);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
