@@ -20,7 +20,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_alltopic"
+            android:id="@+id/imgBtnBack_cate"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />
@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AllTopic"
+            android:text="Category"
             android:id="@+id/textView32"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -44,7 +44,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/imgBtnAdd_alltopic"
+            android:id="@+id/imgBtnAdd_cate"
             android:src="@drawable/add1"
             android:background="#ff6fb9ff"
             android:layout_marginLeft="130dp" />
@@ -73,12 +73,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.1">
 
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
-
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gridView_Cate" />
     </LinearLayout>
 
     <View

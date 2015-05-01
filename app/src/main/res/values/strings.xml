@@ -14,5 +14,8 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_alltopic">AlltopicActivity</string>
+    <string name="title_activity_categoty">CategotyActivity</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="title_activity_cate">CateActivity</string>
 
 </resources>

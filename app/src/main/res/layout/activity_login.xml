@@ -9,9 +9,12 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="30dp"
         android:id="@+id/relativeLayout"
-        android:background="#ffffffff">
+        android:background="#ffffffff"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:layout_width="200dp"
@@ -81,7 +84,9 @@
             android:layout_below="@+id/image3"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="26dp" />
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,21 +96,10 @@
             android:textSize="18dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="40dp" />
+
     </RelativeLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SignUp"
-        android:id="@+id/regis"
-        android:layout_gravity="center_horizontal"
-        android:textSize="18sp"
-        android:textColor="#ffff542a"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/relativeLayout"
-        android:layout_alignStart="@+id/relativeLayout"
-        android:layout_marginLeft="10dp"
-        android:clickable="false" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,8 +108,26 @@
         android:textSize="18dp"
         android:paddingLeft="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/regis"
-        android:layout_toEndOf="@+id/regis" /><![CDATA[
+        android:layout_alignRight="@+id/relativeLayout"
+        android:layout_alignEnd="@+id/relativeLayout"
+        android:layout_marginRight="25dp" />
 
-    >]]>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SignUp"
+        android:id="@+id/regis"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#ffff542a"
+        android:clickable="false"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toLeftOf="@+id/textView"
+        android:layout_toStartOf="@+id/textView" /><![CDATA[
+
+
+
+    >
+
+]]>
 </RelativeLayout>

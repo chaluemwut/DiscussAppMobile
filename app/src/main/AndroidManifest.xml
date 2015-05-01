@@ -15,7 +15,6 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:noHistory="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,6 +53,10 @@
         <activity
             android:name=".AlltopicActivity"
             android:label="@string/title_activity_alltopic" >
+        </activity>
+        <activity
+            android:name=".CateActivity"
+            android:label="@string/title_activity_cate" >
         </activity>
     </application>
 

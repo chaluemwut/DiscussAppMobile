@@ -1,19 +1,16 @@
 package com.example.administrator.discussapplication;
 
- import java.io.InputStream;
-
- import java.net.URI;
- import java.net.URL;
-
- import android.R.integer;
  import android.content.Context;
- import android.graphics.drawable.Drawable;
- import android.view.View;
- import android.view.ViewGroup;
- import android.widget.BaseAdapter;
- import android.widget.GridView;
- import android.widget.ImageView;
- import android.widget.ListAdapter;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+
+import java.io.InputStream;
+import java.net.URL;
 
 
  public class ImageAdapter extends BaseAdapter implements ListAdapter {
@@ -40,8 +37,6 @@ package com.example.administrator.discussapplication;
 
 
  public long getItemId(int position) {
-
-
 
  return position;
  }
