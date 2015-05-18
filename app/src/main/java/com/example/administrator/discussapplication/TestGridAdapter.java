@@ -1,45 +1,46 @@
 package com.example.administrator.discussapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.GridView;
+
+import java.util.Arrays;
+import java.util.List;
 
 
-public class PostActivity extends ActionBarActivity {
+public class TestGridAdapter extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
-        ImageButton Btn_back = (ImageButton) this.findViewById(R.id.imageButton2);
+        setContentView(R.layout.activity_test_grid_adapter);
+        List<String> urlList = Arrays.asList("http://192.168.22.1:8070/DiscussAppWeb/images/1430034355026.png",
+                "http://192.168.22.1:8070/DiscussAppWeb/images/1430034355026.png");
+        GridView gridView = (GridView) findViewById(R.id.gridview);
+        ImageAdapter imageAdapter = new ImageAdapter(this);
+        imageAdapter.setUrlList(urlList);
 
-        /// Start button back
-        Btn_back.setOnClickListener(new View.OnClickListener() {
+        gridView.setAdapter(imageAdapter);
 
-            public void onClick(View v) {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
-                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-                //it.putExtra("key1", inPutIpAddress);
-                //it.putExtra("key2", inPutSub);
-                // it.putExtra("key3", inPutGp);
-                System.out.println("");
-                startActivity(it);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_post, menu);
+        getMenuInflater().inflate(R.menu.menu_test_grid_adapter, menu);
         return true;
     }
 

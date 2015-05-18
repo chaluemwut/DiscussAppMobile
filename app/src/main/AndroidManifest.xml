@@ -58,6 +58,10 @@
             android:name=".CateActivity"
             android:label="@string/title_activity_cate" >
         </activity>
+        <activity
+            android:name=".TestGridAdapter"
+            android:label="@string/title_activity_test_grid_adapter" >
+        </activity>
     </application>
 
 </manifest>

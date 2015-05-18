@@ -35,9 +35,9 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 	public View getItemView(ParseObject object, View v, ViewGroup parent) {
 
 		if (v == null) {
-			v = View.inflate(getContext(), R.layout.activity_column_cate,
-					null);
-		}
+            v = View.inflate(getContext(), R.layout.activity_column_cate,
+                    null);
+        }
 
 		super.getItemView(object, v, parent);
 		
@@ -50,11 +50,11 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 		}
 
 		// Add the title view
-		TextView NameTextView = (TextView) v.findViewById(R.id.text1);
+		TextView NameTextView = (TextView) v.findViewById(R.id.Topic);
 		NameTextView.setText(object.getString("Name"));
 		
 		// sum((Integer)object.getNumber("Price"));
-		TextView PriceTextView = (TextView) v.findViewById(R.id.text2);
+		TextView PriceTextView = (TextView) v.findViewById(R.id.Owner);
 		PriceTextView.setText(object.getNumber("Price").toString() + " "
 				+ "�ҷ");
 		
