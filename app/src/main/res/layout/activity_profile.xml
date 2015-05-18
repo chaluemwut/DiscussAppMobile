@@ -305,7 +305,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:background="#ff173871"
             android:id="@+id/linearLayout5"
             android:layout_below="@+id/textView23"
             android:layout_alignLeft="@+id/textView24"
@@ -317,7 +316,10 @@
                 android:text="Submit"
                 android:id="@+id/button7"
                 android:layout_weight="1"
-                android:textColor="#ffffffff" />
+                android:textColor="#ffffffff"
+                android:background="#ff173871"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -325,7 +327,10 @@
                 android:text="Reset"
                 android:id="@+id/button8"
                 android:layout_weight="1"
-                android:textColor="#ffffffff" />
+                android:textColor="#ffffffff"
+                android:background="#ff173871"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
         </LinearLayout>
 
     </RelativeLayout>

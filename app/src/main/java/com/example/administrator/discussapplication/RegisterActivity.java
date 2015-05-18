@@ -1,9 +1,11 @@
 package com.example.administrator.discussapplication;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 
 public class RegisterActivity extends ActionBarActivity {
@@ -12,7 +14,10 @@ public class RegisterActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_cate);
+        btnBack.setImageResource(R.drawable.back);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
 
     }

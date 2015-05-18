@@ -39,7 +39,7 @@
             android:textIsSelectable="false"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:layout_marginLeft="60dp" />
+            android:layout_marginLeft="100dp" />
 
         <ImageButton
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:id="@+id/imgBtnAdd_alltopic"
             android:src="@drawable/add1"
             android:background="#ff6fb9ff"
-            android:layout_marginLeft="130dp" />
+            android:layout_marginLeft="100dp" />
     </LinearLayout>
 
     <TableRow
