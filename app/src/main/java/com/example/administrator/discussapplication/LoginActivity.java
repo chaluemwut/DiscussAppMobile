@@ -1,14 +1,15 @@
 package com.example.administrator.discussapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,16 +27,17 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ImageView image = (ImageView) this.findViewById(R.id.image);
-        ImageView image2 = (ImageView) this.findViewById(R.id.image2);
-        ImageView image3 = (ImageView) this.findViewById(R.id.image3);
-        final EditText EDuser = (EditText) this.findViewById(R.id.editText1);
-        final EditText EDpass = (EditText) this.findViewById(R.id.editText2);
-        Button BtnLogin = (Button) this.findViewById(R.id.btn_login);
-        image.setImageResource(R.drawable.logo1_1);
-        image2.setImageResource(R.drawable.bt_id);
-        image3.setImageResource(R.drawable.bt_psw);
 
+        ImageView imageLogo = (ImageView) this.findViewById(R.id.imageLogo);
+        ImageView imageUser = (ImageView) this.findViewById(R.id.imageUser);
+        ImageView imagePassword = (ImageView) this.findViewById(R.id.imagePassword);
+        imageLogo.setImageResource(R.drawable.logo1_1);
+        imageUser.setImageResource(R.drawable.bt_id);
+        imagePassword.setImageResource(R.drawable.bt_psw);
+        final EditText EDuser = (EditText) this.findViewById(R.id.edtUserLog);
+        final EditText EDpass = (EditText) this.findViewById(R.id.edtPassLog);
+        Button BtnLogin = (Button) this.findViewById(R.id.btnLogin);
+        TextView signUp = (TextView) this.findViewById(R.id.regis);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -46,16 +48,46 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String qMessage1 = EDpass.getText().toString();
                 String qMessage2 = EDuser.getText().toString();
+                String is_user = null;
                 try {
-                    URL url = new URL("http://192.168.1.112:8070/DiscussApp/LoginAPI?"+qMessage1+"&"+qMessage2);
+                    URL url = new URL("http://10.0.2.2:8080/Webtest/LoginAPI?username="+qMessage2+"&password="+qMessage1);
                     Scanner sc = new Scanner(url.openStream());
                     StringBuffer buf = new StringBuffer();
                     while(sc.hasNext()){
                         buf.append(sc.next());
                         JSONObject jsonObject = new JSONObject(buf.toString());
                         String status = jsonObject.getString("status");
-                        String is_user = jsonObject.getString("is_user");
+                        is_user = jsonObject.getString("is_user");
                       //  Text2.setText(is_user);
+                    }
+                    if(qMessage1.equals("")&&qMessage2.equals("")){
+                        Toast.makeText(getApplicationContext()
+                                ,"กรุณากรอก UsernameและPassword ",Toast.LENGTH_LONG).show();
+                    }
+                    else if(!qMessage1.equals("")&&qMessage2.equals("")){
+                        Toast.makeText(getApplicationContext()
+                        ,"กรุณากรอก Username ",Toast.LENGTH_LONG).show();
+                    }
+                   else if(qMessage1.equals("")&&!qMessage2.equals("")){
+                        Toast.makeText(getApplicationContext()
+                                ,"กรุณากรอก  Password",Toast.LENGTH_LONG).show();
+                    }
+                    else if (!qMessage1.equals("")&&(!qMessage2.equals(""))){
+                        if("yes".equals(is_user)){
+                            Toast.makeText(getApplicationContext()
+                                    ,"เข้าระบบสำเร็จ",Toast.LENGTH_LONG).show();
+                            Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                            //it.putExtra("key1", inPutIpAddress);
+                            //it.putExtra("key2", inPutSub);
+                            // it.putExtra("key3", inPutGp);
+                            System.out.println("");
+                            startActivity(it);
+                        }
+                        else if("no".equals(is_user)){
+                            Toast.makeText(getApplicationContext()
+                                    ,"Password หรือ Username ไม่ถูกต้อง",Toast.LENGTH_LONG).show();
+                        }
+
                     }
 
                 } catch (MalformedURLException e) {
@@ -68,33 +100,24 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
+
+///intet Register
+        signUp.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+                    Intent it = new Intent(getApplicationContext(), RegisterActivity.class);
+                    //it.putExtra("key1", inPutIpAddress);
+                    //it.putExtra("key2", inPutSub);
+                    // it.putExtra("key3", inPutGp);
+                    System.out.println("");
+                    startActivity(it);
+            }
+            });
+
+
     }
 
-
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

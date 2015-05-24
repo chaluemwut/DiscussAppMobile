@@ -13,8 +13,10 @@ public class CommentActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
-        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imageButton3);
+        ImageButton btnDel = (ImageButton) this.findViewById(R.id.imgBtnDEL);
+        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_cate);
         btnBack.setImageResource(R.drawable.back);
+        btnDel.setImageResource(R.drawable.delete);
     }
 
 

@@ -20,7 +20,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_cate"
+            android:id="@+id/imgBtnBack_Reg"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />
@@ -175,7 +175,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edtEmaiil"
+            android:id="@+id/edtEmail"
             android:background="#ffdde4ee"
             android:textSize="18dp" />
 
