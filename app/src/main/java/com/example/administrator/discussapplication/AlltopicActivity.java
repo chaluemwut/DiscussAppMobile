@@ -16,10 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class AlltopicActivity extends Activity {
-    private static String url = "http://192.168.30.153:8070/DiscussAppWeb/jsonAllCat";
-
-
-
+    private static String url = "http://192.168.1.109:8070/DiscussAppWeb/jsonAllCat";
     //JSON Node Names
     private static final String TAG_cat_id = "cat_id";
     private static final String TAG_cat_topic = "cat_topic";
@@ -48,37 +45,12 @@ public class AlltopicActivity extends Activity {
         JSONObject json = jParser.getJSONFromUrl(url);
         //String(rs3.getString("owner").getBytes(),"TIS-620")
 
-        /*** Sample JSON Code ***'
-         [{
-         "MemberID":"1",
-         "Name":"Weerachai",
-         "Tel":"0819876107"
-         },
-         {
-         "MemberID":"2",
-         "Name":"Win",
-         "Tel":"021978032"
-         },
-         {
-         "MemberID":"3",
-         "Name":"Eak",
-         "Tel":"0876543210"
-         }]
-         */
-
-        // String strJSON = "[{\"MemberID\":\"1\",\"Name\":\"Weerachai\",\"Tel\":\"0819876107\"}" +
-        //        ",{\"MemberID\":\"2\",\"Name\":\"Win\",\"Tel\":\"021978032\"}" +
-        //         ",{\"MemberID\":\"3\",\"Name\":\"Eak\",\"Tel\":\"0876543210\"}]";
 
         try {
 
 // Getting JSON Array
             Data = json.getJSONArray(TAG_DATA);
-            //JSONObject c = Data.getJSONObject(0);
-                   // Storing  JSON item in a Variable
-            //String catID = c.getString(TAG_cat_id);
-            //String catTopic = c.getString(TAG_cat_topic);
-          //  String date = c.getString(TAG_DATE);
+
             for (int i = 0; i < Data.length(); i++) {
                 JSONObject c = Data.getJSONObject(i);
                  String catID =c.getString(TAG_cat_id);

@@ -18,5 +18,6 @@
     <string name="title_activity_category">CategoryActivity</string>
     <string name="title_activity_cate">CateActivity</string>
     <string name="title_activity_test_grid_adapter">TestGridAdapter</string>
+    <string name="title_activity_post_image">PostImageActivity</string>
 
 </resources>

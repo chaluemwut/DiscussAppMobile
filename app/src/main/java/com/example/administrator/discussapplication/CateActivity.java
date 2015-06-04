@@ -174,31 +174,6 @@ public class CateActivity extends Activity {
 
     }
 
-    /***** Get Image Resource from URL (Start) *****/
-   // private static final String TAG = "Image";
-   // private static final int IO_BUFFER_SIZE = 4 * 1024;
-    /*
-    public static Bitmap getBitmapFromURL(String src) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        try {
-            Log.e("src", src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-//            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 
 
     /***** Get Image Resource from URL (Start) *****/

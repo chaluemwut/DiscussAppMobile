@@ -78,7 +78,8 @@ public class RegisterActivity extends ActionBarActivity {
                          status = jsonObject.getString("status");
 
 
-                    }//check edittext is emmtry
+                    }
+                    //check edittext is emmtry
                     if(qMessage1.equals("")||qMessage2.equals("")||qMessage3.equals("")||qMessage4.equals("")||qMessage5.equals("")||
                             qMessage6.equals("")||qMessage7.equals("")){
                         Toast.makeText(getApplicationContext(),

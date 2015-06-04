@@ -49,6 +49,7 @@ public class LoginActivity extends ActionBarActivity {
                 String qMessage1 = EDpass.getText().toString();
                 String qMessage2 = EDuser.getText().toString();
                 String is_user = null;
+                String role_id = null;
                 try {
                     URL url = new URL("http://10.0.2.2:8080/Webtest/LoginAPI?username="+qMessage2+"&password="+qMessage1);
                     Scanner sc = new Scanner(url.openStream());
@@ -58,6 +59,7 @@ public class LoginActivity extends ActionBarActivity {
                         JSONObject jsonObject = new JSONObject(buf.toString());
                         String status = jsonObject.getString("status");
                         is_user = jsonObject.getString("is_user");
+                        role_id = jsonObject.getString("role_id");
                       //  Text2.setText(is_user);
                     }
                     if(qMessage1.equals("")&&qMessage2.equals("")){
