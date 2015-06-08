@@ -45,7 +45,7 @@ public class PostActivity extends ActionBarActivity {
                 //Check Edit Text is Emtry
                 if(!"".equals(qMessage1)||!"".equals(qMessage2)) {
                     try {
-                        String urlAddUser = ("http://192.168.1.49:8080/testWeb/SendPost?cat_id="+qMessage1+"&topic=" + qMessage2
+                        String urlAddUser = ("http://192.168.1.109:8080/DiscussWeb/SendPost?cat_id=42"+"&topic=" + qMessage2
                                 + "&desc=" + qMessage2 + "&owner=" + qMessage1);
                         URL url = null;
 
@@ -101,7 +101,7 @@ public class PostActivity extends ActionBarActivity {
                 String qMessage2 = etdDetail.getText().toString();
                 if(!"".equals(qMessage1)||!"".equals(qMessage2)) {
                     try {
-                        String urlAddUser = ("http://192.168.1.49:8080/testWeb/SendPost?cat_id="+qMessage1+"&topic=" + qMessage2
+                        String urlAddUser = ("http://192.168.1.109:8080/DiscussWeb/SendPost?cat_id=42"+"&topic=" + qMessage2
                                 + "&desc=" + qMessage2 + "&owner=" + qMessage1);
                         URL url = null;
 

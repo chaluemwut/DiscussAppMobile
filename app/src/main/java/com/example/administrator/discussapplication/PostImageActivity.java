@@ -45,13 +45,10 @@ public class PostImageActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_post_image);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         final EditText txtSDCard = (EditText)findViewById(R.id.edtTextUpImage);
-        ImageView imgView = (ImageView) findViewById(R.id.ImgAddImg);
-        imgView.setImageResource(R.drawable.add_image);
         Bundle extras = getIntent().getExtras();
 
 //Button Upload on Bataase and server
@@ -72,10 +69,7 @@ public class PostImageActivity extends ActionBarActivity {
                 // }
 
 
-                final String strUrlServer = "http://192.168.1.49:8080/testWeb/SengImage";
-
-
-
+                final String strUrlServer = "http://192.168.1.109:8080/DiscussWeb/SendImage";
 
 
                 txtSDCard.setText(backupAddImg);
@@ -213,6 +207,7 @@ public class PostImageActivity extends ActionBarActivity {
         else
         {
             Toast.makeText(PostImageActivity.this, "Upload file Successfully", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -241,6 +236,12 @@ public class PostImageActivity extends ActionBarActivity {
 
             super.onPreExecute();
             showDialog(DIALOG_UPLOAD_PROGRESS);
+            Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+            //it.putExtra("key1", inPutIpAddress);
+            //it.putExtra("key2", inPutSub);
+            // it.putExtra("key3", inPutGp);
+            System.out.println("");
+            startActivity(it);
         }
 
         @Override

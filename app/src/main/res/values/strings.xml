@@ -19,5 +19,6 @@
     <string name="title_activity_cate">CateActivity</string>
     <string name="title_activity_test_grid_adapter">TestGridAdapter</string>
     <string name="title_activity_post_image">PostImageActivity</string>
+    <string name="title_activity_comment2">Comment2Activity</string>
 
 </resources>

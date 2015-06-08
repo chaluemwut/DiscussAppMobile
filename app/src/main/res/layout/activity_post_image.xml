@@ -155,7 +155,7 @@
                 android:layout_weight="4.93" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtTextUpImage"
                 android:layout_column="21"
@@ -163,7 +163,32 @@
                 android:enabled="false"
                 android:focusable="true"
                 android:editable="true"
-                android:background="#fffbfffd" />
+                android:background="#fffbfffd"
+                android:textSize="3dp" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="เลือกภาพใน Gallery"
+                android:id="@+id/btnPicked"
+                android:layout_column="21"
+                android:background="#ff173871"
+                android:textColor="#ffffffff"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="โพสข้อความ"
+                android:id="@+id/btnPost"
+                android:layout_column="21"
+                android:background="#ff173871"
+                android:textColor="#ffffffff"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
         </LinearLayout>
     </TableRow>
@@ -175,15 +200,6 @@
         android:gravity="center_horizontal">
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="เลือกภาพใน Gallery"
-            android:id="@+id/btnPicked"
-            android:layout_column="21"
-            android:background="#ff173871"
-            android:textColor="#ffffffff"
-            android:layout_marginTop="10dp" />
     </TableRow>
 
     <TableRow
@@ -191,15 +207,6 @@
         android:layout_height="fill_parent"
         android:gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="โพสข้อความ"
-            android:id="@+id/btnPost"
-            android:layout_column="21"
-            android:background="#ff173871"
-            android:textColor="#ffffffff"
-            android:layout_marginTop="10dp" />
     </TableRow>
 
 </TableLayout>

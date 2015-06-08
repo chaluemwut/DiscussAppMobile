@@ -27,7 +27,8 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         ImageView imageLogo = (ImageView) this.findViewById(R.id.imageLogo);
         ImageView imageUser = (ImageView) this.findViewById(R.id.imageUser);
         ImageView imagePassword = (ImageView) this.findViewById(R.id.imagePassword);
@@ -39,8 +40,7 @@ public class LoginActivity extends ActionBarActivity {
         Button BtnLogin = (Button) this.findViewById(R.id.btnLogin);
         TextView signUp = (TextView) this.findViewById(R.id.regis);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
 
         BtnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -50,8 +50,9 @@ public class LoginActivity extends ActionBarActivity {
                 String qMessage2 = EDuser.getText().toString();
                 String is_user = null;
                 String role_id = null;
+                String username = null;
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/Webtest/LoginAPI?username="+qMessage2+"&password="+qMessage1);
+                    URL url = new URL("http://192.168.1.109:8080/DiscussWeb/LoginAPI?username="+qMessage2+"&password="+qMessage1);
                     Scanner sc = new Scanner(url.openStream());
                     StringBuffer buf = new StringBuffer();
                     while(sc.hasNext()){
@@ -60,6 +61,7 @@ public class LoginActivity extends ActionBarActivity {
                         String status = jsonObject.getString("status");
                         is_user = jsonObject.getString("is_user");
                         role_id = jsonObject.getString("role_id");
+                        username = jsonObject.getString("username");
                       //  Text2.setText(is_user);
                     }
                     if(qMessage1.equals("")&&qMessage2.equals("")){
@@ -76,14 +78,16 @@ public class LoginActivity extends ActionBarActivity {
                     }
                     else if (!qMessage1.equals("")&&(!qMessage2.equals(""))){
                         if("yes".equals(is_user)){
-                            Toast.makeText(getApplicationContext()
-                                    ,"เข้าระบบสำเร็จ",Toast.LENGTH_LONG).show();
-                            Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-                            //it.putExtra("key1", inPutIpAddress);
-                            //it.putExtra("key2", inPutSub);
-                            // it.putExtra("key3", inPutGp);
-                            System.out.println("");
-                            startActivity(it);
+
+                                Toast.makeText(getApplicationContext()
+                                        , "เข้าระบบสำเร็จ", Toast.LENGTH_LONG).show();
+                                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                                it.putExtra("role_id", role_id);
+                                it.putExtra("username", username);
+                                // it.putExtra("key3", inPutGp);
+                                System.out.println("");
+                                startActivity(it);
+
                         }
                         else if("no".equals(is_user)){
                             Toast.makeText(getApplicationContext()
@@ -94,8 +98,12 @@ public class LoginActivity extends ActionBarActivity {
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext()
+                            ,"กรุณาเชื่อมอินเตอร์เน็ต ",Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext()
+                            ,"กรุณาเชื่อมอินเตอร์เน็ต ",Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

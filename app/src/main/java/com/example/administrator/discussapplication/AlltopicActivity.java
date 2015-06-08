@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class AlltopicActivity extends Activity {
-    private static String url = "http://192.168.1.109:8070/DiscussAppWeb/jsonAllCat";
+    private static String url = "http://192.168.1.109:8080/DiscussWeb/jsonAllCat";
     //JSON Node Names
     private static final String TAG_cat_id = "cat_id";
     private static final String TAG_cat_topic = "cat_topic";

@@ -33,10 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CateActivity extends Activity {
-    private static String url = "http://192.168.236.1:8070/DiscussAppWeb/jsonShowCatID";
+    private static String url = "http://192.168.1.109:8080/DiscussWeb/jsonShowCatID";
     private GridView gridV;
     private ImageAdapter2 imageAdap;
-    private CustomAdapter urgentTodosAdapter;
+
 
 
 
@@ -46,7 +46,7 @@ public class CateActivity extends Activity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg="http://192.168.236.1:8070/DiscussAppWeb/images/";
+    private static final String URLImg="http://192.168.1.109:8080/DiscussWeb/images/";
 
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     JSONArray Data = null;

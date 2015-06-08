@@ -45,9 +45,9 @@ public class LandingActivity extends ActionBarActivity {
 
 
     private GridView gridV;
-    private ImageAdapter2 imageAdap;
+    private ImageAdapter imageAdap;
     ///value Spinner
-    private static String urlSpinner = "http://192.168.236.1:8070/DiscussAppWeb/jsonAllCat";
+    private static String urlSpinner = "http://192.168.1.109:8080/DiscussWeb/jsonAllCat";
     private static final String TAG_cat_id_SPINNER = "cat_id";
     private static final String TAG_cat_topic_SPINNER = "cat_topic";
     private static final String TAG_USER_SPINNER = "userName";
@@ -57,13 +57,15 @@ public class LandingActivity extends ActionBarActivity {
     ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
 
     //JSON Node Names Gridviwe
-    private static String url = "http://192.168.236.1:8070/DiscussAppWeb/jsonShowCatID";
+    private static String url = "http://192.168.1.109:8080/DiscussWeb/jsonShowCatID";
+    private static final String TAG_TOPIC_ID = "topic_id";
+    private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
     private static final String TAG_OWNER = "owner";
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = "http://192.168.236.1:8070/DiscussAppWeb/images/";
+    private static final String URLImg = "http://192.168.1.109:8080/DiscussWeb/images/";
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
 
@@ -85,10 +87,17 @@ public class LandingActivity extends ActionBarActivity {
         BtnPost.setImageResource(R.drawable.post);
         BtnUpdate.setImageResource(R.drawable.icon);
         ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
+        Bundle intent = getIntent().getExtras();
+        String Username = null;
+        if (intent != null) {
+            Username = intent.getString("username");
+            // and get whatever type user account id is
+        }
 
-        //////start spinner
+             TextView NameUser =(TextView)this.findViewById(R.id.NameUser);
+            NameUser.setText(Username);
 
-
+//////start spinner
         JSONObject jsonSpinner = jParser.getJSONFromUrl(urlSpinner);
         try {
 
@@ -116,6 +125,8 @@ public class LandingActivity extends ActionBarActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(this, "ไม่มีการเชื่อมต่อ..",
+                    Toast.LENGTH_LONG).show();
         }
 
 
@@ -186,13 +197,16 @@ public class LandingActivity extends ActionBarActivity {
 
                 for (int i = 0; i < Data.length(); i++) {
                     JSONObject c = Data.getJSONObject(i);
+                    String topicID = c.getString(TAG_TOPIC_ID);
+                    String catID = c.getString(TAG_CAT_ID);
                     String topic = c.getString(TAG_TOPIC);
                     String owner = c.getString(TAG_OWNER);
                     String img = c.getString(TAG_IMG);
                     String dateTime = c.getString(TAG_TIME);
 
                     HashMap<String, Object> map = new HashMap<String, Object>();
-
+                    map.put(TAG_TOPIC_ID, topicID);
+                    map.put(TAG_CAT_ID, catID);
                     map.put(TAG_TOPIC, topic);
                     map.put(TAG_OWNER, owner);
                     map.put(TAG_TIME, dateTime);
@@ -206,13 +220,14 @@ public class LandingActivity extends ActionBarActivity {
                 }
 
                 gridV.setClipToPadding(false);
-                imageAdap = new ImageAdapter2(getApplicationContext());
+                imageAdap = new ImageAdapter(getApplicationContext());
                 gridV.setAdapter(imageAdap);
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
-
+                Toast.makeText(this, "ไม่มีการเชื่อมต่อ..",
+                        Toast.LENGTH_LONG).show();
             }
 
     }
@@ -221,11 +236,11 @@ public class LandingActivity extends ActionBarActivity {
 
 
     /////ImageAdapter/////
-    class ImageAdapter2 extends BaseAdapter {
+    class ImageAdapter extends BaseAdapter {
 
         private Context mContext;
 
-        public ImageAdapter2(Context context) {
+        public ImageAdapter(Context context) {
             mContext = context;
         }
 

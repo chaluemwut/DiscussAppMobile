@@ -34,7 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:contentDescription="image2"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="30dp" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,20 +44,22 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="30dp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/edtUserLog"
             android:layout_weight="1"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="40dp"
             android:inputType="none"
-            android:layout_alignTop="@+id/imageUser"
-            android:layout_above="@+id/imagePassword"
             android:layout_toRightOf="@+id/imageUser"
             android:layout_toEndOf="@+id/imageUser"
             android:layout_marginLeft="10dp"
-            android:background="#ffdde4ee" />
+            android:background="#ffdde4ee"
+            android:layout_alignTop="@+id/imageUser"
+            android:layout_alignBottom="@+id/imageUser"
+            android:textSize="18dp"
+            android:textIsSelectable="false" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -65,13 +67,14 @@
             android:ems="10"
             android:id="@+id/edtPassLog"
             android:layout_weight="1"
-            android:layout_marginRight="15dp"
-            android:layout_alignBottom="@+id/imagePassword"
+            android:layout_marginRight="40dp"
             android:layout_alignTop="@+id/imagePassword"
             android:layout_toRightOf="@+id/imagePassword"
             android:layout_toEndOf="@+id/imagePassword"
             android:layout_marginLeft="10dp"
-            android:background="#ffdde4ee" />
+            android:background="#ffdde4ee"
+            android:layout_above="@+id/btnLogin"
+            android:textSize="18dp" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

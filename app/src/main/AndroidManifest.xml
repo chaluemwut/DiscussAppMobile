@@ -8,6 +8,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <android:uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -71,12 +77,12 @@
             android:label="@string/title_activity_cate" >
         </activity>
         <activity
-            android:name=".TestGridAdapter"
-            android:label="@string/title_activity_test_grid_adapter" >
-        </activity>
-        <activity
             android:name=".PostImageActivity"
             android:label="@string/title_activity_post_image" >
+        </activity>
+        <activity
+            android:name=".Comment2Activity"
+            android:label="@string/title_activity_comment2" >
         </activity>
     </application>
 
