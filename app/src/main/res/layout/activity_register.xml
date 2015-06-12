@@ -113,7 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edtPassWord"
-            android:background="#ffdde4ee" />
+            android:background="#ffdde4ee"
+            android:inputType="numberPassword" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -129,7 +130,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/edtCPassword"
             android:background="#ffdde4ee"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:inputType="numberPassword" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -161,7 +163,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/edtTel"
             android:background="#ffdde4ee"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -177,7 +180,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/edtEmail"
             android:background="#ffdde4ee"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:inputType="textEmailAddress" />
 
         <Button
             android:layout_width="wrap_content"

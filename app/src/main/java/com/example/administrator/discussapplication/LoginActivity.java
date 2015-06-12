@@ -21,12 +21,16 @@ import java.util.Scanner;
 
 
 public class LoginActivity extends ActionBarActivity {
-
+    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         ImageView imageLogo = (ImageView) this.findViewById(R.id.imageLogo);
@@ -52,7 +56,7 @@ public class LoginActivity extends ActionBarActivity {
                 String role_id = null;
                 String username = null;
                 try {
-                    URL url = new URL("http://192.168.1.109:8080/DiscussWeb/LoginAPI?username="+qMessage2+"&password="+qMessage1);
+                    URL url = new URL(getURLServer+"LoginAPI?username="+qMessage2+"&password="+qMessage1);
                     Scanner sc = new Scanner(url.openStream());
                     StringBuffer buf = new StringBuffer();
                     while(sc.hasNext()){
@@ -99,11 +103,11 @@ public class LoginActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext()
-                            ,"กรุณาเชื่อมอินเตอร์เน็ต ",Toast.LENGTH_LONG).show();
+                            ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext()
-                            ,"กรุณาเชื่อมอินเตอร์เน็ต ",Toast.LENGTH_LONG).show();
+                            ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

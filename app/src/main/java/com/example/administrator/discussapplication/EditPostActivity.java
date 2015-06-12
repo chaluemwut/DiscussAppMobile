@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,25 +30,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LandingActivity extends ActionBarActivity {
 
+public class EditPostActivity extends ActionBarActivity {
     private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
     public ImageLoader imageLoader;
-    private GridView gridV;
+    private ListView listV;
     private ImageAdapter imageAdap;
-    ///value Spinner
-
-    private static String urlSpinner = getURLServer+"jsonAllCat";
-    private static final String TAG_cat_id_SPINNER = "cat_id";
-    private static final String TAG_cat_topic_SPINNER = "cat_topic";
-    private static final String TAG_USER_SPINNER = "userName";
-    private static final String TAG_DATA_SPINNER = "data";
-    private JSONArray DataSpinner=null;
-    final ArrayList<String> spinnerlist =new ArrayList<String>();
-    ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
-
     //JSON Node Names Gridviwe
-    private static String url = getURLServer+"jsonShowCatID";
+
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -62,148 +51,150 @@ public class LandingActivity extends ActionBarActivity {
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
     private ImageAdapter imageAdapter;
-    private String username ,topicID,catID,roleID;
+    private String username , topicID,catID;
     private String TopicId,CatId,Username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_landing);
-
+        setContentView(R.layout.activity_edit_post);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        ImageButton BtnPost = (ImageButton) this.findViewById(R.id.PostIcon);
-        ImageButton BtnUpdate = (ImageButton) this.findViewById(R.id.UpdateIcon);
-        ImageButton BtnSreach = (ImageButton) this.findViewById(R.id.btnSearh);
-        ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
-        ImgUser.setImageResource(R.drawable.bt_id);
-        BtnPost.setImageResource(R.drawable.post);
-        BtnUpdate.setImageResource(R.drawable.icon);
-        BtnSreach.setImageResource(R.drawable.searh);
-        ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
+        ImageButton btnRefresh = (ImageButton) this.findViewById(R.id.btnRefreshedit);
+        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_Edit);
+
+
+
+        btnRefresh.setImageResource(R.drawable.refresh);
+        btnBack.setImageResource(R.drawable.back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                System.out.println("");
+                startActivity(it);
+
+            }
+        });
+
 
         //Get Parameter From Login Actvity
         Bundle intent = getIntent().getExtras();
 
         if (intent != null) {
             this.username = intent.getString("username");
-            this.roleID = intent.getString("role_id");
-
             // and get whatever type user account id is
         }
         // Get Username//
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
+        String url = getURLServer+"jsonEditPost?owner="+username+"";
 
 
 
 
-
-
+        //ShowData();
         Bitmap newBitmap;
 
         // Getting JSON from URL
         JSONObject json = jParser.getJSONFromUrl(url);
-          imageLoader = new ImageLoader(this);
-            // GridView and imageAdapter
+        imageLoader = new ImageLoader(this);
+        // GridView and imageAdapter
 
-          try {
+        try {
 
 // Getting JSON Array
-              Data = json.getJSONArray(TAG_DATA);
+            Data = json.getJSONArray(TAG_DATA);
 
-                for (int i = 0; i < Data.length(); i++) {
-                    JSONObject c = Data.getJSONObject(i);
-                    String topicID = c.getString(TAG_TOPIC_ID);
-                    String catID = c.getString(TAG_CAT_ID);
-                    String topic = c.getString(TAG_TOPIC);
-                    String owner = c.getString(TAG_OWNER);
-                    String img = c.getString(TAG_IMG);
-                    String dateTime = c.getString(TAG_TIME);
+            for (int i = 0; i < Data.length(); i++) {
+                JSONObject c = Data.getJSONObject(i);
+                String topicID = c.getString(TAG_TOPIC_ID);
+                String catID = c.getString(TAG_CAT_ID);
+                String topic = c.getString(TAG_TOPIC);
+                String owner = c.getString(TAG_OWNER);
+                String img = c.getString(TAG_IMG);
+                String dateTime = c.getString(TAG_TIME);
 
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    map.put(TAG_TOPIC_ID, topicID);
-                    map.put(TAG_CAT_ID, catID);
-                    map.put(TAG_TOPIC, topic);
-                    map.put(TAG_OWNER, owner);
-                    map.put(TAG_TIME, dateTime);
-                    // Thumbnail Get ImageBitmap To Object
-                    String urlBitMap = URLImg+img;
-                    newBitmap = imageLoader.getBitmap(urlBitMap);
-
-
-                        map.put("ImagePathBitmap", newBitmap);
-                        cateList.add(map);
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put(TAG_TOPIC_ID, topicID);
+                map.put(TAG_CAT_ID, catID);
+                map.put(TAG_TOPIC, topic);
+                map.put(TAG_OWNER, owner);
+                map.put(TAG_TIME, dateTime);
+                // Thumbnail Get ImageBitmap To Object
+                String urlBitMap = URLImg+img;
+                newBitmap = imageLoader.getBitmap(urlBitMap);
 
 
-                }
+                map.put("ImagePathBitmap", newBitmap);
+                cateList.add(map);
 
 
-              /// Start Grid//
-              gridV = (GridView) findViewById(R.id.gridView_Landing);
-
-              // Next
-              gridV.setClipToPadding(false);
-
-              imageAdap = new ImageAdapter(getApplicationContext());
-              gridV.setAdapter(imageAdap);
-
-              gridV.setOnScrollListener(new EndlessScrollListener() {
-                  @Override
-                  public void onLoadMore(int page, int totalItemsCount) {
-                      // Triggered only when new data needs to be appended to the list
-                      // Add whatever code is needed to append new items to your AdapterView
-                      customLoadMoreDataFromApi(page);
-                      // or customLoadMoreDataFromApi(totalItemsCount);
-                  }
-              });
-
-
-
-
-          
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-              Toast.makeText(getApplicationContext()
-                      ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
             }
-            
 
-            
-   final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-                // OnClick Item
-                gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                    public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                            int position, long mylng) {
+            listV = (ListView) findViewById(R.id.listViewEdit);
+            listV.setClipToPadding(false);
 
-                         topicID =  cateList.get(position).get("topic_id").toString();
-                         SetTopicId(topicID);
-                         catID =  cateList.get(position).get("cat_id").toString();
-                         SetCatId(catID);
-                        Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+            imageAdap = new ImageAdapter(getApplicationContext());
+            listV.setAdapter(imageAdap);
 
-                        it.putExtra("topic_id", topicID);
-                        it.putExtra("username",username);
-                        it.putExtra("cat_id",catID);
-                        startActivity(it);
-                    }
+            listV.setOnScrollListener(new EndlessScrollListener() {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount) {
+                    // Triggered only when new data needs to be appended to the list
+                    // Add whatever code is needed to append new items to your AdapterView
+                    customLoadMoreDataFromApi(page);
+                    // or customLoadMoreDataFromApi(totalItemsCount);
+                }
+            });
 
-                });
+
+
+
+
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext()
+                    , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
+        }
+
+
+
+        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+        // OnClick Item
+        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                    int position, long mylng) {
+
+                topicID = cateList.get(position).get("topic_id").toString();
+                catID = cateList.get(position).get("cat_id").toString();
+
+                Intent it = new Intent(getApplicationContext(), EditCommentActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                startActivity(it);
+            }
+
+        });
 
         ///// button Post Activity
-        BtnPost.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
-                Intent it = new Intent(getApplicationContext(), PostActivity.class);
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
                 it.putExtra("username",username);
                 it.putExtra("topic_id", topicID);
@@ -215,20 +206,8 @@ public class LandingActivity extends ActionBarActivity {
 
             }
         });
-        BtnUpdate.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-
-                Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                System.out.println("");
-                startActivity(it);
-
-            }
-        });
-                }
+    }
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
@@ -344,7 +323,7 @@ public class LandingActivity extends ActionBarActivity {
             TextView txtImageID;
             TextView txtItemID;
             TextView txtTimeID;
-           int position = -1;
+            int position = -1;
             Handler handler;
         }
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -361,38 +340,38 @@ public class LandingActivity extends ActionBarActivity {
                 viewHolder.imageView= (ImageView) convertView.findViewById(R.id.icon);
                 convertView.setTag(viewHolder);
 
-            // ColPhoto
+                // ColPhoto
 
-            //imageView.getLayoutParams().height = 60;
-            // imageView.getLayoutParams().width = 60;
-            viewHolder.imageView.setPadding(5, 5, 5, 5);
-            viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            try {
-                Log.d("ERROR",cateList.get(position).get("ImagePathBitmap").toString());
-                viewHolder.imageView.setImageBitmap((Bitmap)cateList.get(position).get("ImagePathBitmap"));
-              //  AsyncTask<String, Integer, Bitmap> exec = new Bitmapload(imageView);
-               // exec.execute(cateList.get(position).get("ImagePathBitmap").toString());
+                //imageView.getLayoutParams().height = 60;
+                // imageView.getLayoutParams().width = 60;
+                viewHolder.imageView.setPadding(5, 5, 5, 5);
+                viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                try {
+                    Log.d("ERROR", cateList.get(position).get("ImagePathBitmap").toString());
+                    viewHolder.imageView.setImageBitmap((Bitmap)cateList.get(position).get("ImagePathBitmap"));
+                    //  AsyncTask<String, Integer, Bitmap> exec = new Bitmapload(imageView);
+                    // exec.execute(cateList.get(position).get("ImagePathBitmap").toString());
 
 
 
-            } catch (Exception e) {
-                // When Error
-                viewHolder.imageView.setImageResource(R.drawable.add_image);
-            }
+                } catch (Exception e) {
+                    // When Error
+                    viewHolder.imageView.setImageResource(R.drawable.add_image);
+                }
 
-            // ColImageID
-            viewHolder.txtImageID = (TextView) convertView.findViewById(R.id.Topic);
-            viewHolder.txtImageID.setPadding(5, 0, 0, 0);
-            viewHolder.txtImageID.setText(cateList.get(position).get("topic").toString());
+                // ColImageID
+                viewHolder.txtImageID = (TextView) convertView.findViewById(R.id.Topic);
+                viewHolder.txtImageID.setPadding(5, 0, 0, 0);
+                viewHolder.txtImageID.setText(cateList.get(position).get("topic").toString());
 
-            // ColItemID
-            viewHolder. txtItemID = (TextView) convertView.findViewById(R.id.Owner);
-            viewHolder.txtItemID.setPadding(5, 0, 0, 0);
-            viewHolder.txtItemID.setText(cateList.get(position).get("owner").toString());
+                // ColItemID
+                viewHolder. txtItemID = (TextView) convertView.findViewById(R.id.Owner);
+                viewHolder.txtItemID.setPadding(5, 0, 0, 0);
+                viewHolder.txtItemID.setText(cateList.get(position).get("owner").toString());
 // ColItemTime
-            viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
-            viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
-            viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
+                viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
+                viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
+                viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
 
 
             }
@@ -408,19 +387,14 @@ public class LandingActivity extends ActionBarActivity {
 
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_landing, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_post, menu);
         return true;
     }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        gridV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -435,6 +409,4 @@ public class LandingActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }

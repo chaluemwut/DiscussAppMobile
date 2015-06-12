@@ -27,10 +27,11 @@ import java.util.Scanner;
 
 
 public class RegisterActivity extends ActionBarActivity {
-
+    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_register);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -67,7 +68,7 @@ public class RegisterActivity extends ActionBarActivity {
 
 
                 try {
-                    URL url = new URL("http://192.168.1.109:8080/DiscussWeb/chkUserAPI?username="+qMessage1+"&email="+qMessage6);
+                    URL url = new URL(getURLServer+"chkUserAPI?username="+qMessage1+"&email="+qMessage6);
                     Scanner sc = new Scanner(url.openStream());
                     StringBuffer buf = new StringBuffer();
 
@@ -93,7 +94,7 @@ public class RegisterActivity extends ActionBarActivity {
                                         "รหัสยืนยันไม่ถูกต้อง", Toast.LENGTH_LONG).show();
                             }
                             else{///complete Regisrter
-                                URL urlAddUser = new URL("http://192.168.1.109:8080/DiscussWeb/RegisterAPI?username=" + qMessage1 + "&password=" + qMessage2
+                                URL urlAddUser = new URL(getURLServer+"RegisterAPI?username=" + qMessage1 + "&password=" + qMessage2
                                         + "&address=" + qMessage4 + "&tel=" + qMessage5 + "&email=" + qMessage5 + "&name=" + qMessage7);
                                 Scanner scUser = new Scanner(urlAddUser.openStream());
                                 Toast.makeText(getApplicationContext(),

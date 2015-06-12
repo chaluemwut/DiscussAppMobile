@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -33,7 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CateActivity extends Activity {
-    private static String url = "http://192.168.1.109:8080/DiscussWeb/jsonShowCatID";
+    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static String url = getURLServer+"jsonShowCatID";
     private GridView gridV;
     private ImageAdapter2 imageAdap;
 
@@ -46,15 +49,18 @@ public class CateActivity extends Activity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg="http://192.168.1.109:8080/DiscussWeb/images/";
+    private static final String URLImg=getURLServer+"images/";
 
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     JSONArray Data = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_cate);
         gridV = (GridView) findViewById(R.id.gridView_Cate);
+
+
 
         Bitmap newBitmap;
         ImageButton btnAdd = (ImageButton) this.findViewById(R.id.imgBtnAdd_cate);

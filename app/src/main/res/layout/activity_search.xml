@@ -18,7 +18,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_Comment"
+            android:id="@+id/imgBtnBack_Edit"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />
@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ความคิดเห็น"
+                    android:text="แก้ใขกระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
                     android:textSize="18dp" />
@@ -88,7 +88,7 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnRefresh"
+                android:id="@+id/btnRefreshedit"
                 android:src="@drawable/refresh"
                 android:background="#ff6fb9ff" />
         </TableLayout>
@@ -98,34 +98,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerView" />
+
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/listViewComment2" />
+            android:id="@+id/listSearch"
+            android:layout_below="@+id/spinnerView" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:id="@+id/edtComment2"
-                android:layout_weight="8"
-                android:layout_gravity="bottom"
-                android:background="#ffffffff"
-                android:hint=" ข้อความ" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:id="@+id/comment2"
-                android:layout_weight="1.75"
-                android:src="@drawable/postcomment"
-                android:layout_gravity="bottom"
-                android:background="#ffffffff" />
-        </LinearLayout>
     </RelativeLayout>
 
 

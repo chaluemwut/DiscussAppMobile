@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class AlltopicActivity extends Activity {
-    private static String url = "http://192.168.1.109:8080/DiscussWeb/jsonAllCat";
+    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+
+    private static String url = getURLServer+"jsonAllCat";
     //JSON Node Names
     private static final String TAG_cat_id = "cat_id";
     private static final String TAG_cat_topic = "cat_topic";
@@ -27,8 +30,12 @@ public class AlltopicActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_alltopic);
+
+
         ImageButton btnAdd = (ImageButton) this.findViewById(R.id.imgBtnAdd_alltopic);
         ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_alltopic);
         btnAdd.setImageResource(R.drawable.add1);
@@ -73,6 +80,8 @@ public class AlltopicActivity extends Activity {
 
 
         } catch (JSONException e) {
+            Toast.makeText(getApplicationContext()
+                    , "เชื่อมต่อระบบล้มเหลว", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

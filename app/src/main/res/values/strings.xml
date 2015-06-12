@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DiscussApplication</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="Username">Username</string>
-    <string name="PassWord">Password</string>
-    <string name="LOGIN">LOGIN</string>
-    <string name="title_activity_landing">LandingActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_comment">CommentActivity</string>
-    <string name="title_activity_post">PostActivity</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_activity_alltopic">AlltopicActivity</string>
-    <string name="title_activity_categoty">CategotyActivity</string>
-    <string name="title_activity_category">CategoryActivity</string>
-    <string name="title_activity_cate">CateActivity</string>
-    <string name="title_activity_test_grid_adapter">TestGridAdapter</string>
-    <string name="title_activity_post_image">PostImageActivity</string>
-    <string name="title_activity_comment2">Comment2Activity</string>
+    <string name="app_name" translatable="false">DiscussApplication</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="Username" translatable="false">Username</string>
+    <string name="PassWord" translatable="false">Password</string>
+    <string name="LOGIN" translatable="false">LOGIN</string>
+    <string name="title_activity_landing" translatable="false">LandingActivity</string>
+    <string name="title_activity_register" translatable="false">RegisterActivity</string>
+    <string name="title_activity_comment" translatable="false">CommentActivity</string>
+    <string name="title_activity_post" translatable="false">PostActivity</string>
+    <string name="title_activity_profile" translatable="false">ProfileActivity</string>
+    <string name="title_activity_home" translatable="false">HomeActivity</string>
+    <string name="title_activity_alltopic" translatable="false">AlltopicActivity</string>
+    <string name="title_activity_categoty" translatable="false">CategotyActivity</string>
+    <string name="title_activity_category" translatable="false">CategoryActivity</string>
+    <string name="title_activity_cate" translatable="false">CateActivity</string>
+    <string name="title_activity_test_grid_adapter" translatable="false">TestGridAdapter</string>
+    <string name="title_activity_post_image" translatable="false">PostImageActivity</string>
+    <string name="title_activity_comment2" translatable="false">Comment2Activity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_post_no_image">PostNoImage</string>
+    <string name="title_activity_comment3_acticvity">Comment3Acticvity</string>
+    <string name="title_activity_comment3">Comment3Activity</string>
+    <string name="title_activity_edit_post">EditPostActivity</string>
+    <string name="title_activity_edit_comment">EditCommentActivity</string>
+    <string name="title_activity_edit_imagectivity">EditImagectivity</string>
+    <string name="title_activity_edit_image">EditImageActivity</string>
 
 </resources>

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,24 +33,34 @@ import java.net.URL;
 
 
 public class PostImageActivity extends ActionBarActivity {
+    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
 
-    byte[] image1 = null;
+    private String topicID,username,catID;
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
     public static final int CAMERA_PIC_REQUEST = 1337;
     public static final int DIALOG_UPLOAD_PROGRESS = 0;
     private ProgressDialog mProgressDialog;
     String backupAddImg;
-    String topic_id;
-    String cat_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_post_image);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         final EditText txtSDCard = (EditText)findViewById(R.id.edtTextUpImage);
-        Bundle extras = getIntent().getExtras();
+
+        Bundle intent = getIntent().getExtras();
+        if (intent != null) {
+            this.catID = intent.getString("cat_id");
+            this.topicID = intent.getString("topic_id");
+            this.username= intent.getString("username");
+            // and get whatever type user account id is
+        }
+        TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
+        NameUser.setText(username);
 
 //Button Upload on Bataase and server
         Button btnUpload = (Button)findViewById(R.id.btnPost);
@@ -69,13 +80,9 @@ public class PostImageActivity extends ActionBarActivity {
                 // }
 
 
-                final String strUrlServer = "http://192.168.1.109:8080/DiscussWeb/SendImage";
-
-
+                final String strUrlServer = getURLServer+"SendImage";
                 txtSDCard.setText(backupAddImg);
                 final String strSDPath = txtSDCard.getText().toString();
-
-
                 //final String strUrlimg = "http://192.168.1.23:8080/testWeb/NewPostBoard?topic_id="+topic_id+"&cat_id="+cat_id;
                 new UploadFileAsync().execute(strSDPath,strUrlServer);
                 // URL url = new URL(strUrlimg);
@@ -95,6 +102,7 @@ public class PostImageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+
                 loadImagefromGallery();
 
             }
@@ -237,9 +245,9 @@ public class PostImageActivity extends ActionBarActivity {
             super.onPreExecute();
             showDialog(DIALOG_UPLOAD_PROGRESS);
             Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-            //it.putExtra("key1", inPutIpAddress);
-            //it.putExtra("key2", inPutSub);
-            // it.putExtra("key3", inPutGp);
+            it.putExtra("topic_id", topicID);
+            it.putExtra("username",username);
+            it.putExtra("cat_id",catID);
             System.out.println("");
             startActivity(it);
         }

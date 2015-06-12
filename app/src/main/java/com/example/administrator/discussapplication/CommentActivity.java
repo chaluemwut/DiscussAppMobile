@@ -1,6 +1,7 @@
 package com.example.administrator.discussapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,16 +28,12 @@ import java.util.HashMap;
 
 
 public class CommentActivity extends ActionBarActivity {
-
+    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
     Bitmap bitmap;
     ProgressDialog pDialog;
     ImageView ImgPost;
 
-    private static final String TAG_ID = "id";
-    private static final String TAG_TOPIC_ID = "topic_id";
-    private static final String TAG_DESC = "description";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_TIME = "date_time";
+
     private static final String TAG_DATA = "data";
 
     private ListView ListV;
@@ -49,38 +48,57 @@ public class CommentActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA2 = "data";
     private static final String TAG_TIME2 = "dateTime";
-    private static final String URLImg = "http://192.168.1.12:8080/DiscussWeb/images/";
+    private static final String URLImg = getURLServer+"images/";
     HashMap<String, Object> map2;
     JSONArray Data = null;
-    JSONArray Data2 = null;
-    ArrayList cateList = new ArrayList<>();
-    String urlImage;
-    String  topicname;
-    String img ;
-    String  topicID2 ;
-    String owner ;
-    String datetime ;
-    String id;
 
+    ArrayList cateList = new ArrayList<>();
+    String urlImage,img,topicname,topicID2,owner,datetime,id,topicID,catID,username;
 
     ArrayList<String> listdata = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_comment);
+
 
 
         ImgPost = (ImageView)this.findViewById(R.id.imageComment);
         ImgPost.setImageResource(R.drawable.add_image2);
         ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_Comment);
-        btnBack.setImageResource(R.drawable.back);
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         JSONParser jParser = new JSONParser();
+        Bundle intent = getIntent().getExtras();
+
+        if (intent != null) {
+            this.topicID = intent.getString("topic_id");
+            this.catID = intent.getString("cat_id");
+            this.username = intent.getString("username");
+            // and get whatever type user account id is
+        }
+        TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
+        NameUser.setText(username);
+
+        btnBack.setImageResource(R.drawable.back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                System.out.println("");
+                startActivity(it);
+
+            }
+        });
         // Getting JSON from URL
-        String url2 = "http://192.168.1.12:8080/DiscussWeb/jsonPost_reply3?topic_id=47&cat_id=42";
+        String url2 = getURLServer+"jsonPost_reply3?topic_id="+topicID+"&cat_id="+catID+"";
         JSONObject json2 = jParser.getJSONFromUrl(url2);
 
         try {
@@ -98,70 +116,41 @@ public class CommentActivity extends ActionBarActivity {
 
                 this.urlImage = URLImg + img;
 
-                //HashMap<String, Object> map = new HashMap<String, Object>();
-                // map.put(TAG_TOPIC_ID2, topicID);
-                //map.put(TAG_ID, ID);
-                // map.put(TAG_DESC, desc);
-                // map.put(TAG_NAME, name);
-                //map.put(TAG_TIME, dateTime);
-                // Thumbnail Get ImageBitmap To Object
 
-                //cateList.add(map);
 
             }
 
             }  catch (JSONException e) {
+            Toast.makeText(getApplicationContext()
+                    ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
           new LoadImage().execute(urlImage);
-        TextView commetTopic =(TextView)this.findViewById(R.id.DetailComment);
-        TextView ownerTopic =(TextView)this.findViewById(R.id.postComment);
+        TextView commetTopic =(TextView)this.findViewById(R.id.DetailComment3);
+        TextView ownerTopic =(TextView)this.findViewById(R.id.postComment3);
         TextView timeTopic =(TextView)this.findViewById(R.id.TimeComment);
         commetTopic.setText(topicname);
         ownerTopic.setText(owner);
         timeTopic.setText(datetime);
+        //Comment2
+        Button btnComment = (Button)this.findViewById(R.id.btnComment);
+        btnComment.setOnClickListener(new View.OnClickListener() {
 
+            public void onClick(View v) {
 
-    }
-    private class GETSET{
-        String TopicID;
-        String id;
-        String desc ;
-        String name ;
-        String datetime ;
-        public String getTopicId(){
-             return TopicID;
-        }
-        public  void setTopicID(String TopicID){
-            TopicID = this.TopicID;
-        }
-        public String getId(){
-            return id;
-        }
-        public  void setId(String id){
-            id = this.id;
-        }
-        public String getDesc(){
-            return desc;
-        }
-        public  void setDesc(String desc){
-            desc = this.desc;
-        }
-        public String getName(){
-            return name;
-        }
-        public  void setName(String name){
-            name = this.name;
-        }
-        public String getDatetime(){
-            return datetime;
-        }
-        public  void setDatetime(String datetime){
-            name = this.datetime;
-        }
+                Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                System.out.println("");
+                startActivity(it);
+
+            }
+        });
 
     }
+
     private class LoadImage extends AsyncTask<String, String, Bitmap> {
         @Override
         protected void onPreExecute() {

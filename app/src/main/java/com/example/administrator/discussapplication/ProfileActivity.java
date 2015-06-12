@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 
 public class ProfileActivity extends ActionBarActivity {
-
+    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

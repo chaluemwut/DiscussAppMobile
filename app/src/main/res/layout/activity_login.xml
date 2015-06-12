@@ -59,7 +59,9 @@
             android:layout_alignTop="@+id/imageUser"
             android:layout_alignBottom="@+id/imageUser"
             android:textSize="18dp"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:hint="  Username"
+            android:textColorHint="#ff97accc" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,7 +76,9 @@
             android:layout_marginLeft="10dp"
             android:background="#ffdde4ee"
             android:layout_above="@+id/btnLogin"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:hint=" Password"
+            android:textColorHint="#ff97accc" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
