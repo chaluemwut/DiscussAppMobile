@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="แก้ใขกระทู้"
+                    android:text="ค้นหากระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
                     android:textSize="18dp" />
