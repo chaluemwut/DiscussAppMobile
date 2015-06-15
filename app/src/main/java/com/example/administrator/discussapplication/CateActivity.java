@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CateActivity extends Activity {
-    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     private static String url = getURLServer+"jsonShowCatID";
     private GridView gridV;
     private ImageAdapter2 imageAdap;

@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class AlltopicActivity extends Activity {
-    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
 
     private static String url = getURLServer+"jsonAllCat";
     //JSON Node Names
@@ -80,8 +79,7 @@ public class AlltopicActivity extends Activity {
 
 
         } catch (JSONException e) {
-            Toast.makeText(getApplicationContext()
-                    , "เชื่อมต่อระบบล้มเหลว", Toast.LENGTH_LONG).show();
+
             e.printStackTrace();
         }
     }

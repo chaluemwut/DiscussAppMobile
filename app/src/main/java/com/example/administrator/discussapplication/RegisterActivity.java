@@ -27,7 +27,7 @@ import java.util.Scanner;
 
 
 public class RegisterActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

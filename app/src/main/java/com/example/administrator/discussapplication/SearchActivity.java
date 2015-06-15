@@ -18,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -36,9 +37,9 @@ public class SearchActivity extends ActionBarActivity {
     private ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;
-    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     public String topicID,username,catID ;
-    private String TopicId,CatId,Username;
+    private String TopicId,CatId,Username,Catname;
     ///value Spinner
 
     private static final String TAG_cat_id_SPINNER = "cat_id";
@@ -59,9 +60,12 @@ public class SearchActivity extends ActionBarActivity {
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
     private static final String URLImg = getURLServer+"images/";
+    ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
 
+    public SearchActivity() {
+    }
 
 
     @Override
@@ -69,8 +73,6 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         Bundle intent = getIntent().getExtras();
         if (intent != null) {
             this.topicID = intent.getString("topic_id");
@@ -80,64 +82,148 @@ public class SearchActivity extends ActionBarActivity {
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
-//////start spinner
-        String urlSpinner = getURLServer+"jsonAllCat";
-        JSONParser jParser = new JSONParser();
-        JSONObject jsonSpinner = jParser.getJSONFromUrl(urlSpinner);
-        try {
+        ImageButton btnSearchlist = (ImageButton)this.findViewById(R.id.btnSearchlist);
+        btnSearchlist.setImageResource(R.drawable.searchlist);
+        ImageButton imgBtnBack = (ImageButton)this.findViewById(R.id.imgBtnBack_cate);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        //SearchList
+        btnSearchlist.setOnClickListener(new View.OnClickListener() {
+
+          @Override
+          public void onClick(View v) {
+              Intent it = new Intent(getApplicationContext(), Search2Activity.class);
+
+              it.putExtra("topic_id", topicID);
+              it.putExtra("username", username);
+              it.putExtra("cat_id", catID);
+              it.putExtra("topic", GetCatname());
+              startActivity(it);
+                                      }
+                                         });
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+
+                startActivity(it);
+            }
+        });
+            //////start spinner
+            String urlSpinner = getURLServer + "jsonAllCat";
+            JSONParser jParser = new JSONParser();
+            JSONObject jsonSpinner = jParser.getJSONFromUrl(urlSpinner);
+            try
+
+            {
 
 // Getting JSON Array
-            DataSpinner = jsonSpinner.getJSONArray(TAG_DATA_SPINNER);
+                DataSpinner = jsonSpinner.getJSONArray(TAG_DATA_SPINNER);
 
-            for (int i = 0; i < DataSpinner.length(); i++) {
-                JSONObject c = DataSpinner.getJSONObject(i);
-                String catID = c.getString(TAG_cat_id_SPINNER);
-                String catTopic = c.getString(TAG_cat_topic_SPINNER);
-                String catUser = c.getString(TAG_USER_SPINNER);
+                for (int i = 0; i < DataSpinner.length(); i++) {
+                    JSONObject c = DataSpinner.getJSONObject(i);
+                    String catID = c.getString(TAG_cat_id_SPINNER);
+                    String catTopic = c.getString(TAG_cat_topic_SPINNER);
 
-                HashMap<String, String> map = new HashMap<String, String>();
-                // map = new HashMap<String, String>();
-                map.put(TAG_cat_id_SPINNER,catID);
-                map.put(TAG_cat_topic_SPINNER, catTopic);
-                map.put(TAG_USER_SPINNER, catUser);
-                spinner.add(map);
-                // Populate spinner with CATTPPIC names
-                spinnerlist.add(c.getString(TAG_cat_topic_SPINNER));
+                    String catUser = c.getString(TAG_USER_SPINNER);
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    // map = new HashMap<String, String>();
+                    map.put(TAG_cat_id_SPINNER, catID);
+                    map.put(TAG_cat_topic_SPINNER, catTopic);
+                    map.put(TAG_USER_SPINNER, catUser);
+                    spinner.add(map);
+                    // Populate spinner with CATTPPIC names
+                    spinnerlist.add(c.getString(TAG_cat_topic_SPINNER));
+
+                }
+
 
             }
 
+            catch(
+            JSONException e
+            )
+
+            {
+                e.printStackTrace();
+                Toast.makeText(this, "ไม่มีการเชื่อมต่อ..",
+                        Toast.LENGTH_LONG).show();
+            }
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "ไม่มีการเชื่อมต่อ..",
-                    Toast.LENGTH_LONG).show();
-        }
+            Spinner spin = (Spinner) findViewById(R.id.spinnerView);
 
 
+            arrAd=new ArrayAdapter<String>(SearchActivity.this,android.R.layout.simple_list_item_1,spinnerlist);
 
+            spin.setAdapter(arrAd);
+            spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 
-        Spinner spin = (Spinner) findViewById(R.id.spinnerView);
-
-        ArrayAdapter<String> arrAd;
-        arrAd = new ArrayAdapter<String>(SearchActivity.this, android.R.layout.simple_list_item_1,spinnerlist);
-
-        spin.setAdapter(arrAd);
-        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView,
-                                       View view, int position, long l) {
+            {
+                public void onItemSelected (AdapterView < ? > adapterView,
+                    View view,int i, long l){
 // TODO Auto-generated method stub
 
-
-                catID =  spinner.get(position).get("cat_id");
-                SetCatId(catID);
+                 Catname = spinnerlist.get(i);
+                 SetCatname(Catname);
+                 catID = spinner.get(i).get("cat_id");
 
                 Toast.makeText(SearchActivity.this,
-                        String.valueOf("Your Selected : " + spinnerlist.get(position)+catID),
+                        String.valueOf("Your Selected : " + spinnerlist.get(i) + catID),
                         Toast.LENGTH_SHORT).show();
 
+
+                // listV.setAdapter(imageAdap);
+
+                // arrAd.notifyDataSetChanged();
+                final ArrayList<HashMap<String, Object>> backUpList = ListData(catID);
                 imageLoader.clearCache();
+                listV.setClipToPadding(false);
+
+                imageAdap = new ImageAdapter(getApplicationContext());
+                listV.setAdapter(imageAdap);
+
+                listV.setOnScrollListener(new EndlessScrollListener() {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount) {
+                        // Triggered only when new data needs to be appended to the list
+                        // Add whatever code is needed to append new items to your AdapterView
+                        customLoadMoreDataFromApi(page);
+                        // or customLoadMoreDataFromApi(totalItemsCount);
+                    }
+
+                });
+
+                final AlertDialog.Builder viewDetail = new AlertDialog.Builder(SearchActivity.this);
+                // OnClick Item
+                listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                            int position, long mylng) {
+
+                        topicID = backUpList.get(position).get("topic_id").toString();
+
+                        catID = backUpList.get(position).get("cat_id").toString();
+
+                        Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+
+                        it.putExtra("topic_id", topicID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catID);
+                        startActivity(it);
+                        imageLoader.clearCache();
+                    }
+
+
+                });
+
             }
+
 
             public void onNothingSelected(AdapterView<?> arg0) {
 // TODO Auto-generated method stub
@@ -145,11 +231,33 @@ public class SearchActivity extends ActionBarActivity {
                         String.valueOf("Your Selected Empty"),
                         Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
         ///////end spinner
-        listV = (ListView) findViewById(R.id.listSearch);
-        String url = getURLServer+"jsonPost_reply2?cat_id="+catID+"";
+
+
+        ///////end spinner
+
+        /////////EndListView
+
+
+
+
+
+
+    }
+
+    public ArrayList<HashMap<String, Object>> ListData(String catId){
+
+        cateList.clear();
+        JSONParser jParser = new JSONParser();
+
+        Log.i("CAT_ID",catID);
+        listV = (ListView) findViewById(R.id.listSearchlist);
+        String url = getURLServer+"jsonPost_reply2?cat_id="+catId+"";
+
 
         //StartListview
         JSONObject json = jParser.getJSONFromUrl(url);
@@ -186,34 +294,8 @@ public class SearchActivity extends ActionBarActivity {
 
 
             }
-
-
             /// Start Grid//
-
-
             // Next
-            listV.setClipToPadding(false);
-
-            imageAdap = new ImageAdapter(getApplicationContext());
-            listV.setAdapter(imageAdap);
-
-            listV.setOnScrollListener(new EndlessScrollListener() {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount) {
-                    // Triggered only when new data needs to be appended to the list
-                    // Add whatever code is needed to append new items to your AdapterView
-                    customLoadMoreDataFromApi(page);
-                    // or customLoadMoreDataFromApi(totalItemsCount);
-                }
-            });
-
-
-
-
-
-
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -223,35 +305,9 @@ public class SearchActivity extends ActionBarActivity {
 
 
 
-        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-        // OnClick Item
-        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                    int position, long mylng) {
-
-                topicID = cateList.get(position).get("topic_id").toString();
-
-                catID = cateList.get(position).get("cat_id").toString();
-
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                startActivity(it);
-                imageLoader.clearCache();
-            }
-
-        });
-        /////////EndListView
-
-
-
-
-
-
+        return cateList;
     }
+
 
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
@@ -410,11 +466,11 @@ public class SearchActivity extends ActionBarActivity {
         }
 
     }
-    public String GetCatId(){
-        return CatId;
+    public String GetCatname(){
+        return Catname;
     }
-    public void SetCatId(String CatId){
-        this.CatId=CatId;
+    public void SetCatname(String Catname){
+        this.Catname=Catname;
     }
     @Override
     public void onDestroy()

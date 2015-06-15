@@ -32,20 +32,13 @@ import java.util.HashMap;
 
 public class LandingActivity extends ActionBarActivity {
 
-    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
     ///value Spinner
 
-    private static String urlSpinner = getURLServer+"jsonAllCat";
-    private static final String TAG_cat_id_SPINNER = "cat_id";
-    private static final String TAG_cat_topic_SPINNER = "cat_topic";
-    private static final String TAG_USER_SPINNER = "userName";
-    private static final String TAG_DATA_SPINNER = "data";
-    private JSONArray DataSpinner=null;
-    final ArrayList<String> spinnerlist =new ArrayList<String>();
-    ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
+
 
     //JSON Node Names Gridviwe
     private static String url = getURLServer+"jsonShowCatID";
@@ -61,7 +54,7 @@ public class LandingActivity extends ActionBarActivity {
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
-    private ImageAdapter imageAdapter;
+
     private String username ,topicID,catID,roleID;
     private String TopicId,CatId,Username;
     @Override
@@ -83,7 +76,6 @@ public class LandingActivity extends ActionBarActivity {
         BtnPost.setImageResource(R.drawable.post);
         BtnUpdate.setImageResource(R.drawable.icon);
         BtnSreach.setImageResource(R.drawable.searh);
-        ImageView Avt = (ImageView) this.findViewById(R.id.Advt);
 
         //Get Parameter From Login Actvity
         Bundle intent = getIntent().getExtras();
@@ -197,6 +189,23 @@ public class LandingActivity extends ActionBarActivity {
                     }
 
                 });
+        BtnSreach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                    Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+
+                    it.putExtra("username",username);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("cat_id",catID);
+                    Toast.makeText(getApplicationContext()
+                            ,"ค้นหาข้อมูล",Toast.LENGTH_LONG).show();
+                    System.out.println("");
+                    startActivity(it);
+            }
+        });
+
 
         ///// button Post Activity
         BtnPost.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +218,7 @@ public class LandingActivity extends ActionBarActivity {
                 it.putExtra("topic_id", topicID);
                 it.putExtra("cat_id",catID);
                 Toast.makeText(getApplicationContext()
-                        ,username,Toast.LENGTH_LONG).show();
+                        ,"เพิ่มกระทู้",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 startActivity(it);
 
@@ -223,6 +232,8 @@ public class LandingActivity extends ActionBarActivity {
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username",username);
                 it.putExtra("cat_id",catID);
+                Toast.makeText(getApplicationContext()
+                        ,"แก้ไขข้อมูลส่วนตัว",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 startActivity(it);
 

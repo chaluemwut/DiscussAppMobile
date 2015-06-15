@@ -37,8 +37,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Text"
+                    android:text="อัพโหลดรูปภาพ"
                     android:id="@+id/textView4"
+                    android:textSize="16dp"
                     android:textColor="#ff173871" />
             </LinearLayout>
 

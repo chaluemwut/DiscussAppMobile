@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 
 public class CommentActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     Bitmap bitmap;
     ProgressDialog pDialog;
     ImageView ImgPost;

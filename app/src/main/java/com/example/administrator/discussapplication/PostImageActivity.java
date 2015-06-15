@@ -33,7 +33,7 @@ import java.net.URL;
 
 
 public class PostImageActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
 
     private String topicID,username,catID;
     private static int RESULT_LOAD_IMG = 1;

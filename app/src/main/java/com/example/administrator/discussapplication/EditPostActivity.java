@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 
 public class EditPostActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.49:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     public ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;

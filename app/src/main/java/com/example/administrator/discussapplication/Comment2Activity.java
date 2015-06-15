@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 
 public class Comment2Activity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
     private static final String TAG_ID = "id";
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_DESC = "description";

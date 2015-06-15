@@ -45,10 +45,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ค้นหากระทู้"
+                    android:text="เลือกกระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -88,9 +88,11 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnRefreshedit"
-                android:src="@drawable/refresh"
+                android:id="@+id/btnSearchlist"
+                android:src="@drawable/searchlist"
+                android:layout_weight="1"
                 android:background="#ff6fb9ff" />
+
         </TableLayout>
     </LinearLayout>
 
@@ -106,8 +108,9 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/listSearch"
-            android:layout_below="@+id/spinnerView" />
+            android:id="@+id/listSearchlist"
+            android:layout_below="@+id/spinnerView"
+            android:layout_marginBottom="5dp" />
 
     </RelativeLayout>
 

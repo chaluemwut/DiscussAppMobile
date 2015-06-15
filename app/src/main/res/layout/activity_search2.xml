@@ -45,10 +45,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="แก้ใขกระทู้ส่วนตัว"
+                    android:text="ค้นหากระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,12 +85,6 @@
             android:gravity="center_vertical"
             android:layout_marginTop="2dp" >
 
-            <ImageButton
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/btnRefreshedit"
-                android:src="@drawable/refresh"
-                android:background="#ff6fb9ff" />
         </TableLayout>
     </LinearLayout>
 
@@ -98,10 +92,47 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSearchlist"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/btnSearch"
+            android:layout_toStartOf="@+id/btnSearch"
+            android:layout_marginLeft="10dp" />
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/btnSearch"
+            android:src="@drawable/searh2"
+            android:background="#ffdde4ee"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/btnSearchlist" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtShowCat"
+            android:layout_below="@+id/btnSearchlist"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff173871"
+            android:text="text"
+            android:gravity="center"
+            android:background="#ffdde4ee"
+            android:focusable="true"
+            android:editable="false"
+            android:layout_margin="5dp"
+            android:enabled="true" />
+
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/listViewEdit" />
+            android:layout_height="match_parent"
+            android:id="@+id/listSearchlist"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/edtShowCat" />
 
     </RelativeLayout>
 
