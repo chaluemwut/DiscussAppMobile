@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,11 +30,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class EditCommentActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
     Bitmap bitmap;
     ProgressDialog pDialog;
     ImageView ImgPost;
@@ -61,13 +64,13 @@ public class EditCommentActivity extends ActionBarActivity {
     private  String getTopicName,getDesc;
     JSONArray Data = null;
 //get Intent
-    String topicID,catID,username;
+    String topicID,catID,username,roleID;
 //get JsonjsonPost_reply3
     String urlImage,img,topicname,owner,datetime,id,comment,topicID2;
 // jsonShowCat
     String catID2,ownerCat,date,numCount,catName;
 
-
+    JSONParser jParser = new JSONParser();
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +80,13 @@ public class EditCommentActivity extends ActionBarActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        JSONParser jParser = new JSONParser();
-        Bundle intent = getIntent().getExtras();
 
+        Bundle intent = getIntent().getExtras();
         if (intent != null) {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.roleID = intent.getString("role_id");
             // and get whatever type user account id is
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
@@ -93,16 +96,37 @@ public class EditCommentActivity extends ActionBarActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
+            if(roleID.equals("3")) {
                 Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
                 System.out.println("");
                 startActivity(it);
+            }
+                else if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    System.out.println("");
+                    startActivity(it);
+                }
+            else  if(roleID.equals("1")) {
+                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+                startActivity(it);
+            }
 
             }
         });
+
         String urlShowCatName = getURLServer+"jsonShowCat?cat_id="+catID+"";
         JSONObject json = jParser.getJSONFromUrl(urlShowCatName);
 
@@ -120,6 +144,13 @@ public class EditCommentActivity extends ActionBarActivity {
                 numCount = c.getString(TAG_NUM_COUNT);
 
             }
+            etdCate =(EditText)this.findViewById(R.id.etdCate);
+            edtTextTopicEdit =(EditText)this.findViewById(R.id.edtTextTopicEdit);
+            edtTextDescEdit =(TextView)this.findViewById(R.id.edtTextDescEdit);
+
+            etdCate.setText(catName);
+
+
         }  catch (JSONException e) {
             Toast.makeText(getApplicationContext()
                     , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
@@ -150,13 +181,8 @@ public class EditCommentActivity extends ActionBarActivity {
 
             }
             new LoadImage().execute(urlImage);
-             etdCate =(EditText)this.findViewById(R.id.etdCate);
-             edtTextTopicEdit =(EditText)this.findViewById(R.id.edtTextTopicEdit);
-             edtTextDescEdit =(TextView)this.findViewById(R.id.edtTextDescEdit);
-
-            etdCate.setText(catName);
-            edtTextTopicEdit.setText(topicname.toString());
-            edtTextDescEdit.setText(comment.toString());
+            edtTextTopicEdit.setText(topicname);
+            edtTextDescEdit.setText(comment);
 
 
         }  catch (JSONException e) {
@@ -177,18 +203,39 @@ public class EditCommentActivity extends ActionBarActivity {
                     if(!getTopicName.equals(topicname)||!getDesc.equals(comment)){
                         // urlAddUser = new URL(getURLServer+"UpDatePost?topic_id="+topicID2+"&cat_id="+catID2+"&topic="+getTopicName+"&desc="+getDesc);
                         urlAddUser = new URL(getURLServer+"UpDatePost?topic_id="+topicID2+"&cat_id="+catID2+"&topic="+getTopicName+"&desc="+getDesc);
-
-
                         Scanner scUser = new Scanner(urlAddUser.openStream());
 
-                        Toast.makeText(getApplicationContext(),
-                                "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
-                        Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
-                        it.putExtra("topic_id", topicID);
-                        it.putExtra("username", username);
-                        it.putExtra("cat_id", catID);
-                        System.out.println("");
-                        startActivity(it);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("topic_id", topicID2));
+                        params.add(new BasicNameValuePair("cat_id",catID2));
+                        params.add(new BasicNameValuePair("topic", getTopicName));
+                        params.add(new BasicNameValuePair("desc", getDesc));
+
+
+                        jParser.getJSONUrl(getURLServer+"UpDatePost",params);
+                      if(roleID.equals("3")) {
+                                Toast.makeText(getApplicationContext(),
+                                              "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                                 Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
+                                 it.putExtra("topic_id", topicID);
+                                 it.putExtra("username", username);
+                                 it.putExtra("cat_id", catID);
+                                 it.putExtra("cat_id", roleID);
+                                 System.out.println("");
+                              startActivity(it);
+                                }
+                      else if(roleID.equals("2")) {
+                                 Toast.makeText(getApplicationContext(),
+                                    "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                                 Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                                 it.putExtra("topic_id", topicID);
+                                 it.putExtra("username", username);
+                                 it.putExtra("cat_id", catID);
+                                 it.putExtra("cat_id", roleID);
+                            System.out.println("");
+                            startActivity(it);
+                        }
                     }
 
                     else {
@@ -205,6 +252,31 @@ public class EditCommentActivity extends ActionBarActivity {
 
 
 
+            }
+        });
+        ImageButton home = (ImageButton) findViewById(R.id.btnHome);
+        home.setImageResource(R.drawable.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")||roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
             }
         });
     }

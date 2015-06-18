@@ -18,7 +18,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_Edit"
+            android:id="@+id/imgBtnBack"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />

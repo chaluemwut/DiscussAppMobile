@@ -33,9 +33,9 @@ import java.net.URL;
 
 
 public class PostImageActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
 
-    private String topicID,username,catID;
+    private String topicID,username,catID,roleID;
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
     public static final int CAMERA_PIC_REQUEST = 1337;
@@ -57,6 +57,7 @@ public class PostImageActivity extends ActionBarActivity {
             this.catID = intent.getString("cat_id");
             this.topicID = intent.getString("topic_id");
             this.username= intent.getString("username");
+            this.roleID=intent.getString("role_id");
             // and get whatever type user account id is
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
@@ -244,12 +245,35 @@ public class PostImageActivity extends ActionBarActivity {
 
             super.onPreExecute();
             showDialog(DIALOG_UPLOAD_PROGRESS);
-            Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-            it.putExtra("topic_id", topicID);
-            it.putExtra("username",username);
-            it.putExtra("cat_id",catID);
-            System.out.println("");
-            startActivity(it);
+
+            if(roleID.equals("3")) {
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+                startActivity(it);
+            }
+            else  if(roleID.equals("2")) {
+                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+                startActivity(it);
+            }
+            else  if(roleID.equals("1")) {
+                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+                startActivity(it);
+            }
+
         }
 
         @Override

@@ -49,8 +49,8 @@ import java.util.List;
 
 
 public class Search2Activity extends ActionBarActivity {
-    private static String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
-    public String topicID, username, catID,topic;
+    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    public String topicID, username, catID,topic,roleID;
     Bitmap newBitmap;
     private ImageLoader imageLoader;
     private ListView lisView1;
@@ -85,6 +85,8 @@ public class Search2Activity extends ActionBarActivity {
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
             this.topic = intent.getString("topic");
+            this.roleID = intent.getString("role_id");
+
             // and get whatever type user account id is
         }
         EditText edtShowCat =(EditText) findViewById(R.id.edtShowCat);
@@ -96,7 +98,7 @@ public class Search2Activity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getApplicationContext(), SearchActivity.class);
-
+                it.putExtra("role_id", roleID);
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
@@ -104,7 +106,43 @@ public class Search2Activity extends ActionBarActivity {
                 startActivity(it);
             }
         });
-  ////Listview
+//home
+        ImageButton home = (ImageButton) findViewById(R.id.btnHome);
+        home.setImageResource(R.drawable.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+            }
+        });
+
+        ////Listview
          ImageButton btn1 = (ImageButton) findViewById(R.id.btnSearch);
         btn1.setImageResource(R.drawable.searh2);
         // Perform action on click
@@ -402,7 +440,7 @@ public class Search2Activity extends ActionBarActivity {
         HttpPost httpPost = new HttpPost(url);
 
         try {
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
 
             HttpResponse response = client.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();

@@ -32,13 +32,14 @@ import java.util.HashMap;
 
 public class LandingActivity extends ActionBarActivity {
 
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
     ///value Spinner
-
-
+    private static final String TAG_CAT_NAME = "cat_topic";
+    JSONArray Data2 = null;
+    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
 
     //JSON Node Names Gridviwe
     private static String url = getURLServer+"jsonShowCatID";
@@ -63,7 +64,7 @@ public class LandingActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_landing);
+               setContentView(R.layout.activity_landing);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -101,7 +102,8 @@ public class LandingActivity extends ActionBarActivity {
         JSONObject json = jParser.getJSONFromUrl(url);
           imageLoader = new ImageLoader(this);
             // GridView and imageAdapter
-
+        cateList.clear();
+        cateList2.clear();
           try {
 
 // Getting JSON Array
@@ -130,7 +132,22 @@ public class LandingActivity extends ActionBarActivity {
                         map.put("ImagePathBitmap", newBitmap);
                         cateList.add(map);
 
+                    if (!catID.equals(null)) {
+                        String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
+                        // Getting JSON from URL
+                        JSONObject json2 = jParser.getJSONFromUrl(url2);
 
+                        Data2 = json2.getJSONArray(TAG_DATA);
+                        for (int i2 = 0; i2 < Data2.length(); i2++) {
+                            JSONObject c2 = Data2.getJSONObject(i2);
+                            String CAT_NAME = c2.getString(TAG_CAT_NAME);
+                            HashMap<String, Object> map2 = new HashMap<String, Object>();
+                            map2.put(TAG_CAT_NAME, CAT_NAME);
+                            // Thumbnail Get ImageBitmap To Object
+                            cateList2.add(map2);
+
+                        }
+                    }
                 }
 
 
@@ -185,6 +202,8 @@ public class LandingActivity extends ActionBarActivity {
                         it.putExtra("topic_id", topicID);
                         it.putExtra("username",username);
                         it.putExtra("cat_id",catID);
+                        it.putExtra("role_id",roleID);
+
                         startActivity(it);
                     }
 
@@ -199,6 +218,7 @@ public class LandingActivity extends ActionBarActivity {
                     it.putExtra("username",username);
                     it.putExtra("topic_id", topicID);
                     it.putExtra("cat_id",catID);
+                    it.putExtra("role_id",roleID);
                     Toast.makeText(getApplicationContext()
                             ,"ค้นหาข้อมูล",Toast.LENGTH_LONG).show();
                     System.out.println("");
@@ -217,6 +237,7 @@ public class LandingActivity extends ActionBarActivity {
                 it.putExtra("username",username);
                 it.putExtra("topic_id", topicID);
                 it.putExtra("cat_id",catID);
+                it.putExtra("role_id",roleID);
                 Toast.makeText(getApplicationContext()
                         ,"เพิ่มกระทู้",Toast.LENGTH_LONG).show();
                 System.out.println("");
@@ -232,8 +253,9 @@ public class LandingActivity extends ActionBarActivity {
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username",username);
                 it.putExtra("cat_id",catID);
+                it.putExtra("role_id",roleID);
                 Toast.makeText(getApplicationContext()
-                        ,"แก้ไขข้อมูลส่วนตัว",Toast.LENGTH_LONG).show();
+                        ,"แก้ไขข้อมูลส่วนตัว"+roleID,Toast.LENGTH_LONG).show();
                 System.out.println("");
                 startActivity(it);
 
@@ -403,7 +425,7 @@ public class LandingActivity extends ActionBarActivity {
 // ColItemTime
             viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
             viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
-            viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
+            viewHolder.txtTimeID.setText(cateList2.get(position).get("cat_topic").toString());
 
 
             }

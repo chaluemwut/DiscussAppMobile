@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 
 public class EditPostActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
     public ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;
@@ -45,14 +45,15 @@ public class EditPostActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer+"images/";
+    private static final String URLImg = getURLServer + "images/";
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
     private ImageAdapter imageAdapter;
-    private String username , topicID,catID;
-    private String TopicId,CatId,Username;
+    private String username, topicID, catID, roleID;
+    private String TopicId, CatId, Username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,40 +62,27 @@ public class EditPostActivity extends ActionBarActivity {
         StrictMode.setThreadPolicy(policy);
 
         ImageButton btnRefresh = (ImageButton) this.findViewById(R.id.btnRefreshedit);
-        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_Edit);
 
 
 
-        btnRefresh.setImageResource(R.drawable.refresh);
-        btnBack.setImageResource(R.drawable.back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
 
-                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                System.out.println("");
-                startActivity(it);
-
-            }
-        });
 
 
         //Get Parameter From Login Actvity
         Bundle intent = getIntent().getExtras();
 
         if (intent != null) {
+            this.topicID = intent.getString("topic_id");
+            this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.roleID = intent.getString("role_id");
             // and get whatever type user account id is
         }
         // Get Username//
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
-        String url = getURLServer+"jsonEditPost?owner="+username+"";
-
-
+        String url = getURLServer + "jsonEditPost?owner=" + username + "";
 
 
         //ShowData();
@@ -126,7 +114,7 @@ public class EditPostActivity extends ActionBarActivity {
                 map.put(TAG_OWNER, owner);
                 map.put(TAG_TIME, dateTime);
                 // Thumbnail Get ImageBitmap To Object
-                String urlBitMap = URLImg+img;
+                String urlBitMap = URLImg + img;
                 newBitmap = imageLoader.getBitmap(urlBitMap);
 
 
@@ -154,13 +142,6 @@ public class EditPostActivity extends ActionBarActivity {
             });
 
 
-
-
-
-
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext()
@@ -168,9 +149,9 @@ public class EditPostActivity extends ActionBarActivity {
         }
 
 
-
         final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
         // OnClick Item
+
         listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> myAdapter, View myView,
@@ -184,30 +165,64 @@ public class EditPostActivity extends ActionBarActivity {
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
                 startActivity(it);
             }
 
         });
+        btnRefresh.setImageResource(R.drawable.refresh);
 
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+                startActivity(it);
+            }
+        });
         ///// button Post Activity
+        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_Edit);
+        btnBack.setImageResource(R.drawable.back);
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
-                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+                if (roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-                it.putExtra("username",username);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("cat_id",catID);
-                Toast.makeText(getApplicationContext()
-                        ,username,Toast.LENGTH_LONG).show();
-                System.out.println("");
-                startActivity(it);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                } else if (roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
 
             }
         });
 
     }
+
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
@@ -244,14 +259,15 @@ public class EditPostActivity extends ActionBarActivity {
         // We are given a few useful parameters to help us work out if we need to load some more data,
         // but first we check if we are waiting for the previous load to finish.
         @Override
-        public void onScroll(AbsListView view,int firstVisibleItem,int visibleItemCount,int totalItemCount)
-        {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             // If the total item count is zero and the previous isn't, assume the
             // list is invalidated and should be reset back to initial state
             if (totalItemCount < previousTotalItemCount) {
                 this.currentPage = this.startingPageIndex;
                 this.previousTotalItemCount = totalItemCount;
-                if (totalItemCount == 0) { this.loading = true; }
+                if (totalItemCount == 0) {
+                    this.loading = true;
+                }
             }
             // If it’s still loading, we check to see if the dataset count has
             // changed, if so we conclude it has finished loading and update the current page
@@ -265,7 +281,7 @@ public class EditPostActivity extends ActionBarActivity {
             // If it isn’t currently loading, we check to see if we have breached
             // the visibleThreshold and need to reload more data.
             // If we do need to reload some more data, we execute onLoadMore to fetch the data.
-            if (!loading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + visibleThreshold)) {
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 onLoadMore(currentPage + 1, totalItemCount);
                 loading = true;
             }
@@ -279,24 +295,31 @@ public class EditPostActivity extends ActionBarActivity {
             // Don't take any action on changed
         }
     }
-    public String GetTopicId(){
+
+    public String GetTopicId() {
         return TopicId;
     }
-    public void SetTopicId(String TopicId){
-        this.TopicId=TopicId;
+
+    public void SetTopicId(String TopicId) {
+        this.TopicId = TopicId;
     }
-    public String GetCatId(){
+
+    public String GetCatId() {
         return CatId;
     }
-    public void SetCatId(String CatId){
-        this.CatId=CatId;
+
+    public void SetCatId(String CatId) {
+        this.CatId = CatId;
     }
-    public String GetUsername(){
+
+    public String GetUsername() {
         return Username;
     }
-    public void SetUsername(String  Username){
-        this. Username=Username;
+
+    public void SetUsername(String Username) {
+        this.Username = Username;
     }
+
     /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
@@ -326,6 +349,7 @@ public class EditPostActivity extends ActionBarActivity {
             int position = -1;
             Handler handler;
         }
+
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -337,7 +361,7 @@ public class EditPostActivity extends ActionBarActivity {
             if (convertView == null) {
                 viewHolder = new ViewHolderItem();
                 convertView = inflater.inflate(R.layout.activity_column_cate, null);
-                viewHolder.imageView= (ImageView) convertView.findViewById(R.id.icon);
+                viewHolder.imageView = (ImageView) convertView.findViewById(R.id.icon);
                 convertView.setTag(viewHolder);
 
                 // ColPhoto
@@ -348,10 +372,9 @@ public class EditPostActivity extends ActionBarActivity {
                 viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 try {
                     Log.d("ERROR", cateList.get(position).get("ImagePathBitmap").toString());
-                    viewHolder.imageView.setImageBitmap((Bitmap)cateList.get(position).get("ImagePathBitmap"));
+                    viewHolder.imageView.setImageBitmap((Bitmap) cateList.get(position).get("ImagePathBitmap"));
                     //  AsyncTask<String, Integer, Bitmap> exec = new Bitmapload(imageView);
                     // exec.execute(cateList.get(position).get("ImagePathBitmap").toString());
-
 
 
                 } catch (Exception e) {
@@ -365,18 +388,17 @@ public class EditPostActivity extends ActionBarActivity {
                 viewHolder.txtImageID.setText(cateList.get(position).get("topic").toString());
 
                 // ColItemID
-                viewHolder. txtItemID = (TextView) convertView.findViewById(R.id.Owner);
+                viewHolder.txtItemID = (TextView) convertView.findViewById(R.id.Owner);
                 viewHolder.txtItemID.setPadding(5, 0, 0, 0);
                 viewHolder.txtItemID.setText(cateList.get(position).get("owner").toString());
 // ColItemTime
-                viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
+                viewHolder.txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
                 viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
                 viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
 
 
-            }
-            else{
-                viewHolder= (ViewHolderItem) convertView.getTag();
+            } else {
+                viewHolder = (ViewHolderItem) convertView.getTag();
             }
 
             return convertView;
@@ -384,8 +406,6 @@ public class EditPostActivity extends ActionBarActivity {
         }
 
     }
-
-
 
 
     @Override

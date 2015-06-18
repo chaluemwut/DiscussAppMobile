@@ -85,37 +85,23 @@
             android:gravity="center_vertical"
             android:layout_marginTop="2dp" >
 
-            <TableRow
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp" >
+                android:layout_height="fill_parent">
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageButton6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/btnHome"
                     android:layout_column="3"
-                    android:src="@drawable/icon"
+                    android:src="@drawable/home"
                     android:background="#ff6fb9ff"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageButton7"
-                    android:layout_column="4"
-                    android:src="@drawable/searh"
-                    android:background="#ff6fb9ff"
-                    android:layout_weight="1" />
-            </TableRow>
+            </LinearLayout>
         </TableLayout>
     </LinearLayout>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </TableRow>
 
     <TableRow
         android:id="@+id/tableRow1"

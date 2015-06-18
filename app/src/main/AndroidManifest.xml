@@ -52,7 +52,6 @@
         </activity>
         <activity android:name=".SearchActivity" >
         </activity>
-
         <activity
             android:name=".EditPostActivity"
             android:label="@string/title_activity_edit_post" >
@@ -68,6 +67,22 @@
         <activity
             android:name=".StaffActivity"
             android:label="@string/title_activity_staff" >
+        </activity>
+        <activity
+            android:name=".AdminActivity"
+            android:label="@string/title_activity_admin" >
+        </activity>
+        <activity
+            android:name=".Admin2Activity"
+            android:label="@string/title_activity_admin2" >
+        </activity>
+        <activity
+            android:name=".Admin3Activity"
+            android:label="@string/title_activity_admin3" >
+        </activity>
+        <activity
+            android:name=".Staff2Activity"
+            android:label="@string/title_activity_staff2" >
         </activity>
     </application>
 

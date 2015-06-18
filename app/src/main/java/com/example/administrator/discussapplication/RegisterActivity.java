@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,11 +25,14 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class RegisterActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private String topicID,username,catID,roleID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class RegisterActivity extends ActionBarActivity {
         final EditText EDname = (EditText) this.findViewById(R.id.edtName);
         btnBack.setImageResource(R.drawable.back);
 
-        JSONParser jParser = new JSONParser();
+        final JSONParser jParser = new JSONParser();
         // Getting JSON from URL
         submit.setOnClickListener(new View.OnClickListener() {
 
@@ -94,14 +99,36 @@ public class RegisterActivity extends ActionBarActivity {
                                         "รหัสยืนยันไม่ถูกต้อง", Toast.LENGTH_LONG).show();
                             }
                             else{///complete Regisrter
-                                URL urlAddUser = new URL(getURLServer+"RegisterAPI?username=" + qMessage1 + "&password=" + qMessage2
-                                        + "&address=" + qMessage4 + "&tel=" + qMessage5 + "&email=" + qMessage5 + "&name=" + qMessage7);
-                                Scanner scUser = new Scanner(urlAddUser.openStream());
+//                                URL urlAddUser = new URL(getURLServer+"RegisterAPI?username=" + qMessage1 + "&password=" + qMessage2
+//                                        + "&address=" + qMessage4 + "&tel=" + qMessage5 + "&email=" + qMessage6 + "&name=" + qMessage7);
+//                                Scanner scUser = new Scanner(urlAddUser.openStream());
+
+
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("username", qMessage1));
+                                params.add(new BasicNameValuePair("password",qMessage2));
+                                params.add(new BasicNameValuePair("name", qMessage7));
+                                params.add(new BasicNameValuePair("tel", qMessage5));
+                                params.add(new BasicNameValuePair("email",qMessage6));
+                                params.add(new BasicNameValuePair("address", qMessage4));
+
+
+
+                                //HttpPost httpPost = new HttpPost(getURLServer+"RegisterAPI");
+                                jParser.getJSONUrl(getURLServer+"RegisterAPI",params);
+
+
                                 Toast.makeText(getApplicationContext(),
                                         "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_LONG).show();
-                                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-                                System.out.println("");
-                                startActivity(it);
+//                                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+//                                System.out.println("");
+//                                username= qMessage1;
+//                                roleID = "3";
+//                                it.putExtra("topic_id", topicID);
+//                                it.putExtra("username", username);
+//                                it.putExtra("cat_id", catID);
+//                                it.putExtra("role_id", roleID);
+//                                startActivity(it);
 
                             }
                         }

@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 
 public class CommentActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
     Bitmap bitmap;
     ProgressDialog pDialog;
     ImageView ImgPost;
@@ -53,7 +53,7 @@ public class CommentActivity extends ActionBarActivity {
     JSONArray Data = null;
 
     ArrayList cateList = new ArrayList<>();
-    String urlImage,img,topicname,topicID2,owner,datetime,id,topicID,catID,username;
+    String urlImage,img,topicname,topicID2,owner,datetime,id,topicID,catID,username,roleID;
 
     ArrayList<String> listdata = new ArrayList<String>();
     @Override
@@ -78,6 +78,7 @@ public class CommentActivity extends ActionBarActivity {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.roleID=intent.getString("role_id");
             // and get whatever type user account id is
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
@@ -88,12 +89,33 @@ public class CommentActivity extends ActionBarActivity {
 
             public void onClick(View v) {
 
-                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                System.out.println("");
-                startActivity(it);
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
 
             }
         });
@@ -140,9 +162,11 @@ public class CommentActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
+
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
                 System.out.println("");
                 startActivity(it);
 

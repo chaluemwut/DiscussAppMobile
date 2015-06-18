@@ -36,8 +36,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 
-public class StaffActivity extends ActionBarActivity {
-
+public class Staff2Activity extends ActionBarActivity {
 
     private static   String getURLServer = "http://192.168.1.113:8080/DiscussWeB2/";
     public ImageLoader imageLoader;
@@ -45,7 +44,7 @@ public class StaffActivity extends ActionBarActivity {
     private ImageAdapter imageAdap;
     ///value Spinner
 
-/////get Staff
+    /////get Staff
     private static final String TAG_CAT_ID_STAFF = "cat_id";
     private static final String TAG_CAT_TOPPIC= "cat_topic";
     private static final String TAG_USERNAME_STAFF = "username";
@@ -72,10 +71,9 @@ public class StaffActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_staff);
+        setContentView(R.layout.activity_staff2);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -83,13 +81,13 @@ public class StaffActivity extends ActionBarActivity {
         ImageButton BtnPost = (ImageButton) this.findViewById(R.id.PostIcon);
         ImageButton BtnUpdate = (ImageButton) this.findViewById(R.id.UpdateIcon);
         ImageButton BtnSreach = (ImageButton) this.findViewById(R.id.btnSearh);
-        ImageButton btnStaff = (ImageButton) this.findViewById(R.id.btnStaff);
+
         ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
         ImgUser.setImageResource(R.drawable.bt_id);
         BtnPost.setImageResource(R.drawable.post);
         BtnUpdate.setImageResource(R.drawable.icon);
         BtnSreach.setImageResource(R.drawable.searh);
-        btnStaff.setImageResource(R.drawable.staff);
+
 
         //Get Parameter From Login Actvity
         Bundle intent = getIntent().getExtras();
@@ -105,8 +103,9 @@ public class StaffActivity extends ActionBarActivity {
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
 
-       // String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";
-        String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";
+        // String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";
+       // String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";\
+        String urlStaff = getURLServer + "jsonCatStaff?username=admin3";
         JSONObject jsonCate = jParser.getJSONFromUrl(urlStaff);
 
 
@@ -118,11 +117,11 @@ public class StaffActivity extends ActionBarActivity {
 
             for (int i = 0; i < Data.length(); i++) {
                 JSONObject c = Data.getJSONObject(i);
-                 catIDStaff = c.getString(TAG_CAT_ID_STAFF);
-                 nameCatStaff = c.getString(TAG_CAT_TOPPIC);
-                 usernameStaff = c.getString(TAG_USERNAME_STAFF);
-                 timeStaffCat = c.getString(TAG_TIME_CATE);
-                 countComment = c.getString(TAG_Count);
+                catIDStaff = c.getString(TAG_CAT_ID_STAFF);
+                nameCatStaff = c.getString(TAG_CAT_TOPPIC);
+                usernameStaff = c.getString(TAG_USERNAME_STAFF);
+                timeStaffCat = c.getString(TAG_TIME_CATE);
+                countComment = c.getString(TAG_Count);
 
 
             }
@@ -136,7 +135,7 @@ public class StaffActivity extends ActionBarActivity {
         cateName.setText(nameCatStaff);
         TextView countCate= (TextView)this.findViewById(R.id.countCate);
         countCate.setText(countComment);
-       /////////
+        /////////
         String url = getURLServer+"jsonPost_reply2?cat_id="+catIDStaff+"";
         Bitmap newBitmap;
         // Getting JSON from URL
@@ -177,7 +176,7 @@ public class StaffActivity extends ActionBarActivity {
 
 
             /// Start Grid//
-            gridV = (GridView) findViewById(R.id.gridViewStaff);
+            gridV = (GridView) findViewById(R.id.gridViewStaff2);
             // Next
             gridV.setClipToPadding(false);
             imageAdap = new ImageAdapter(getApplicationContext());
@@ -285,6 +284,9 @@ public class StaffActivity extends ActionBarActivity {
             }
         });
     }
+
+
+
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
@@ -402,8 +404,9 @@ public class StaffActivity extends ActionBarActivity {
             TextView txtTimeID;
             int position = -1;
             Handler handler;
-            ImageButton btnUpdate,btnDelete,btnPoint,btnGO;
+            ImageButton btnUpdate, btnDelete, btnPoint, btnGO;
         }
+
         public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -417,7 +420,7 @@ public class StaffActivity extends ActionBarActivity {
 
                 viewHolder = new ViewHolderItem();
                 convertView = inflater.inflate(R.layout.activity_multibtn_staff, null);
-                viewHolder.imageView= (ImageView) convertView.findViewById(R.id.ColImgPath);
+                viewHolder.imageView = (ImageView) convertView.findViewById(R.id.ColImgPath);
                 convertView.setTag(viewHolder);
 
                 // ColPhoto
@@ -428,10 +431,9 @@ public class StaffActivity extends ActionBarActivity {
                 viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 try {
                     Log.d("ERROR", cateList.get(position).get("ImagePathBitmap").toString());
-                    viewHolder.imageView.setImageBitmap((Bitmap)cateList.get(position).get("ImagePathBitmap"));
+                    viewHolder.imageView.setImageBitmap((Bitmap) cateList.get(position).get("ImagePathBitmap"));
                     //  AsyncTask<String, Integer, Bitmap> exec = new Bitmapload(imageView);
                     // exec.execute(cateList.get(position).get("ImagePathBitmap").toString());
-
 
 
                 } catch (Exception e) {
@@ -445,33 +447,33 @@ public class StaffActivity extends ActionBarActivity {
                 viewHolder.txtImageID.setText(cateList.get(position).get("topic").toString());
 
                 // ColItemID
-                viewHolder. txtItemID = (TextView) convertView.findViewById(R.id.Colowner);
+                viewHolder.txtItemID = (TextView) convertView.findViewById(R.id.Colowner);
                 viewHolder.txtItemID.setPadding(5, 0, 0, 0);
                 viewHolder.txtItemID.setText(cateList.get(position).get("owner").toString());
 //ColItemTime
-                viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.Coltime);
+                viewHolder.txtTimeID = (TextView) convertView.findViewById(R.id.Coltime);
                 viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
                 viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
 
                 //Update
-                viewHolder. btnUpdate = (ImageButton) convertView.findViewById(R.id.imgCmdupdate);
-                viewHolder. btnUpdate.setImageResource(R.drawable.edit2 );
+                viewHolder.btnUpdate = (ImageButton) convertView.findViewById(R.id.imgCmdupdate);
+                viewHolder.btnUpdate.setImageResource(R.drawable.edit2);
 
 
                 viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Toast.makeText(StaffActivity.this, "Your Shared (ImageID = " + cateList.get(position).get("topic_id")+catIDStaff+"///"+roleID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Staff2Activity.this, "Your Shared (ImageID = " + cateList.get(position).get("topic_id") + catIDStaff + "///" + roleID, Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), EditCommentActivity.class);
                         String topPicId = cateList.get(position).get("topic_id").toString();
                         it.putExtra("topic_id", topPicId);
-                        it.putExtra("username",username);
-                        it.putExtra("cat_id",catIDStaff);
-                        it.putExtra("role_id",roleID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catIDStaff);
+                        it.putExtra("role_id", roleID);
 
 
                         Toast.makeText(getApplicationContext()
-                                ,"แก้ไขข้อมูล"+roleID,Toast.LENGTH_LONG).show();
+                                , "แก้ไขข้อมูล" + roleID, Toast.LENGTH_LONG).show();
                         System.out.println("");
                         startActivity(it);
                     }
@@ -482,19 +484,19 @@ public class StaffActivity extends ActionBarActivity {
                 // imgCmdDelete
 
                 //cmdDelete.setBackgroundColor(Color.TRANSPARENT);
-                final AlertDialog.Builder adb = new AlertDialog.Builder(StaffActivity.this);
+                final AlertDialog.Builder adb = new AlertDialog.Builder(Staff2Activity.this);
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         adb.setTitle("Delete?");
-                        adb.setMessage("Are you sure delete [" + cateList.get(position).get("topic_id") +"]");
+                        adb.setMessage("Are you sure delete [" + cateList.get(position).get("topic_id") + "]");
                         adb.setNegativeButton("Cancel", null);
                         adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(StaffActivity.this,"Your Delete (ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
-                                 topicID= cateList.get(position).get("topic_id").toString();
+                                Toast.makeText(Staff2Activity.this, "Your Delete (ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
+                                topicID = cateList.get(position).get("topic_id").toString();
 
                                 try {
-                                    URL url = new URL(getURLServer+"DeleteTopic?topic_id="+topicID+"&cat_id="+catIDStaff+"");
+                                    URL url = new URL(getURLServer + "DeleteTopic?topic_id=" + topicID + "&cat_id=" + catIDStaff + "");
                                     Scanner sc = new Scanner(url.openStream());
                                 } catch (MalformedURLException e) {
                                     e.printStackTrace();
@@ -505,23 +507,24 @@ public class StaffActivity extends ActionBarActivity {
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
                                  */
-                                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                                Intent it = new Intent(getApplicationContext(), Staff2Activity.class);
 
                                 it.putExtra("topic_id", topicID);
-                                it.putExtra("username",username);
-                                it.putExtra("cat_id",catIDStaff);
-                                it.putExtra("role_id",roleID);
+                                it.putExtra("username", username);
+                                it.putExtra("cat_id", catIDStaff);
+                                it.putExtra("role_id", roleID);
 
                                 startActivity(it);
-                            }});
+                            }
+                        });
                         adb.show();
                     }
                 });
                 ///Top
-                viewHolder. btnPoint = (ImageButton) convertView.findViewById(R.id.imgCmdpoint);
-                viewHolder. btnPoint.setImageResource(R.drawable.point);
+                viewHolder.btnPoint = (ImageButton) convertView.findViewById(R.id.imgCmdpoint);
+                viewHolder.btnPoint.setImageResource(R.drawable.point);
 
-                final AlertDialog.Builder dialogP = new AlertDialog.Builder(StaffActivity.this);
+                final AlertDialog.Builder dialogP = new AlertDialog.Builder(Staff2Activity.this);
                 viewHolder.btnPoint.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialogP.setTitle("TOP Comment?");
@@ -533,10 +536,10 @@ public class StaffActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                    Toast.makeText(StaffActivity.this, "DeleteTOP(ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
-                                    topicID = cateList.get(position).get("topic_id").toString();
+                                Toast.makeText(Staff2Activity.this, "DeleteTOP(ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
+                                topicID = cateList.get(position).get("topic_id").toString();
                                 try {
-                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id="+topicID+"&status=0");
+                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id=" + topicID + "&status=0");
                                     Scanner sc = new Scanner(url.openStream());
                                 } catch (MalformedURLException e) {
                                     e.printStackTrace();
@@ -547,7 +550,7 @@ public class StaffActivity extends ActionBarActivity {
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
                                  */
-                                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                                Intent it = new Intent(getApplicationContext(), Staff2Activity.class);
 
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
@@ -563,11 +566,11 @@ public class StaffActivity extends ActionBarActivity {
 /////Delete Top Comment
                         dialogP.setPositiveButton("ADD TOP", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(StaffActivity.this, "AddTOP(ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Staff2Activity.this, "AddTOP(ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
 
                                 try {
-                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id="+topicID+"&status=1");
+                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id=" + topicID + "&status=1");
                                     Scanner sc = new Scanner(url.openStream());
                                 } catch (MalformedURLException e) {
                                     e.printStackTrace();
@@ -578,7 +581,7 @@ public class StaffActivity extends ActionBarActivity {
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
                                  */
-                                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                                Intent it = new Intent(getApplicationContext(), Staff2Activity.class);
 
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
@@ -597,32 +600,32 @@ public class StaffActivity extends ActionBarActivity {
 
                 viewHolder.btnGO.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                                /**
-                                 * Command for Delete
-                                 * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
-                                 */
-                        Toast.makeText(StaffActivity.this, "" + cateList.get(position).get("topic_id") + catIDStaff+"//"+roleID+")", Toast.LENGTH_LONG).show();
+                        /**
+                         * Command for Delete
+                         * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
+                         */
+                        Toast.makeText(Staff2Activity.this, "" + cateList.get(position).get("topic_id") + catIDStaff + "//" + roleID + ")", Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-                                topicID=cateList.get(position).get("topic_id").toString();
-                                it.putExtra("topic_id", topicID);
-                                it.putExtra("username", username);
-                                it.putExtra("cat_id", catIDStaff);
-                                it.putExtra("role_id", roleID);
+                        topicID = cateList.get(position).get("topic_id").toString();
+                        it.putExtra("topic_id", topicID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catIDStaff);
+                        it.putExtra("role_id", roleID);
 
-                                startActivity(it);
-                            }
+                        startActivity(it);
+                    }
 
 
                 });
-            }
-            else{
-                viewHolder= (ViewHolderItem) convertView.getTag();
+            } else {
+                viewHolder = (ViewHolderItem) convertView.getTag();
             }
 
             return convertView;
 
         }
+
 
     }
 
@@ -631,16 +634,10 @@ public class StaffActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_staff, menu);
+        getMenuInflater().inflate(R.menu.menu_staff2, menu);
         return true;
     }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        gridV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

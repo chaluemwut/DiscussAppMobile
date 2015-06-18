@@ -37,8 +37,8 @@ public class SearchActivity extends ActionBarActivity {
     private ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
-    public String topicID,username,catID ;
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    public String topicID,username,catID,roleID ;
     private String TopicId,CatId,Username,Catname;
     ///value Spinner
 
@@ -78,13 +78,14 @@ public class SearchActivity extends ActionBarActivity {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.roleID = intent.getString("role_id");
             // and get whatever type user account id is
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
         ImageButton btnSearchlist = (ImageButton)this.findViewById(R.id.btnSearchlist);
         btnSearchlist.setImageResource(R.drawable.searchlist);
-        ImageButton imgBtnBack = (ImageButton)this.findViewById(R.id.imgBtnBack_cate);
+        ImageButton imgBtnBack = (ImageButton)this.findViewById(R.id.imgBtnBack);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         //SearchList
@@ -98,21 +99,50 @@ public class SearchActivity extends ActionBarActivity {
               it.putExtra("username", username);
               it.putExtra("cat_id", catID);
               it.putExtra("topic", GetCatname());
+              it.putExtra("role_id", roleID);
               startActivity(it);
                                       }
                                          });
+
+        //////back//////////
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+               else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
-                startActivity(it);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+
+
             }
         });
+
+
+
+
             //////start spinner
             String urlSpinner = getURLServer + "jsonAllCat";
             JSONParser jParser = new JSONParser();

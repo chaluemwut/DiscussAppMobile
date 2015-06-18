@@ -15,20 +15,19 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class Comment2Activity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
     private static final String TAG_ID = "id";
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_DESC = "description";
@@ -40,8 +39,9 @@ public class Comment2Activity extends ActionBarActivity {
     private ListView ListV;
     ArrayList<HashMap<String, Object>> postList = new ArrayList<>();
     ImageView ImgPost;
-    String toppicID ,catID,username;
+    String toppicID ,catID,username,roleID;
     //getset
+    JSONParser jParser = new JSONParser();
     private String CatId,TopicId;
 
     @Override
@@ -63,6 +63,7 @@ public class Comment2Activity extends ActionBarActivity {
             this.toppicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.roleID=intent.getString("role_id");
             // and get whatever type user account id is
         }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
@@ -70,41 +71,83 @@ public class Comment2Activity extends ActionBarActivity {
 
         SetTopicId(toppicID);
         SetCatId(catID);
-        ImageButton btnRefresh = (ImageButton) this.findViewById(R.id.btnRefresh);
+
         //refresh
-        btnRefresh.setImageResource(R.drawable.refresh);
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-
-                Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
-                it.putExtra("topic_id", toppicID);
-                it.putExtra("cat_id", catID);
-                it.putExtra("username", username);
-                System.out.println("");
-                startActivity(it);
-
-            }
-        });
         //backTo CommentActivity
 
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), CommentActivity.class);
 
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("username", username);
+                    Toast.makeText(Comment2Activity.this, GetTopicId() + "cat_id" + GetCatId(), Toast.LENGTH_SHORT).show();
+                    System.out.println("");
+                    startActivity(it);
+                }
+                else if(roleID.equals("2")) {
+                    Toast.makeText(getApplicationContext(),
+                            "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("cat_id", roleID);
+                    System.out.println("");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
 
-                it.putExtra("topic_id", toppicID);
-                it.putExtra("cat_id", catID);
-                it.putExtra("username", username);
-                Toast.makeText(Comment2Activity.this,GetTopicId()+"cat_id"+GetCatId(),Toast.LENGTH_SHORT).show();
-                System.out.println("");
-                startActivity(it);
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
 
             }
         });
+        ImageButton home = (ImageButton) findViewById(R.id.btnHome);
+        home.setImageResource(R.drawable.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", toppicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", roleID);
+                    startActivity(it);
+                }
+            }
+        });
         ListV2 = (ListView) findViewById(R.id.listViewComment2);
-        JSONParser jParser = new JSONParser();
+
         String url = getURLServer+"jsonPost_reply?&topic_id="+toppicID+"";
         JSONObject json = jParser.getJSONFromUrl(url);
         try {
@@ -143,9 +186,6 @@ public class Comment2Activity extends ActionBarActivity {
             ListV2.setAdapter(sAdap);
 
 
-
-
-
 ////Post
             final EditText etdcomment =(EditText) this.findViewById(R.id.edtComment2);
             btnPost.setOnClickListener(new View.OnClickListener() {
@@ -157,26 +197,40 @@ public class Comment2Activity extends ActionBarActivity {
                     }
                     else {
 
-                        URL url = null;
+                        //URL url = null;
 
 
-                        try {
-                            url = new URL(getURLServer+"PostReplyAPI?name="+username+"&desc="+desc+"&top_id="+toppicID+"");
+                       // try {
+//                            url = new URL(getURLServer+"PostReplyAPI?name="+username+"&desc="+desc+"&top_id="+toppicID+"");
+//
+//                            Scanner sc = new Scanner(url.openStream());
+//                            StringBuffer buf = new StringBuffer();
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("name", username));
+                            params.add(new BasicNameValuePair("desc",desc));
+                            params.add(new BasicNameValuePair("top_id", toppicID));
 
-                            Scanner sc = new Scanner(url.openStream());
-                            StringBuffer buf = new StringBuffer();
+
+                            //HttpPost httpPost = new HttpPost(getURLServer+"RegisterAPI");
+                            jParser.getJSONUrl(getURLServer+"PostReplyAPI",params);
+
+
+                            Toast.makeText(getApplicationContext(),
+                                    "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_LONG).show();
                             //refresh
                             Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
                             it.putExtra("topic_id", toppicID);
                             it.putExtra("cat_id", catID);
                             it.putExtra("username", username);
+                            it.putExtra("role_id", roleID);
                             System.out.println("");
                             startActivity(it);
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                      //  } catch (MalformedURLException e) {
+                      //      e.printStackTrace();
+                       // }
+//                    catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
                     }
 
                 }

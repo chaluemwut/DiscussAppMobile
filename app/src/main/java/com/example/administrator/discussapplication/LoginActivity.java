@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 
 public class LoginActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.2:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,9 @@ public class LoginActivity extends ActionBarActivity {
                                 ,"กรุณากรอก  Password",Toast.LENGTH_LONG).show();
                     }
                     else if (!qMessage1.equals("")&&(!qMessage2.equals(""))){
-                        if("yes".equals(is_user)){
+                        if("yes".equals(is_user)) {
+
+                            if ("yes".equals(is_user) && role_id.equals("3")) {
 
                                 Toast.makeText(getApplicationContext()
                                         , "เข้าระบบสำเร็จ", Toast.LENGTH_LONG).show();
@@ -92,6 +94,29 @@ public class LoginActivity extends ActionBarActivity {
                                 System.out.println("");
                                 startActivity(it);
 
+                            } else if ("yes".equals(is_user) && role_id.equals("2")) {
+
+                                Toast.makeText(getApplicationContext()
+                                        , "เข้าระบบผู้ดูแลกระทู้สำเร็จ", Toast.LENGTH_LONG).show();
+                                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                                it.putExtra("role_id", role_id);
+                                it.putExtra("username", username);
+                                // it.putExtra("key3", inPutGp);
+                                System.out.println("");
+                                startActivity(it);
+
+                            } else if ("yes".equals(is_user) && role_id.equals("1")) {
+
+                                Toast.makeText(getApplicationContext()
+                                        , "เข้าระบบผู้ดูแลระบบสำเร็จ", Toast.LENGTH_LONG).show();
+                                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+                                it.putExtra("role_id", role_id);
+                                it.putExtra("username", username);
+                                // it.putExtra("key3", inPutGp);
+                                System.out.println("");
+                                startActivity(it);
+
+                            }
                         }
                         else if("no".equals(is_user)){
                             Toast.makeText(getApplicationContext()

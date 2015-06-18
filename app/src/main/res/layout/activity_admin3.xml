@@ -1,0 +1,249 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.example.administrator.discussapplication.LandingActivity"
+    android:background="#ffdde4ee">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Admin Setup "
+        android:id="@+id/TB"
+        android:textColor="#fff1ffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:background="#ffffc548"
+        android:layout_below="@+id/linearLayout8"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:id="@+id/linearLayout7"
+        android:background="#ffffffff">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout8"
+        android:background="#ff6fb9ff"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageBack"
+            android:src="@drawable/back"
+            android:background="#ff6fb9ff"
+            android:layout_margin="5dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left" >
+
+            </LinearLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView3"
+                    android:layout_column="3"
+                    android:src="@drawable/bt_id"
+                    android:layout_marginTop="1dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User"
+                    android:id="@+id/NameUser"
+                    android:gravity="center_vertical"
+                    android:textColor="#ffffffff"
+                    android:textSize="16dp"
+                    android:layout_column="4" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin Systems"
+                android:id="@+id/textView27"
+                android:textColor="#ff173871"
+                android:textSize="14dp"
+                android:layout_column="4"
+                android:gravity="left"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:layout_marginTop="2dp" >
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageHome"
+                android:layout_column="2"
+                android:src="@drawable/home"
+                android:background="#ff6fb9ff"
+                android:focusableInTouchMode="false" />
+        </TableLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/TB"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout11">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="หัวข้อ"
+            android:id="@+id/textView6"
+            android:textColor="#ff5d8eff"
+            android:textSize="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTOPIC"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffffff"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:focusable="true"
+            android:enabled="false"
+            android:editable="true"
+            android:textColor="#ff173871" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ชื่อผู้ดูแล"
+            android:id="@+id/textView7"
+            android:textColor="#ff5d8eff"
+            android:textSize="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editOWNER"
+            android:background="#ffffffff"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="รหัสผ่าน"
+            android:id="@+id/textView31"
+            android:textColor="#ff5d8eff"
+            android:textSize="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editPASSWORD"
+            android:background="#ffffffff"
+            android:autoText="false"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:password="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ยืนยันรหัสผ่าน"
+            android:id="@+id/textView40"
+            android:layout_alignTop="@+id/linearLayout11"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#ff5d8eff"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffffff"
+            android:autoText="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:password="true"
+            android:id="@+id/editREPASSWORD" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="แก้ไข"
+            android:id="@+id/button2"
+            android:background="#ff173871"
+            android:textColor="#ffffffff"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="ยกเลิก"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:background="#ff173871"
+            android:textColor="#ffffffff"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
