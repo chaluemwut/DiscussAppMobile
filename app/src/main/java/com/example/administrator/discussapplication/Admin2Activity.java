@@ -22,20 +22,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class Admin2Activity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     String topicID ,catID,username,roleID,cateName;
     public ImageLoader imageLoader;
     private GridView gridV;
@@ -48,129 +47,149 @@ public class Admin2Activity extends ActionBarActivity {
     private static final String TAG_Owner = "userName";
     ArrayList<HashMap<String, String>> topicList = new ArrayList<HashMap<String, String>>();
     // listView1
+    JSONParser jParser = new JSONParser();
     JSONArray Data = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_admin2);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-            ImageButton btnAdd = (ImageButton) this.findViewById(R.id.imageHome);
-            ImageButton btnBack = (ImageButton) this.findViewById(R.id.imageBack);
-            btnAdd.setImageResource(R.drawable.home);
-            btnBack.setImageResource(R.drawable.back);
+        ImageButton btnSearch = (ImageButton)this.findViewById(R.id.btnSearchA2);
+        ImageButton btnBack = (ImageButton) this.findViewById(R.id.imageBack);
+        btnSearch.setImageResource(R.drawable.searh);
+        btnBack.setImageResource(R.drawable.back);
 
-            // Hashmap for ListView
+        // Hashmap for ListView
         Bundle intent = getIntent().getExtras();
 
         if (intent != null) {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
-            this.roleID=intent.getString("role_id");
+            this.roleID = intent.getString("role_id");
             // and get whatever type user account id is
         }
-
-        String url = getURLServer+"jsonAllCat";
-            // Creating new JSON Parser
-            JSONParser jParser = new JSONParser();
-            // Getting JSON from URL
-            JSONObject json = jParser.getJSONFromUrl(url);
-            //String(rs3.getString("owner").getBytes(),"TIS-620")
-
-
-            try {
-
-// Getting JSON Array
-                Data = json.getJSONArray(TAG_DATA);
-
-                for (int i = 0; i < Data.length(); i++) {
-                    JSONObject c = Data.getJSONObject(i);
-                    String catID =c.getString(TAG_cat_id);
-                    String catTopic = c.getString(TAG_cat_topic);
-                    String date = c.getString(TAG_DATE);
-                    String owner = c.getString(TAG_Owner);
-
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    // map = new HashMap<String, String>();
-                    map.put(TAG_cat_id,catID);
-                    map.put(TAG_cat_topic, catTopic);
-                    map.put(TAG_DATE, date);
-                    map.put(TAG_Owner, owner);
-                    topicList.add(map);
-
-                }
-
-                gridV =(GridView)this.findViewById(R.id.gridViewAdmin);
-                imageAdap = new ImageAdapter(getApplicationContext());
-                gridV.setAdapter(imageAdap);
-
-
-
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
-        final EditText edAddTopNm =(EditText)this.findViewById(R.id.editAddtopic);
+
+        String url = getURLServer + "jsonAllCat";
+        // Creating new JSON Parser
+
+        // Getting JSON from URL
+        JSONObject json = jParser.getJSONFromUrl(url);
+        //String(rs3.getString("owner").getBytes(),"TIS-620")
+
+
+        try {
+
+// Getting JSON Array
+            Data = json.getJSONArray(TAG_DATA);
+
+            for (int i = 0; i < Data.length(); i++) {
+                JSONObject c = Data.getJSONObject(i);
+                String catID = c.getString(TAG_cat_id);
+                String catTopic = c.getString(TAG_cat_topic);
+                String date = c.getString(TAG_DATE);
+                String owner = c.getString(TAG_Owner);
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                // map = new HashMap<String, String>();
+                map.put(TAG_cat_id, catID);
+                map.put(TAG_cat_topic, catTopic);
+                map.put(TAG_DATE, date);
+                map.put(TAG_Owner, owner);
+                topicList.add(map);
+
+            }
+
+            gridV = (GridView) this.findViewById(R.id.gridViewAdmin);
+            imageAdap = new ImageAdapter(getApplicationContext());
+            gridV.setAdapter(imageAdap);
+
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+      }
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), SearchAdminActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", "1");
+                startActivity(it);
+            }
+       });
+        ///Add ew Cat
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getApplicationContext(), AdminActivity.class);
-                edAddTopNm.setText("");
+
                 it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id",roleID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", "1");
 
                 startActivity(it);
             }
         });
-        ///Add ew Cat
-        Button btAddTopNm=(Button)this.findViewById(R.id.btnAddtopic);
+        final EditText edAddTopNm = (EditText) this.findViewById(R.id.editAddtopic);
+        Button btAddTopNm = (Button) this.findViewById(R.id.btnAddtopic);
         final AlertDialog.Builder adb = new AlertDialog.Builder(Admin2Activity.this);
-        btAddTopNm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adb.setTitle("ต้องการเพิ่มประเภทกระทู้ ?");
-                adb.setMessage("เพิ่มประเภทเรียบร้อย");
-                adb.setNegativeButton("ยกเลิก", null);
-                adb.setPositiveButton("ตกลง", new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+        final String GetTopNm = edAddTopNm.getText().toString();
 
-                        try {
-                            String GetTopNm=edAddTopNm.getText().toString();
-                            URL url = new URL(getURLServer+"AddCategory?cat_topic="+GetTopNm+"");
-                            Scanner sc = new Scanner(url.openStream());
+            btAddTopNm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!GetTopNm.equals("")) {
+                        adb.setTitle("ต้องการเพิ่มประเภทกระทู้ ?");
+                        adb.setMessage("ต้องเพิ่มกระทู้ " + GetTopNm);
+                        adb.setNegativeButton("ยกเลิก", null);
+                        adb.setPositiveButton("ตกลง", new AlertDialog.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
 
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        /**
-                         * Command for Delete
-                         * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
-                         */
-                        Intent it = new Intent(getApplicationContext(), Admin2Activity.class);
-                        edAddTopNm.setText("");
-                        it.putExtra("topic_id", topicID);
-                        it.putExtra("username",username);
-                        it.putExtra("cat_id",catID);
-                        it.putExtra("role_id",roleID);
+                                String GetTopNm = edAddTopNm.getText().toString();
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("cat_topic", GetTopNm));
+                                jParser.getJSONUrl(getURLServer + "AddCategory", params);
+
+
+                                /**
+                                 * Command for Delete
+                                 * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
+                                 */
+                                Intent it = new Intent(getApplicationContext(), Admin2Activity.class);
+                                edAddTopNm.setText("");
+                                it.putExtra("topic_id", topicID);
+                                it.putExtra("username", username);
+                                it.putExtra("cat_id", catID);
+                                it.putExtra("role_id", "1");
+                                Toast.makeText(getApplicationContext(),
+                                        "เพิ่มประเภทกระทู้เรียบร้อย", Toast.LENGTH_LONG).show();
+                                startActivity(it);
+                            }
+                        });
+                        adb.show();
+
+
+                    } else {
                         Toast.makeText(getApplicationContext(),
-                                "เพิ่มประเภทกระทู้เรียบร้อย", Toast.LENGTH_LONG).show();
-                        startActivity(it);
+                                "กรอกประเภทกระทู้", Toast.LENGTH_LONG).show();
+
                     }
-                });
-                adb.show();
-            }
+                }
 
-        });
-        }
+            });
 
+    }
 
     class ImageAdapter extends BaseAdapter {
 
@@ -205,14 +224,15 @@ public class Admin2Activity extends ActionBarActivity {
             // TODO Auto-generated method stub
 
             ViewHolderItem viewHolder = null;
+            viewHolder = new ViewHolderItem();
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
             if (convertView == null) {
-                viewHolder = new ViewHolderItem();
-                convertView = inflater.inflate(R.layout.activity_multibtn_admin, null);
 
+                convertView = inflater.inflate(R.layout.activity_multibtn_admin, null);
+            }
                 convertView.setTag(viewHolder);
 
 
@@ -224,7 +244,7 @@ public class Admin2Activity extends ActionBarActivity {
                 viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
                 viewHolder.txtTimeID.setText(topicList.get(position).get("userName"));
 
-                viewHolder.txtImageID = (TextView) convertView.findViewById(R.id.Coltime);
+                viewHolder.txtImageID = (TextView) convertView.findViewById(R.id.ColTime);
                 viewHolder.txtImageID.setPadding(5, 0, 0, 0);
                 viewHolder.txtImageID.setText(topicList.get(position).get("date"));
 
@@ -236,7 +256,7 @@ public class Admin2Activity extends ActionBarActivity {
 
                 viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Toast.makeText(Admin2Activity.this, "Your Shared (ImageID = " + topicList.get(position).get("cat_id") +"///" + roleID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Admin2Activity.this, "แก้ไข " + topicList.get(position).get("cat_topic") +"" , Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), Admin3Activity.class);
                         String topPicId = topicList.get(position).get("topic_id");
@@ -244,13 +264,10 @@ public class Admin2Activity extends ActionBarActivity {
                         it.putExtra("topic_id", topPicId);
                         it.putExtra("username",username);
                         it.putExtra("cat_id",catIDStaff);
-                        it.putExtra("role_id",roleID);
+                        it.putExtra("role_id","1");
 
 
-                        Toast.makeText(getApplicationContext()
-                                ,"แก้ไขข้อมูล"+roleID,Toast.LENGTH_LONG).show();
-                        System.out.println("");
-                        startActivity(it);
+                                            startActivity(it);
                     }
                 });
                 //Delete
@@ -262,25 +279,25 @@ public class Admin2Activity extends ActionBarActivity {
                 final AlertDialog.Builder adb = new AlertDialog.Builder(Admin2Activity.this);
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        adb.setTitle("Delete?");
-                        adb.setMessage("Are you sure delete [" + topicList.get(position).get("topic_id") + "]");
+                        adb.setTitle("ต้องการลบประเภทกระทู้?");
+                        adb.setMessage("คุณแน่ใจว่าจะลบ " + topicList.get(position).get("cat_topic") + "");
                         adb.setNegativeButton("ยกเลิก", null);
                         adb.setPositiveButton("ตกลง", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Admin2Activity.this, "ต้องการจะลบ (ImageID = " + topicList.get(position).get("cat_topic") + "?", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Admin2Activity.this, "ลบประเภท " + topicList.get(position).get("cat_topic") + "เรียบร้อย", Toast.LENGTH_LONG).show();
                                 topicID = topicList.get(position).get("topic_id");
                                 catID = topicList.get(position).get("cat_id");
-                                username = topicList.get(position).get("userName");
+                               String username2 = topicList.get(position).get("userName");
                                 cateName = topicList.get(position).get("cat_topic");
 
-                                try {
-                                    URL url = new URL(getURLServer + "DeleteCategory?cat_id="+catID+"&cat_topic="+cateName+"&username="+username+"");
-                                    Scanner sc = new Scanner(url.openStream());
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+
+
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("cat_id", catID));
+                                params.add(new BasicNameValuePair("cat_topic", cateName));
+                                params.add(new BasicNameValuePair("username", username2));
+
+                                jParser.getJSONUrl(getURLServer + "DeleteCategory", params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -290,7 +307,7 @@ public class Admin2Activity extends ActionBarActivity {
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
                                 it.putExtra("cat_id", catID);
-                                it.putExtra("role_id", roleID);
+                                it.putExtra("role_id", "1");
 
                                 startActivity(it);
                             }
@@ -298,10 +315,9 @@ public class Admin2Activity extends ActionBarActivity {
                         adb.show();
                     }
                 });
-            }
-            else{
+
                 viewHolder= (ViewHolderItem) convertView.getTag();
-            }
+
 
             return convertView;
 
@@ -328,5 +344,27 @@ public class Admin2Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

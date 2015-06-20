@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="เลือกกระทู้"
+                    android:text="ค้นหากระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
                     android:textSize="16dp" />
@@ -88,8 +88,8 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnSearchlist"
-                android:src="@drawable/searchlist"
+                android:id="@+id/btnHome"
+                android:src="@drawable/home"
                 android:layout_weight="1"
                 android:background="#ff6fb9ff" />
 
@@ -100,17 +100,40 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <Spinner
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerView" />
-
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/listSearchlist"
-            android:layout_below="@+id/spinnerView"
-            android:layout_marginBottom="5dp" />
+            android:id="@+id/listVSearchlist"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/linearLayout13" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout13">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtSearchList"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/btnSearchList"
+                android:src="@drawable/searh2"
+                android:background="#ffdde4ee"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/edtSearchList"
+                android:layout_alignParentLeft="true" />
+        </LinearLayout>
 
     </RelativeLayout>
 

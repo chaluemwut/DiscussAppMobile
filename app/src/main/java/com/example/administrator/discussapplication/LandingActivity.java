@@ -2,10 +2,10 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 public class LandingActivity extends ActionBarActivity {
 
-    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
@@ -42,7 +42,7 @@ public class LandingActivity extends ActionBarActivity {
     ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
 
     //JSON Node Names Gridviwe
-    private static String url = getURLServer+"jsonShowCatID";
+
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -76,7 +76,7 @@ public class LandingActivity extends ActionBarActivity {
         ImgUser.setImageResource(R.drawable.bt_id);
         BtnPost.setImageResource(R.drawable.post);
         BtnUpdate.setImageResource(R.drawable.icon);
-        BtnSreach.setImageResource(R.drawable.searh);
+        BtnSreach.setImageResource(R.drawable.searchlist);
 
         //Get Parameter From Login Actvity
         Bundle intent = getIntent().getExtras();
@@ -92,9 +92,20 @@ public class LandingActivity extends ActionBarActivity {
         NameUser.setText(username);
 
 
+        TextView TB = (TextView)this.findViewById(R.id.TB);
+        TB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username",username);
+                it.putExtra("cat_id",catID);
+                it.putExtra("role_id",roleID);
+            }
+        });
 
-
+        String url = getURLServer+"jsonShowCatID";
 
         Bitmap newBitmap;
 
@@ -127,12 +138,10 @@ public class LandingActivity extends ActionBarActivity {
                     // Thumbnail Get ImageBitmap To Object
                     String urlBitMap = URLImg+img;
                     newBitmap = imageLoader.getBitmap(urlBitMap);
-
-
-                        map.put("ImagePathBitmap", newBitmap);
+                    map.put("ImagePathBitmap", newBitmap);
                         cateList.add(map);
 
-                    if (!catID.equals(null)) {
+
                         String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
                         // Getting JSON from URL
                         JSONObject json2 = jParser.getJSONFromUrl(url2);
@@ -146,47 +155,38 @@ public class LandingActivity extends ActionBarActivity {
                             // Thumbnail Get ImageBitmap To Object
                             cateList2.add(map2);
 
-                        }
                     }
                 }
-
-
-              /// Start Grid//
-              gridV = (GridView) findViewById(R.id.gridView_Landing);
-
-              // Next
-              gridV.setClipToPadding(false);
-
-              imageAdap = new ImageAdapter(getApplicationContext());
-              gridV.setAdapter(imageAdap);
-
-              gridV.setOnScrollListener(new EndlessScrollListener() {
-                  @Override
-                  public void onLoadMore(int page, int totalItemsCount) {
-                      // Triggered only when new data needs to be appended to the list
-                      // Add whatever code is needed to append new items to your AdapterView
-                      customLoadMoreDataFromApi(page);
-                      // or customLoadMoreDataFromApi(totalItemsCount);
-                  }
-              });
-
-
-
-
-          
-
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
               Toast.makeText(getApplicationContext()
                       ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
             }
-            
 
-            
-   final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+        /// Start Grid//
+        gridV = (GridView) findViewById(R.id.gridView_Landing);
+
+        // Next
+        gridV.setClipToPadding(false);
+
+        imageAdap = new ImageAdapter(getApplicationContext());
+        gridV.setAdapter(imageAdap);
+
+//        gridV.setOnScrollListener(new EndlessScrollListener() {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                // Triggered only when new data needs to be appended to the list
+//                // Add whatever code is needed to append new items to your AdapterView
+//                customLoadMoreDataFromApi(page);
+//                // or customLoadMoreDataFromApi(totalItemsCount);
+//            }
+//        });
+
+
+
+
+        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
                 // OnClick Item
                 gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -213,7 +213,7 @@ public class LandingActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                    Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+                    Intent it = new Intent(getApplicationContext(), SpinnnerActivity.class);
 
                     it.putExtra("username",username);
                     it.putExtra("topic_id", topicID);
@@ -377,20 +377,20 @@ public class LandingActivity extends ActionBarActivity {
             TextView txtImageID;
             TextView txtItemID;
             TextView txtTimeID;
-           int position = -1;
-            Handler handler;
         }
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
             ViewHolderItem viewHolder = null;
+            viewHolder = new ViewHolderItem();
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
             if (convertView == null) {
-                viewHolder = new ViewHolderItem();
+
                 convertView = inflater.inflate(R.layout.activity_column_cate, null);
+            }
                 viewHolder.imageView= (ImageView) convertView.findViewById(R.id.icon);
                 convertView.setTag(viewHolder);
 
@@ -428,10 +428,10 @@ public class LandingActivity extends ActionBarActivity {
             viewHolder.txtTimeID.setText(cateList2.get(position).get("cat_topic").toString());
 
 
-            }
-            else{
-                viewHolder= (ViewHolderItem) convertView.getTag();
-            }
+
+                if(convertView!=null) {
+                        viewHolder = (ViewHolderItem) convertView.getTag();
+                    }
 
             return convertView;
 
@@ -469,5 +469,26 @@ public class LandingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
 
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
 }

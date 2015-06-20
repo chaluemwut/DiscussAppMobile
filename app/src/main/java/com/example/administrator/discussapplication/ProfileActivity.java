@@ -1,5 +1,7 @@
 package com.example.administrator.discussapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,7 +12,7 @@ import android.widget.ImageButton;
 
 
 public class ProfileActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeB2/";
+    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,5 +56,27 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

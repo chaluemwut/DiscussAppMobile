@@ -1,6 +1,8 @@
 package com.example.administrator.discussapplication;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,21 +26,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class EditCommentActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     Bitmap bitmap;
     ProgressDialog pDialog;
-    ImageView ImgPost;
+    ImageView ImgPost,viewImage;
     EditText etdCate ;
     EditText edtTextTopicEdit ;
     TextView edtTextDescEdit;
@@ -77,7 +76,7 @@ public class EditCommentActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_comment);
         ImgPost =(ImageView)this.findViewById(R.id.ImgBtnAddImg);
-
+        viewImage=(ImageView)this.findViewById(R.id.viewImage);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -92,37 +91,39 @@ public class EditCommentActivity extends ActionBarActivity {
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
         ImageButton btnBack = (ImageButton) this.findViewById(R.id.imgBtnBack_Edit);
+
         btnBack.setImageResource(R.drawable.back);
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-            if(roleID.equals("3")) {
-                Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
-                System.out.println("");
-                startActivity(it);
-            }
-                else if(roleID.equals("2")) {
-                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+
+                if (roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "3");
                     System.out.println("");
                     startActivity(it);
-                }
-            else  if(roleID.equals("1")) {
-                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+                } else if (roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), Staff2Activity.class);
 
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
-                startActivity(it);
-            }
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "2");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "1");
+                    startActivity(it);
+                }
 
             }
         });
@@ -177,8 +178,6 @@ public class EditCommentActivity extends ActionBarActivity {
 
                 this.urlImage = URLImg + img;
 
-
-
             }
             new LoadImage().execute(urlImage);
             edtTextTopicEdit.setText(topicname);
@@ -199,60 +198,64 @@ public class EditCommentActivity extends ActionBarActivity {
                 getTopicName=edtTextTopicEdit.getText().toString() ;
                 getDesc=edtTextDescEdit.getText().toString();
                 URL urlAddUser = null;
-                try {
-                    if(!getTopicName.equals(topicname)||!getDesc.equals(comment)){
-                        // urlAddUser = new URL(getURLServer+"UpDatePost?topic_id="+topicID2+"&cat_id="+catID2+"&topic="+getTopicName+"&desc="+getDesc);
-                        urlAddUser = new URL(getURLServer+"UpDatePost?topic_id="+topicID2+"&cat_id="+catID2+"&topic="+getTopicName+"&desc="+getDesc);
-                        Scanner scUser = new Scanner(urlAddUser.openStream());
+
+                    if (!getTopicName.equals(topicname) || !getDesc.equals(comment)) {
 
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("topic_id", topicID2));
-                        params.add(new BasicNameValuePair("cat_id",catID2));
+                        params.add(new BasicNameValuePair("cat_id", catID2));
                         params.add(new BasicNameValuePair("topic", getTopicName));
                         params.add(new BasicNameValuePair("desc", getDesc));
+                        jParser.getJSONUrl(getURLServer + "UpDatePost", params);
 
 
-                        jParser.getJSONUrl(getURLServer+"UpDatePost",params);
-                      if(roleID.equals("3")) {
-                                Toast.makeText(getApplicationContext(),
-                                              "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
-                                 Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
-                                 it.putExtra("topic_id", topicID);
-                                 it.putExtra("username", username);
-                                 it.putExtra("cat_id", catID);
-                                 it.putExtra("cat_id", roleID);
-                                 System.out.println("");
-                              startActivity(it);
-                                }
-                      else if(roleID.equals("2")) {
-                                 Toast.makeText(getApplicationContext(),
-                                    "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
-                                 Intent it = new Intent(getApplicationContext(), StaffActivity.class);
-                                 it.putExtra("topic_id", topicID);
-                                 it.putExtra("username", username);
-                                 it.putExtra("cat_id", catID);
-                                 it.putExtra("cat_id", roleID);
-                            System.out.println("");
-                            startActivity(it);
-                        }
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getApplicationContext(),
                                 "กรุณาแก้ไขกระทู้ของคุณ", Toast.LENGTH_LONG).show();
                     }
-                }catch (MalformedURLException e) {
-                    e.printStackTrace();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                if (roleID.equals("3")) {
+                    Toast.makeText(getApplicationContext(),
+                            "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(getApplicationContext(), EditPostActivity.class);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("cat_id", "3");
+                    System.out.println("");
+                    startActivity(it);
+                } else if (roleID.equals("2")) {
+                    Toast.makeText(getApplicationContext(),
+                            "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("cat_id", "2");
+                    System.out.println("");
+                    startActivity(it);
                 }
+            else if (roleID.equals("1")) {
+                Toast.makeText(getApplicationContext(),
+                        "แก้ไขเรียบร้อย", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("cat_id", "1");
+                System.out.println("");
+                startActivity(it);
+
+
 
 
 
             }
+            }
+
         });
         ImageButton home = (ImageButton) findViewById(R.id.btnHome);
         home.setImageResource(R.drawable.home);
@@ -265,16 +268,25 @@ public class EditCommentActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "3");
                     startActivity(it);
                 }
-                else  if(roleID.equals("2")||roleID.equals("1")) {
+                else  if(roleID.equals("2")) {
                     Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "2");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "1");
                     startActivity(it);
                 }
             }
@@ -298,12 +310,35 @@ public class EditCommentActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             return bitmap;
-        } protected void onPostExecute(Bitmap image) {
+        } protected void onPostExecute(final Bitmap image) {
 
             if(image != null){
                 ImgPost.setImageBitmap(image);
-                pDialog.dismiss();
 
+                ImgPost.setOnClickListener(new View.OnClickListener() {
+                    ImageView imageView;
+
+                    boolean isImageFitToScreen;
+                    @Override
+                    public void onClick(View v) {
+                        ImgPost.setImageBitmap(null);
+                        viewImage.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+                        viewImage.setImageBitmap(image);
+                        ImgPost.setImageBitmap(null);
+                    }
+                });
+                viewImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewImage.setImageBitmap(null);
+                        ImgPost.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+                        ImgPost.setImageBitmap(image);
+
+                    }
+                });
+                pDialog.dismiss();
             }else{
 
                 pDialog.dismiss();
@@ -335,5 +370,26 @@ public class EditCommentActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
 
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
 }

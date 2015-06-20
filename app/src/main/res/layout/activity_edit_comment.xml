@@ -178,7 +178,7 @@
                 android:layout_marginTop="5dp"
                 android:textColor="#ff173871" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 android:id="@+id/ImgBtnAddImg"
@@ -208,6 +208,11 @@
             </TableRow>
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/viewImage" />
     </RelativeLayout>
 
 

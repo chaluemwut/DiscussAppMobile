@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,10 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,13 +37,12 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Staff2Activity extends ActionBarActivity {
-
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
-    public ImageLoader imageLoader;
-    private GridView gridV;
+public class SearchStaffActivity extends ActionBarActivity {
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    Bitmap newBitmap;
+    private ImageLoader imageLoader;
+    private ListView lisView1;
     private ImageAdapter imageAdap;
-    ///value Spinner
 
     /////get Staff
     private static final String TAG_CAT_ID_STAFF = "cat_id";
@@ -49,7 +50,6 @@ public class Staff2Activity extends ActionBarActivity {
     private static final String TAG_USERNAME_STAFF = "username";
     private static final String TAG_TIME_CATE = "date";
     private static final String TAG_Count = "num_reply";
-    //JSON Node Names Gridviwe
 
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
@@ -58,78 +58,36 @@ public class Staff2Activity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer+"images/";
+    private static final String URLImg = getURLServer + "images/";
+    ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
-    //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
-
-    private String username ,topicID,catID,roleID;
+    private String username ,topicID,catID,roleID,topic;
     private String TopicId,CatId,Username;
     String nameCatStaff,catIDStaff,usernameStaff,countComment,timeStaffCat;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_staff2);
-
+        setContentView(R.layout.activity_search_staff);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-
-        ImageButton BtnSreach = (ImageButton) this.findViewById(R.id.btnSearh);
-
-        ImageButton BtnBack = (ImageButton) this.findViewById(R.id.btnBack);
-        ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
-        ImgUser.setImageResource(R.drawable.bt_id);
-
-        BtnBack.setImageResource(R.drawable.back);
-        BtnSreach.setImageResource(R.drawable.searchlist);
-
-
-        //Get Parameter From Login Actvity
+        lisView1 = (ListView) findViewById(R.id.listVSearchStaff);
+        ImageButton imgBtnBack = (ImageButton)findViewById(R.id.btnBack);
+        imgBtnBack.setImageResource(R.drawable.back);
         Bundle intent = getIntent().getExtras();
-
         if (intent != null) {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.topic = intent.getString("topic");
             this.roleID = intent.getString("role_id");
 
             // and get whatever type user account id is
         }
 
-        // Get Username//
-        TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
-        NameUser.setText(username);
-        BtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), StaffActivity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catIDStaff);
-                it.putExtra("role_id","2");
-
-                startActivity(it);
-            }
-        });
-        TextView TB = (TextView)this.findViewById(R.id.TB);
-        TB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), Staff2Activity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id",roleID);
-            }
-        });
-        // String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";
-       // String urlStaff = getURLServer + "jsonCatStaff?username="+username+"";\
         String urlStaff = getURLServer + "jsonCatStaff?username=admin3";
         JSONObject jsonCate = jParser.getJSONFromUrl(urlStaff);
 
@@ -156,18 +114,106 @@ public class Staff2Activity extends ActionBarActivity {
         }
 
 
-        TextView cateName = (TextView)this.findViewById(R.id.cateName);
-        cateName.setText(nameCatStaff);
 
-        /////////
-        String url = getURLServer+"jsonPost_reply2?cat_id="+catIDStaff+"";
-        Bitmap newBitmap;
-        // Getting JSON from URL
-        JSONObject json = jParser.getJSONFromUrl(url);
-        imageLoader = new ImageLoader(this);
-        // GridView and imageAdapter
+        TextView ShowCat =(TextView) findViewById(R.id.nameCat);
+        ShowCat.setText(nameCatStaff);
+        TextView NameUser = (TextView) this.findViewById(R.id.nameUser);
+        NameUser.setText(username);
+////back
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), Search2Activity.class);
+                it.putExtra("role_id", "2");
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
 
+                startActivity(it);
+            }
+        });
+//home
+        ImageButton home = (ImageButton) findViewById(R.id.btnHome);
+        home.setImageResource(R.drawable.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "3");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "2");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "1");
+                    startActivity(it);
+                }
+            }
+        });
+
+        ////Listview
+        ImageButton btn1 = (ImageButton) findViewById(R.id.btnSearchListStaff);
+        btn1.setImageResource(R.drawable.searh2);
+        // Perform action on click
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // listView is your instance of your ListView
+                cateList.clear();
+                SearchData(catIDStaff);
+            }
+        });
+
+
+
+
+
+    }
+
+
+    public void SearchData(String Catid) {
+        // listView1
+
+
+
+        //lisView1 = (ListView) findViewById(R.id.listSearchlist);
+
+
+        // editSearch
+        final EditText inputText = (EditText) findViewById(R.id.edtSearchListStaff);
+
+
+        String url = getURLServer + "SearchAPI";
+
+        // Paste Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
+        params.add(new BasicNameValuePair("cat_id",Catid));
         try {
+            JSONObject json = new JSONObject(jParser.getJSONUrl(url, params));
+
+
+            imageLoader = new ImageLoader(this);
+            // GridView and imageAdapter
+
 
 // Getting JSON Array
             Data = json.getJSONArray(TAG_DATA);
@@ -175,7 +221,7 @@ public class Staff2Activity extends ActionBarActivity {
             for (int i = 0; i < Data.length(); i++) {
                 JSONObject c = Data.getJSONObject(i);
                 String topicID = c.getString(TAG_TOPIC_ID);
-                String catID = c.getString(TAG_CAT_ID);
+                String catID2 = c.getString(TAG_CAT_ID);
                 String topic = c.getString(TAG_TOPIC);
                 String owner = c.getString(TAG_OWNER);
                 String img = c.getString(TAG_IMG);
@@ -183,12 +229,12 @@ public class Staff2Activity extends ActionBarActivity {
 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put(TAG_TOPIC_ID, topicID);
-                map.put(TAG_CAT_ID, catID);
+                map.put(TAG_CAT_ID, catID2);
                 map.put(TAG_TOPIC, topic);
                 map.put(TAG_OWNER, owner);
                 map.put(TAG_TIME, dateTime);
                 // Thumbnail Get ImageBitmap To Object
-                String urlBitMap = URLImg+img;
+                String urlBitMap = URLImg + img;
                 newBitmap = imageLoader.getBitmap(urlBitMap);
 
 
@@ -198,15 +244,18 @@ public class Staff2Activity extends ActionBarActivity {
 
             }
 
+            if (cateList.equals(null)) {
+                Toast.makeText(getApplicationContext(),
+                        "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
+            }
 
-            /// Start Grid//
-            gridV = (GridView) findViewById(R.id.gridViewStaff2);
-            // Next
-            gridV.setClipToPadding(false);
+
+            lisView1.setClipToPadding(false);
+
             imageAdap = new ImageAdapter(getApplicationContext());
-            gridV.setAdapter(imageAdap);
+            lisView1.setAdapter(imageAdap);
 
-            gridV.setOnScrollListener(new EndlessScrollListener() {
+            lisView1.setOnScrollListener(new EndlessScrollListener() {
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
                     // Triggered only when new data needs to be appended to the list
@@ -214,69 +263,37 @@ public class Staff2Activity extends ActionBarActivity {
                     customLoadMoreDataFromApi(page);
                     // or customLoadMoreDataFromApi(totalItemsCount);
                 }
+
+            });
+
+            final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+            // OnClick Item
+            lisView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                        int position, long mylng) {
+                    topicID = cateList.get(position).get("topic_id").toString();
+                    catID = cateList.get(position).get("cat_id").toString();
+
+                    Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    startActivity(it);
+                    imageLoader.clearCache();
+
+                }
+
             });
 
 
-
-
-
-
-
-
-
         } catch (JSONException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(getApplicationContext()
-                    , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
         }
 
 
-
-        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-        // OnClick Item
-        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                    int position, long mylng) {
-
-                topicID =  cateList.get(position).get("topic_id").toString();
-                SetTopicId(topicID);
-                catID =  cateList.get(position).get("cat_id").toString();
-                SetCatId(catID);
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catIDStaff);
-                it.putExtra("role_id","2");
-
-                startActivity(it);
-            }
-
-        });
-        BtnSreach.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent it = new Intent(getApplicationContext(), SearchStaffActivity.class);
-
-                it.putExtra("username",username);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("cat_id",catIDStaff);
-                it.putExtra("role_id","2");
-                Toast.makeText(getApplicationContext()
-                        ,"ค้นหาข้อมูลผู้ดูแลกระทู้",Toast.LENGTH_LONG).show();
-                System.out.println("");
-                startActivity(it);
-            }
-        });
-
-
-        ///// button Post Activity
-
     }
-
 
 
     public void customLoadMoreDataFromApi(int offset) {
@@ -284,7 +301,6 @@ public class Staff2Activity extends ActionBarActivity {
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
         // Deserialize API response and then construct new objects to append to the adapter
     }
-
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
         // before loading more.
@@ -349,26 +365,8 @@ public class Staff2Activity extends ActionBarActivity {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             // Don't take any action on changed
         }
+
     }
-    public String GetTopicId(){
-        return TopicId;
-    }
-    public void SetTopicId(String TopicId){
-        this.TopicId=TopicId;
-    }
-    public String GetCatId(){
-        return CatId;
-    }
-    public void SetCatId(String CatId){
-        this.CatId=CatId;
-    }
-    public String GetUsername(){
-        return Username;
-    }
-    public void SetUsername(String  Username){
-        this. Username=Username;
-    }
-    /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -408,7 +406,6 @@ public class Staff2Activity extends ActionBarActivity {
 
 
             if (convertView == null) {
-
 
                 convertView = inflater.inflate(R.layout.activity_multibtn_staff, null);
             }
@@ -454,7 +451,7 @@ public class Staff2Activity extends ActionBarActivity {
 
                 viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Toast.makeText(Staff2Activity.this, "Your Shared (ImageID = " + cateList.get(position).get("topic_id") + catIDStaff + "///" + roleID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchStaffActivity.this, "แก้ไขข้อมูล" + cateList.get(position).get("topic") + "", Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), EditCommentActivity.class);
                         String topPicId = cateList.get(position).get("topic_id").toString();
@@ -476,7 +473,7 @@ public class Staff2Activity extends ActionBarActivity {
                 // imgCmdDelete
 
                 //cmdDelete.setBackgroundColor(Color.TRANSPARENT);
-                final AlertDialog.Builder adb = new AlertDialog.Builder(Staff2Activity.this);
+                final AlertDialog.Builder adb = new AlertDialog.Builder(SearchStaffActivity.this);
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         adb.setTitle("ต้องการลบกระทู้ ?");
@@ -484,7 +481,7 @@ public class Staff2Activity extends ActionBarActivity {
                         adb.setNegativeButton("ยกเลิก", null);
                         adb.setPositiveButton("ตกลง", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Staff2Activity.this, "ลบกระทู้ "+ cateList.get(position).get("topic") + "เรียบร้อย", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SearchStaffActivity.this, "ลบกระทู้ " + cateList.get(position).get("topic") + "เรียบร้อย", Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
 
                                 catIDStaff = cateList.get(position).get("cat_id").toString();
@@ -492,7 +489,7 @@ public class Staff2Activity extends ActionBarActivity {
                                 params.add(new BasicNameValuePair("topic_id", topicID));
                                 params.add(new BasicNameValuePair("cat_id", catIDStaff));
 
-                                jParser.getJSONUrl(getURLServer + "DeleteTopic",params);
+                                jParser.getJSONUrl(getURLServer + "DeleteTopic", params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -514,11 +511,11 @@ public class Staff2Activity extends ActionBarActivity {
                 viewHolder.btnPoint = (ImageButton) convertView.findViewById(R.id.imgCmdpoint);
                 viewHolder.btnPoint.setImageResource(R.drawable.point);
 
-                final AlertDialog.Builder dialogP = new AlertDialog.Builder(Staff2Activity.this);
+                final AlertDialog.Builder dialogP = new AlertDialog.Builder(SearchStaffActivity.this);
                 viewHolder.btnPoint.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialogP.setTitle("ต้องการปักหมุดกระทู้ ?");
-                        dialogP.setMessage("กระทู้ที่เลือก " + cateList.get(position).get("topic") );
+                        dialogP.setMessage("กระทู้ที่เลือก " + cateList.get(position).get("topic"));
 
 
                         dialogP.setNegativeButton("ยกเลิกการปักหมุด", new AlertDialog.OnClickListener() {
@@ -526,14 +523,14 @@ public class Staff2Activity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                Toast.makeText(Staff2Activity.this, "ยกเลิกการปักหมุดของ " + cateList.get(position).get("topic"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(SearchStaffActivity.this, "ยกเลิกการปักหมุดของ " + cateList.get(position).get("topic"), Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
                                 catIDStaff = cateList.get(position).get("cat_id").toString();
                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                 params.add(new BasicNameValuePair("topic_id", topicID));
                                 params.add(new BasicNameValuePair("status", "0"));
 
-                                jParser.getJSONUrl(getURLServer + "UpdateTopComment",params);
+                                jParser.getJSONUrl(getURLServer + "UpdateTopComment", params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -554,7 +551,7 @@ public class Staff2Activity extends ActionBarActivity {
 /////Delete Top Comment
                         dialogP.setPositiveButton("ปักหมุดกระทู้", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Staff2Activity.this, "ปักหมุกกระทู้ " + cateList.get(position).get("topic"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(SearchStaffActivity.this, "ปักหมุกกระทู้ " + cateList.get(position).get("topic"), Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
                                 catIDStaff = cateList.get(position).get("cat_id").toString();
 
@@ -562,7 +559,7 @@ public class Staff2Activity extends ActionBarActivity {
                                 params.add(new BasicNameValuePair("topic_id", topicID));
                                 params.add(new BasicNameValuePair("status", "1"));
 
-                                jParser.getJSONUrl(getURLServer + "UpdateTopComment",params);
+                                jParser.getJSONUrl(getURLServer + "UpdateTopComment", params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -590,7 +587,7 @@ public class Staff2Activity extends ActionBarActivity {
                          * Command for Delete
                          * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
                          */
-                        Toast.makeText(Staff2Activity.this,  cateList.get(position).get("topic")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchStaffActivity.this, cateList.get(position).get("topic") + "", Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), CommentActivity.class);
                         topicID = cateList.get(position).get("topic_id").toString();
@@ -605,7 +602,7 @@ public class Staff2Activity extends ActionBarActivity {
 
 
                 });
-            if(convertView != null) {
+        if(convertView!=null){
                 viewHolder = (ViewHolderItem) convertView.getTag();
             }
 
@@ -616,12 +613,10 @@ public class Staff2Activity extends ActionBarActivity {
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_staff2, menu);
+        getMenuInflater().inflate(R.menu.menu_search_staff, menu);
         return true;
     }
 

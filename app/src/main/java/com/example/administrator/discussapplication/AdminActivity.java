@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,20 +24,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class AdminActivity extends ActionBarActivity {
-    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
@@ -93,7 +92,18 @@ public class AdminActivity extends ActionBarActivity {
         // Get Username//
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
+        TextView TB = (TextView)this.findViewById(R.id.TB);
+        TB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), AdminActivity.class);
 
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username",username);
+                it.putExtra("cat_id",catID);
+                it.putExtra("role_id",roleID);
+            }
+        });
 
         Bitmap newBitmap;
         String url = getURLServer + "jsonShowCatID";
@@ -217,16 +227,33 @@ public class AdminActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), SearchActivity.class);
 
-                it.putExtra("username", username);
-                it.putExtra("topic_id", topicID);
-                it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
-                Toast.makeText(getApplicationContext()
-                        , "ค้นหาข้อมูล", Toast.LENGTH_LONG).show();
-                System.out.println("");
-                startActivity(it);
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "3");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), SearchActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "2");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), SearchAdminActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "1");
+                    startActivity(it);
+                }
             }
         });
 
@@ -241,7 +268,7 @@ public class AdminActivity extends ActionBarActivity {
                 it.putExtra("username", username);
                 it.putExtra("topic_id", topicID);
                 it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
+                it.putExtra("role_id", "1");
                 Toast.makeText(getApplicationContext()
                         , "เพิ่มกระทู้", Toast.LENGTH_LONG).show();
                 System.out.println("");
@@ -257,7 +284,7 @@ public class AdminActivity extends ActionBarActivity {
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
+                it.putExtra("role_id", "1");
                 Toast.makeText(getApplicationContext()
                         , "แก้ไขข้อมูลส่วนตัว" + roleID, Toast.LENGTH_LONG).show();
                 System.out.println("");
@@ -401,6 +428,7 @@ public class AdminActivity extends ActionBarActivity {
             catIDAdmin = GetCatId();
 
             ViewHolderItem viewHolder = null;
+            viewHolder = new ViewHolderItem();
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -408,8 +436,8 @@ public class AdminActivity extends ActionBarActivity {
             if (convertView == null) {
 
 
-                viewHolder = new ViewHolderItem();
                 convertView = inflater.inflate(R.layout.activity_landing_admin, null);
+            }
                 viewHolder.imageView = (ImageView) convertView.findViewById(R.id.ColImgPath);
                 convertView.setTag(viewHolder);
 
@@ -452,7 +480,7 @@ public class AdminActivity extends ActionBarActivity {
 
                 viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Toast.makeText(AdminActivity.this, "Your Shared (ImageID = " + cateList.get(position).get("topic_id") + catIDAdmin + "///" + roleID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AdminActivity.this, "แก้ไขข้อมูล" + cateList.get(position).get("topic") + "", Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), EditCommentActivity.class);
                         String topPicId = cateList.get(position).get("topic_id").toString();
@@ -460,7 +488,7 @@ public class AdminActivity extends ActionBarActivity {
                         it.putExtra("topic_id", topPicId);
                         it.putExtra("username", username);
                         it.putExtra("cat_id", catIDAdmin);
-                        it.putExtra("role_id", roleID);
+                        it.putExtra("role_id", "1");
 
 
                         Toast.makeText(getApplicationContext()
@@ -478,23 +506,22 @@ public class AdminActivity extends ActionBarActivity {
                 final AlertDialog.Builder adb = new AlertDialog.Builder(AdminActivity.this);
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        adb.setTitle("Delete?");
-                        adb.setMessage("Are you sure delete [" + cateList.get(position).get("topic_id") + "]");
-                        adb.setNegativeButton("Cancel", null);
-                        adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        adb.setTitle("ต้องการลบกระทู้?");
+                        adb.setMessage("คุณแน่ใจว่าจะลบ [" + cateList.get(position).get("topic") + "]");
+                        adb.setNegativeButton("ยกเลิก", null);
+                        adb.setPositiveButton("ตกลง", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(AdminActivity.this, "Your Delete (ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AdminActivity.this, "ลบกระทู้ "+ cateList.get(position).get("topic") + "เรียบร้อย", Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
                                 catIDAdmin = cateList.get(position).get("cat_id").toString();
 
-                                try {
-                                    URL url = new URL(getURLServer + "DeleteTopic?topic_id=" + topicID + "&cat_id=" + catIDAdmin + "");
-                                    Scanner sc = new Scanner(url.openStream());
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+
+
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("topic_id", topicID));
+                                params.add(new BasicNameValuePair("cat_id", catIDAdmin));
+
+                                jParser.getJSONUrl(getURLServer + "DeleteTopic",params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -504,7 +531,7 @@ public class AdminActivity extends ActionBarActivity {
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
                                 it.putExtra("cat_id", catIDAdmin);
-                                it.putExtra("role_id", roleID);
+                                it.putExtra("role_id", "1");
 
                                 startActivity(it);
                             }
@@ -520,7 +547,7 @@ public class AdminActivity extends ActionBarActivity {
                 viewHolder.btnPoint.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialogP.setTitle("ต้องการปักหมุดกระทู้ ?");
-                        dialogP.setMessage("กระทู้ที่เลือก [" + cateList.get(position).get("topic") + "]");
+                        dialogP.setMessage("กระทู้ที่เลือก " + cateList.get(position).get("topic") );
 
 
                         dialogP.setNegativeButton("ยกเลิกการปักหมุด", new AlertDialog.OnClickListener() {
@@ -528,17 +555,16 @@ public class AdminActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                Toast.makeText(AdminActivity.this, "ยกเลิกการปักหมุดของ(ImageID = " + cateList.get(position).get("topic_id") + ")", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AdminActivity.this, "ยกเลิกการปักหมุดของ " + cateList.get(position).get("topic") , Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
                                 catIDAdmin = cateList.get(position).get("cat_id").toString();
-                                try {
-                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id=" + topicID + "&status=0");
-                                    Scanner sc = new Scanner(url.openStream());
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+
+
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("topic_id", topicID));
+                                params.add(new BasicNameValuePair("status", "0"));
+
+                                jParser.getJSONUrl(getURLServer + "UpdateTopComment",params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -548,7 +574,7 @@ public class AdminActivity extends ActionBarActivity {
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
                                 it.putExtra("cat_id", catIDAdmin);
-                                it.putExtra("role_id", roleID);
+                                it.putExtra("role_id", "1");
 
                                 startActivity(it);
 
@@ -559,18 +585,16 @@ public class AdminActivity extends ActionBarActivity {
 /////Delete Top Comment
                         dialogP.setPositiveButton("ปักหมุดกระทู้", new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(AdminActivity.this, "ปักหมุกกระทู้(ImageID = " + cateList.get(position).get("topic") + ")", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AdminActivity.this, "ปักหมุกกระทู้ " + cateList.get(position).get("topic"), Toast.LENGTH_LONG).show();
                                 topicID = cateList.get(position).get("topic_id").toString();
                                 catIDAdmin = cateList.get(position).get("cat_id").toString();
 
-                                try {
-                                    URL url = new URL(getURLServer + "UpdateTopComment?topic_id=" + topicID + "&status=1");
-                                    Scanner sc = new Scanner(url.openStream());
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("topic_id", topicID));
+                                params.add(new BasicNameValuePair("status", "1"));
+
+                                jParser.getJSONUrl(getURLServer + "UpdateTopComment",params);
                                 /**
                                  * Command for Delete
                                  * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
@@ -580,7 +604,7 @@ public class AdminActivity extends ActionBarActivity {
                                 it.putExtra("topic_id", topicID);
                                 it.putExtra("username", username);
                                 it.putExtra("cat_id", catIDAdmin);
-                                it.putExtra("role_id", roleID);
+                                it.putExtra("role_id", "1");
 
                                 startActivity(it);
                             }
@@ -598,7 +622,7 @@ public class AdminActivity extends ActionBarActivity {
                          * Command for Delete
                          * Eg : myDBClass.DeleteData(MyArrList.get(position).get("ImageID"));
                          */
-                        Toast.makeText(AdminActivity.this, "" + cateList.get(position).get("topic_id") + cateList.get(position).get("cat_id") + "//" + roleID + ")", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AdminActivity.this, ""+cateList.get(position).get("topic")+"", Toast.LENGTH_LONG).show();
 
                         Intent it = new Intent(getApplicationContext(), CommentActivity.class);
                         topicID = cateList.get(position).get("topic_id").toString();
@@ -606,16 +630,16 @@ public class AdminActivity extends ActionBarActivity {
                         it.putExtra("topic_id", topicID);
                         it.putExtra("username", username);
                         it.putExtra("cat_id", catIDAdmin);
-                        it.putExtra("role_id", roleID);
+                        it.putExtra("role_id", "1");
 
                         startActivity(it);
                     }
 
 
                 });
-            } else {
+
                 viewHolder = (ViewHolderItem) convertView.getTag();
-            }
+
 
             return convertView;
 
@@ -644,5 +668,27 @@ public class AdminActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

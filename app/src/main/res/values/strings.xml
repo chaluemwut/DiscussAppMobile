@@ -36,5 +36,8 @@
     <string name="title_activity_admin2">Admin2Activity</string>
     <string name="title_activity_admin3">Admin3Activity</string>
     <string name="title_activity_staff2">Staff2Activity</string>
+    <string name="title_activity_search_staff">SearchStaff</string>
+    <string name="title_activity_search_admin">SearchAdminActivity</string>
+    <string name="title_activity_spinnner">SpinnnerActivity</string>
 
 </resources>

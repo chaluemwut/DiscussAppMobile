@@ -6,19 +6,20 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout15"
         android:background="#ff6fb9ff"
         android:gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" >
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_Edit"
+            android:id="@+id/btnBackAdmin"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />
@@ -30,37 +31,16 @@
             android:layout_weight="2"
             android:layout_marginLeft="10dp" >
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </TableLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ค้นหากระทู้"
-                    android:id="@+id/textView4"
-                    android:textColor="#ff173871"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical" >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageView5"
                     android:layout_column="3"
                     android:src="@drawable/bt_id"
                     android:layout_marginTop="1dp" />
@@ -76,6 +56,20 @@
                     android:layout_column="4" />
             </LinearLayout>
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin Systems"
+                android:id="@+id/textView46"
+                android:textColor="#ff173871"
+                android:textSize="14dp"
+                android:layout_column="4"
+                android:gravity="left"
+                android:layout_marginTop="5dp" />
         </LinearLayout>
 
         <TableLayout
@@ -88,10 +82,11 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnHome"
+                android:id="@+id/btnHomeAdmin"
                 android:layout_column="2"
                 android:src="@drawable/home"
-                android:background="#ff6fb9ff" />
+                android:background="#ff6fb9ff"
+                android:focusableInTouchMode="false" />
         </TableLayout>
     </LinearLayout>
 
@@ -99,47 +94,40 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <EditText
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnHome"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/btnSearch"
-            android:layout_toStartOf="@+id/btnSearch"
-            android:layout_marginLeft="10dp" />
-
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/btnSearch"
-            android:src="@drawable/searh2"
-            android:background="#ffdde4ee"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/btnHome" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtShowCat"
-            android:layout_below="@+id/btnHome"
             android:layout_centerHorizontal="true"
-            android:textColor="#ff173871"
-            android:text="text"
-            android:gravity="center"
-            android:background="#ffdde4ee"
-            android:focusable="true"
-            android:editable="false"
-            android:layout_margin="5dp"
-            android:enabled="true" />
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout13">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtSearchListAdmin"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/btnSearchListAdmin"
+                android:src="@drawable/searh2"
+                android:background="#ffdde4ee"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/edtSearchList"
+                android:layout_alignParentLeft="true" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/listSearchlist"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/edtShowCat" />
+            android:layout_height="fill_parent"
+            android:id="@+id/listVSearchAdmin"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/linearLayout13" />
 
     </RelativeLayout>
 

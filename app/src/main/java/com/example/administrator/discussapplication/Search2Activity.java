@@ -2,6 +2,7 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ import java.util.List;
 
 
 public class Search2Activity extends ActionBarActivity {
-    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     public String topicID, username, catID,topic,roleID;
     Bitmap newBitmap;
     private ImageLoader imageLoader;
@@ -89,6 +90,8 @@ public class Search2Activity extends ActionBarActivity {
 
             // and get whatever type user account id is
         }
+
+
         EditText edtShowCat =(EditText) findViewById(R.id.edtShowCat);
         edtShowCat.setText(topic);
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
@@ -168,7 +171,7 @@ public class Search2Activity extends ActionBarActivity {
 
 
         // editSearch
-        final EditText inputText = (EditText) findViewById(R.id.btnSearchlist);
+        final EditText inputText = (EditText) findViewById(R.id.btnHome);
 
 
         String url = getURLServer + "SearchAPI";
@@ -376,13 +379,16 @@ public class Search2Activity extends ActionBarActivity {
 
 
                 ViewHolderItem viewHolder = null;
+                viewHolder = new ViewHolderItem();
                 LayoutInflater inflater = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
                 if (convertView == null) {
-                    viewHolder = new ViewHolderItem();
+
                     convertView = inflater.inflate(R.layout.activity_column_cate, null);
+                }
+
                     viewHolder.imageView= (ImageView) convertView.findViewById(R.id.icon);
                     convertView.setTag(viewHolder);
 
@@ -420,11 +426,12 @@ public class Search2Activity extends ActionBarActivity {
                     viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
 
 
-                }
-                else{
-                    viewHolder= (ViewHolderItem) convertView.getTag();
 
+
+                if(convertView!=null) {
+                    viewHolder = (ViewHolderItem) convertView.getTag();
                 }
+
 
                 return convertView;
 
@@ -484,5 +491,28 @@ public class Search2Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

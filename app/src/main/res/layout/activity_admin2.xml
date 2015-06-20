@@ -108,9 +108,9 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageHome"
+                android:id="@+id/btnSearchA2"
                 android:layout_column="2"
-                android:src="@drawable/home"
+                android:src="@drawable/searh"
                 android:background="#ff6fb9ff"
                 android:focusableInTouchMode="false" />
         </TableLayout>

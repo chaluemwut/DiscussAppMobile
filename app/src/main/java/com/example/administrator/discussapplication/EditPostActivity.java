@@ -2,6 +2,7 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 
 
 public class EditPostActivity extends ActionBarActivity {
-    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     public ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;
@@ -53,6 +54,9 @@ public class EditPostActivity extends ActionBarActivity {
     private ImageAdapter imageAdapter;
     private String username, topicID, catID, roleID;
     private String TopicId, CatId, Username;
+    private static final String TAG_CAT_NAME = "cat_topic";
+    JSONArray Data2 = null;
+    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +124,20 @@ public class EditPostActivity extends ActionBarActivity {
 
                 map.put("ImagePathBitmap", newBitmap);
                 cateList.add(map);
-
+                String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
+                // Getting JSON from URL
+                JSONObject json2 = jParser.getJSONFromUrl(url2);
+                Data2 = json2.getJSONArray(TAG_DATA);
+                for (int i2 = 0; i2 < Data2.length(); i2++) {
+                    JSONObject c2 = Data2.getJSONObject(i2);
+                    String CAT_NAME = c2.getString(TAG_CAT_NAME);
+                    HashMap<String, Object> map2 = new HashMap<String, Object>();
+                    map2.put(TAG_CAT_NAME, CAT_NAME);
+                    // Thumbnail Get ImageBitmap To Object
+                    cateList2.add(map2);
+                }
 
             }
-
-
             listV = (ListView) findViewById(R.id.listViewEdit);
             listV.setClipToPadding(false);
 
@@ -197,7 +210,7 @@ public class EditPostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "3");
                     startActivity(it);
                 } else if (roleID.equals("2")) {
                     Intent it = new Intent(getApplicationContext(), StaffActivity.class);
@@ -205,7 +218,7 @@ public class EditPostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "2");
                     startActivity(it);
                 }
                 else  if(roleID.equals("1")) {
@@ -214,7 +227,7 @@ public class EditPostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "1");
                     startActivity(it);
                 }
 
@@ -354,13 +367,16 @@ public class EditPostActivity extends ActionBarActivity {
             // TODO Auto-generated method stub
 
             ViewHolderItem viewHolder = null;
+            viewHolder = new ViewHolderItem();
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
             if (convertView == null) {
-                viewHolder = new ViewHolderItem();
+
                 convertView = inflater.inflate(R.layout.activity_column_cate, null);
+
+            }
                 viewHolder.imageView = (ImageView) convertView.findViewById(R.id.icon);
                 convertView.setTag(viewHolder);
 
@@ -394,19 +410,40 @@ public class EditPostActivity extends ActionBarActivity {
 // ColItemTime
                 viewHolder.txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
                 viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
-                viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
+                viewHolder.txtTimeID.setText(cateList2.get(position).get("cat_topic").toString());
 
 
-            } else {
+
                 viewHolder = (ViewHolderItem) convertView.getTag();
-            }
+
 
             return convertView;
 
         }
 
     }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
 
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

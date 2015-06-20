@@ -1,5 +1,7 @@
 package com.example.administrator.discussapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -27,7 +29,7 @@ import java.util.List;
 
 
 public class Comment2Activity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     private static final String TAG_ID = "id";
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_DESC = "description";
@@ -85,7 +87,8 @@ public class Comment2Activity extends ActionBarActivity {
                     it.putExtra("topic_id", toppicID);
                     it.putExtra("cat_id", catID);
                     it.putExtra("username", username);
-                    Toast.makeText(Comment2Activity.this, GetTopicId() + "cat_id" + GetCatId(), Toast.LENGTH_SHORT).show();
+                    it.putExtra("role_id", "3");
+
                     System.out.println("");
                     startActivity(it);
                 }
@@ -96,7 +99,7 @@ public class Comment2Activity extends ActionBarActivity {
                     it.putExtra("topic_id", toppicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("cat_id", roleID);
+                    it.putExtra("role_id", "2");
                     System.out.println("");
                     startActivity(it);
                 }
@@ -106,7 +109,7 @@ public class Comment2Activity extends ActionBarActivity {
                     it.putExtra("topic_id", toppicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "1");
                     startActivity(it);
                 }
 
@@ -117,34 +120,34 @@ public class Comment2Activity extends ActionBarActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(roleID.equals("3")) {
-                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-                    it.putExtra("topic_id", toppicID);
-                    it.putExtra("username", username);
-                    it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
-                    startActivity(it);
-                }
-                else  if(roleID.equals("2")) {
-                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
+                    if (roleID.equals("3")) {
+                        Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-                    it.putExtra("topic_id", toppicID);
-                    it.putExtra("username", username);
-                    it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
-                    startActivity(it);
-                }
-                else  if(roleID.equals("1")) {
-                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+                        it.putExtra("topic_id", toppicID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catID);
+                        it.putExtra("role_id", "3");
+                        startActivity(it);
+                    } else if (roleID.equals("2")) {
+                        Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
-                    it.putExtra("topic_id", toppicID);
-                    it.putExtra("username", username);
-                    it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
-                    startActivity(it);
+                        it.putExtra("topic_id", toppicID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catID);
+                        it.putExtra("role_id", "2");
+                        startActivity(it);
+                    } else if (roleID.equals("1")) {
+                        Intent it = new Intent(getApplicationContext(), AdminActivity.class);
+
+                        it.putExtra("topic_id", toppicID);
+                        it.putExtra("username", username);
+                        it.putExtra("cat_id", catID);
+                        it.putExtra("role_id", "1");
+                        startActivity(it);
+                    }
                 }
-            }
+
         });
         ListV2 = (ListView) findViewById(R.id.listViewComment2);
 
@@ -196,15 +199,7 @@ public class Comment2Activity extends ActionBarActivity {
                         Toast.makeText(Comment2Activity.this,String.valueOf("ไม่มีข้อความ"),Toast.LENGTH_SHORT).show();
                     }
                     else {
-
-                        //URL url = null;
-
-
-                       // try {
-//                            url = new URL(getURLServer+"PostReplyAPI?name="+username+"&desc="+desc+"&top_id="+toppicID+"");
-//
-//                            Scanner sc = new Scanner(url.openStream());
-//                            StringBuffer buf = new StringBuffer();
+///Post servlet
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                             params.add(new BasicNameValuePair("name", username));
                             params.add(new BasicNameValuePair("desc",desc));
@@ -278,5 +273,27 @@ public class Comment2Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

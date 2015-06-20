@@ -2,6 +2,7 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,40 +19,33 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class SearchActivity extends ActionBarActivity {
-    private ImageLoader imageLoader;
-    private ListView listV;
-    private ImageAdapter imageAdap;
-    private static   String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
-    public String topicID,username,catID,roleID ;
-    private String TopicId,CatId,Username,Catname;
-    ///value Spinner
 
-    private static final String TAG_cat_id_SPINNER = "cat_id";
-    private static final String TAG_cat_topic_SPINNER = "cat_topic";
-    private static final String TAG_USER_SPINNER = "userName";
-    private static final String TAG_DATA_SPINNER = "data";
-    private JSONArray DataSpinner=null;
-    final ArrayList<String> spinnerlist =new ArrayList<String>();
-    ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
-////ListView
+
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    public String topicID, username, catID,topic,roleID;
     Bitmap newBitmap;
-
+    private ImageLoader imageLoader;
+    private ListView lisView1;
+    private ImageAdapter imageAdap;
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -59,52 +53,35 @@ public class SearchActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer+"images/";
+    private static final String URLImg = getURLServer + "images/";
     ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
-
-    public SearchActivity() {
-    }
-
-
+    JSONParser jsonParse = new JSONParser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        lisView1 = (ListView) findViewById(R.id.listVSearchlist);
+        ImageButton imgBtnBack = (ImageButton)findViewById(R.id.imgBtnBack);
+        imgBtnBack.setImageResource(R.drawable.back);
         Bundle intent = getIntent().getExtras();
         if (intent != null) {
             this.topicID = intent.getString("topic_id");
             this.catID = intent.getString("cat_id");
             this.username = intent.getString("username");
+            this.topic = intent.getString("topic");
             this.roleID = intent.getString("role_id");
+
             // and get whatever type user account id is
         }
+
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
-        ImageButton btnSearchlist = (ImageButton)this.findViewById(R.id.btnSearchlist);
-        btnSearchlist.setImageResource(R.drawable.searchlist);
-        ImageButton imgBtnBack = (ImageButton)this.findViewById(R.id.imgBtnBack);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        //SearchList
-        btnSearchlist.setOnClickListener(new View.OnClickListener() {
-
-          @Override
-          public void onClick(View v) {
-              Intent it = new Intent(getApplicationContext(), Search2Activity.class);
-
-              it.putExtra("topic_id", topicID);
-              it.putExtra("username", username);
-              it.putExtra("cat_id", catID);
-              it.putExtra("topic", GetCatname());
-              it.putExtra("role_id", roleID);
-              startActivity(it);
-                                      }
-                                         });
-
-        //////back//////////
+////back
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,16 +91,16 @@ public class SearchActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "3");
                     startActivity(it);
                 }
-               else  if(roleID.equals("2")) {
+                else  if(roleID.equals("2")) {
                     Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "2");
                     startActivity(it);
                 }
                 else  if(roleID.equals("1")) {
@@ -132,169 +109,90 @@ public class SearchActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "1");
                     startActivity(it);
                 }
-
-
             }
         });
+//home
+        ImageButton home = (ImageButton) findViewById(R.id.btnHome);
+        home.setImageResource(R.drawable.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(roleID.equals("3")) {
+                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-
-
-
-            //////start spinner
-            String urlSpinner = getURLServer + "jsonAllCat";
-            JSONParser jParser = new JSONParser();
-            JSONObject jsonSpinner = jParser.getJSONFromUrl(urlSpinner);
-            try
-
-            {
-
-// Getting JSON Array
-                DataSpinner = jsonSpinner.getJSONArray(TAG_DATA_SPINNER);
-
-                for (int i = 0; i < DataSpinner.length(); i++) {
-                    JSONObject c = DataSpinner.getJSONObject(i);
-                    String catID = c.getString(TAG_cat_id_SPINNER);
-                    String catTopic = c.getString(TAG_cat_topic_SPINNER);
-
-                    String catUser = c.getString(TAG_USER_SPINNER);
-
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    // map = new HashMap<String, String>();
-                    map.put(TAG_cat_id_SPINNER, catID);
-                    map.put(TAG_cat_topic_SPINNER, catTopic);
-                    map.put(TAG_USER_SPINNER, catUser);
-                    spinner.add(map);
-                    // Populate spinner with CATTPPIC names
-                    spinnerlist.add(c.getString(TAG_cat_topic_SPINNER));
-
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "3");
+                    startActivity(it);
                 }
+                else  if(roleID.equals("2")) {
+                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "2");
+                    startActivity(it);
+                }
+                else  if(roleID.equals("1")) {
+                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
 
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    it.putExtra("role_id", "1");
+                    startActivity(it);
+                }
             }
-
-            catch(
-            JSONException e
-            )
-
-            {
-                e.printStackTrace();
-                Toast.makeText(this, "ไม่มีการเชื่อมต่อ..",
-                        Toast.LENGTH_LONG).show();
-            }
-
-
-            Spinner spin = (Spinner) findViewById(R.id.spinnerView);
-
-
-            arrAd=new ArrayAdapter<String>(SearchActivity.this,android.R.layout.simple_list_item_1,spinnerlist);
-
-            spin.setAdapter(arrAd);
-            spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-
-            {
-                public void onItemSelected (AdapterView < ? > adapterView,
-                    View view,int i, long l){
-// TODO Auto-generated method stub
-
-                 Catname = spinnerlist.get(i);
-                 SetCatname(Catname);
-                 catID = spinner.get(i).get("cat_id");
-
-                Toast.makeText(SearchActivity.this,
-                        String.valueOf("Your Selected : " + spinnerlist.get(i) + catID),
-                        Toast.LENGTH_SHORT).show();
-
-
-                // listV.setAdapter(imageAdap);
-
-                // arrAd.notifyDataSetChanged();
-                final ArrayList<HashMap<String, Object>> backUpList = ListData(catID);
-                imageLoader.clearCache();
-                listV.setClipToPadding(false);
-
-                imageAdap = new ImageAdapter(getApplicationContext());
-                listV.setAdapter(imageAdap);
-
-                listV.setOnScrollListener(new EndlessScrollListener() {
-                    @Override
-                    public void onLoadMore(int page, int totalItemsCount) {
-                        // Triggered only when new data needs to be appended to the list
-                        // Add whatever code is needed to append new items to your AdapterView
-                        customLoadMoreDataFromApi(page);
-                        // or customLoadMoreDataFromApi(totalItemsCount);
-                    }
-
-                });
-
-                final AlertDialog.Builder viewDetail = new AlertDialog.Builder(SearchActivity.this);
-                // OnClick Item
-                listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                            int position, long mylng) {
-
-                        topicID = backUpList.get(position).get("topic_id").toString();
-
-                        catID = backUpList.get(position).get("cat_id").toString();
-
-                        Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                        it.putExtra("topic_id", topicID);
-                        it.putExtra("username", username);
-                        it.putExtra("cat_id", catID);
-                        startActivity(it);
-                        imageLoader.clearCache();
-                    }
-
-
-                });
-
-            }
-
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-// TODO Auto-generated method stub
-                Toast.makeText(SearchActivity.this,
-                        String.valueOf("Your Selected Empty"),
-                        Toast.LENGTH_SHORT).show();
-            }
-
-
         });
 
-        ///////end spinner
+        ////Listview
+        ImageButton btn1 = (ImageButton) findViewById(R.id.btnSearchList);
+        btn1.setImageResource(R.drawable.searh2);
+        // Perform action on click
 
-
-        ///////end spinner
-
-        /////////EndListView
-
-
-
-
-
+        btn1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // listView is your instance of your ListView
+                cateList.clear();
+                SearchData();
+            }
+        });
 
     }
 
-    public ArrayList<HashMap<String, Object>> ListData(String catId){
-
-        cateList.clear();
-        JSONParser jParser = new JSONParser();
-
-        Log.i("CAT_ID",catID);
-        listV = (ListView) findViewById(R.id.listSearchlist);
-        String url = getURLServer+"jsonPost_reply2?cat_id="+catId+"";
 
 
-        //StartListview
-        JSONObject json = jParser.getJSONFromUrl(url);
-        imageLoader = new ImageLoader(this);
-        // GridView and imageAdapter
+
+
+    public void SearchData() {
+        // listView1
+
+        //lisView1 = (ListView) findViewById(R.id.listSearchlist);
+
+
+        // editSearch
+        final EditText inputText = (EditText) findViewById(R.id.edtSearchList);
+
+
+        String url = getURLServer + "SearchAllAPI";
+
+        // Paste Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
 
         try {
+            JSONObject json = new JSONObject(jsonParse.getJSONUrl(url, params));
+
+
+            imageLoader = new ImageLoader(this);
+            // GridView and imageAdapter
+
 
 // Getting JSON Array
             Data = json.getJSONArray(TAG_DATA);
@@ -315,7 +213,7 @@ public class SearchActivity extends ActionBarActivity {
                 map.put(TAG_OWNER, owner);
                 map.put(TAG_TIME, dateTime);
                 // Thumbnail Get ImageBitmap To Object
-                String urlBitMap = URLImg+img;
+                String urlBitMap = URLImg + img;
                 newBitmap = imageLoader.getBitmap(urlBitMap);
 
 
@@ -324,18 +222,57 @@ public class SearchActivity extends ActionBarActivity {
 
 
             }
-            /// Start Grid//
-            // Next
+
+            if (cateList.equals(null)) {
+                Toast.makeText(getApplicationContext(),
+                        "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
+            }
+
+
+            lisView1.setClipToPadding(false);
+
+            imageAdap = new ImageAdapter(getApplicationContext());
+            lisView1.setAdapter(imageAdap);
+
+            lisView1.setOnScrollListener(new EndlessScrollListener() {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount) {
+                    // Triggered only when new data needs to be appended to the list
+                    // Add whatever code is needed to append new items to your AdapterView
+                    customLoadMoreDataFromApi(page);
+                    // or customLoadMoreDataFromApi(totalItemsCount);
+                }
+
+            });
+
+            final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+            // OnClick Item
+            lisView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                        int position, long mylng) {
+                    topicID = cateList.get(position).get("topic_id").toString();
+
+                    catID = cateList.get(position).get("cat_id").toString();
+
+                    Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+
+                    it.putExtra("topic_id", topicID);
+                    it.putExtra("username", username);
+                    it.putExtra("cat_id", catID);
+                    startActivity(it);
+                    imageLoader.clearCache();
+
+                }
+
+            });
+
 
         } catch (JSONException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(getApplicationContext()
-                    ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
         }
 
 
-
-        return cateList;
     }
 
 
@@ -344,7 +281,6 @@ public class SearchActivity extends ActionBarActivity {
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
         // Deserialize API response and then construct new objects to append to the adapter
     }
-
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
         // before loading more.
@@ -409,15 +345,20 @@ public class SearchActivity extends ActionBarActivity {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             // Don't take any action on changed
         }
+
     }
     class ImageAdapter extends BaseAdapter {
-
+        private List<ImageAdapter> items = null;
         private Context mContext;
+        private int index;
 
         public ImageAdapter(Context context) {
             mContext = context;
         }
-
+        public void clearlistview()
+        {
+            cateList.clear();
+        }
         public int getCount() {
             return cateList.size();
         }
@@ -441,14 +382,16 @@ public class SearchActivity extends ActionBarActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
-            ViewHolderItem viewHolder = null;
+
+            ViewHolderItem viewHolder = new ViewHolderItem();
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
             if (convertView == null) {
-                viewHolder = new ViewHolderItem();
+
                 convertView = inflater.inflate(R.layout.activity_column_cate, null);
+            }
                 viewHolder.imageView= (ImageView) convertView.findViewById(R.id.icon);
                 convertView.setTag(viewHolder);
 
@@ -486,29 +429,19 @@ public class SearchActivity extends ActionBarActivity {
                 viewHolder.txtTimeID.setText(cateList.get(position).get("dateTime").toString());
 
 
+
+
+            if(convertView!=null) {
+                viewHolder = (ViewHolderItem) convertView.getTag();
             }
-            else{
-                viewHolder= (ViewHolderItem) convertView.getTag();
-            }
+
 
             return convertView;
 
         }
 
     }
-    public String GetCatname(){
-        return Catname;
-    }
-    public void SetCatname(String Catname){
-        this.Catname=Catname;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        listV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -529,5 +462,27 @@ public class SearchActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.administrator.discussapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -27,7 +29,7 @@ import java.util.List;
 
 
 public class PostActivity extends ActionBarActivity {
-    private static String getURLServer = "http://192.168.1.4:8080/DiscussWeB2/";
+    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
     private String topicID, username, catID, roleID;
 
     ///value Spinner
@@ -109,14 +111,14 @@ public class PostActivity extends ActionBarActivity {
 // TODO Auto-generated method stub
                 catID = spinner.get(position).get("cat_id");
                 Toast.makeText(PostActivity.this,
-                        String.valueOf("Your Selected : " + spinnerlist.get(position) + catID),
+                        String.valueOf("คุณเลือกประเภท : " + spinner.get(position).get("cat_topic")),
                         Toast.LENGTH_SHORT).show();
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
 // TODO Auto-generated method stub
                 Toast.makeText(PostActivity.this,
-                        String.valueOf("Your Selected Empty"),
+                        String.valueOf("กรุณาเลือกประเภทกระทู้"),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -132,7 +134,7 @@ public class PostActivity extends ActionBarActivity {
 
 
                 //Check Edit Text is Emtry
-                if (!"".equals(qMessage1) || !"".equals(qMessage2)) {
+                if (!"".equals(qMessage1) && !"".equals(qMessage2)) {
 
 //POST url//
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -144,7 +146,7 @@ public class PostActivity extends ActionBarActivity {
 
 
                     Toast.makeText(getApplicationContext(),
-                            "เลือกรูปภาพ" + qMessage1, Toast.LENGTH_LONG).show();
+                            "เลือกรูปภาพ" , Toast.LENGTH_LONG).show();
                     Intent it = new Intent(getApplicationContext(), PostImageActivity.class);
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
@@ -171,7 +173,7 @@ public class PostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "3");
                     startActivity(it);
                 } else if (roleID.equals("2")) {
                     Intent it = new Intent(getApplicationContext(), StaffActivity.class);
@@ -179,7 +181,7 @@ public class PostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "2");
                     startActivity(it);
                 } else if (roleID.equals("1")) {
                     Intent it = new Intent(getApplicationContext(), AdminActivity.class);
@@ -187,42 +189,26 @@ public class PostActivity extends ActionBarActivity {
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
+                    it.putExtra("role_id", "1");
                     startActivity(it);
                 }
 
             }
         });
         ImageButton home = (ImageButton) findViewById(R.id.btnHome);
-        home.setImageResource(R.drawable.home);
+        home.setImageResource(R.drawable.searh);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roleID.equals("3")) {
-                    Intent it = new Intent(getApplicationContext(), LandingActivity.class);
+
+                    Intent it = new Intent(getApplicationContext(), SearchActivity.class);
 
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
                     it.putExtra("cat_id", catID);
                     it.putExtra("role_id", roleID);
                     startActivity(it);
-                } else if (roleID.equals("2")) {
-                    Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
-                    it.putExtra("topic_id", topicID);
-                    it.putExtra("username", username);
-                    it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
-                    startActivity(it);
-                } else if (roleID.equals("1")) {
-                    Intent it = new Intent(getApplicationContext(), AdminActivity.class);
-
-                    it.putExtra("topic_id", topicID);
-                    it.putExtra("username", username);
-                    it.putExtra("cat_id", catID);
-                    it.putExtra("role_id", roleID);
-                    startActivity(it);
-                }
             }
         });
         TextView clickpost = (TextView) this.findViewById(R.id.ClickPost);
@@ -232,7 +218,7 @@ public class PostActivity extends ActionBarActivity {
 
                 String qMessage1 = etdtoppic.getText().toString();
                 String qMessage2 = etdDetail.getText().toString();
-                if (!"".equals(qMessage1) || !"".equals(qMessage2)) {
+                if (!"".equals(qMessage1) && !"".equals(qMessage2)) {
 
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -308,5 +294,27 @@ public class PostActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
+        dialog.setIcon(R.drawable.ic_launcher);
+        dialog.setCancelable(true);
+        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
+        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }

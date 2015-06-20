@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember Password ?"
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxRe"
             android:checked="false"
             android:textSize="18dp"
             android:layout_alignParentBottom="true"

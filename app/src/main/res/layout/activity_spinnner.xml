@@ -18,7 +18,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imgBtnBack_Edit"
+            android:id="@+id/imgBtnBack"
             android:src="@drawable/back"
             android:background="#ff6fb9ff"
             android:layout_margin="5dp" />
@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ค้นหากระทู้"
+                    android:text="เลือกกระทู้"
                     android:id="@+id/textView4"
                     android:textColor="#ff173871"
                     android:textSize="16dp" />
@@ -88,10 +88,11 @@
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnHome"
-                android:layout_column="2"
-                android:src="@drawable/home"
+                android:id="@+id/btnSearchlist"
+                android:src="@drawable/searh"
+                android:layout_weight="1"
                 android:background="#ff6fb9ff" />
+
         </TableLayout>
     </LinearLayout>
 
@@ -99,47 +100,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <EditText
+        <Spinner
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnHome"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/btnSearch"
-            android:layout_toStartOf="@+id/btnSearch"
-            android:layout_marginLeft="10dp" />
-
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/btnSearch"
-            android:src="@drawable/searh2"
-            android:background="#ffdde4ee"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/btnHome" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtShowCat"
-            android:layout_below="@+id/btnHome"
-            android:layout_centerHorizontal="true"
-            android:textColor="#ff173871"
-            android:text="text"
-            android:gravity="center"
-            android:background="#ffdde4ee"
-            android:focusable="true"
-            android:editable="false"
-            android:layout_margin="5dp"
-            android:enabled="true" />
+            android:id="@+id/spinnerView" />
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:id="@+id/listSearchlist"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/edtShowCat" />
+            android:layout_below="@+id/spinnerView"
+            android:layout_marginBottom="5dp" />
 
     </RelativeLayout>
 
