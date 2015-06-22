@@ -77,7 +77,7 @@ public class AdminActivity extends ActionBarActivity {
         ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
         ImageButton btnAdmin = (ImageButton) this.findViewById(R.id.btnAdmin);
         ImgUser.setImageResource(R.drawable.bt_id);
-        BtnPost.setImageResource(R.drawable.post);
+        BtnPost.setImageResource(R.drawable.add1);
         BtnUpdate.setImageResource(R.drawable.icon);
         BtnSreach.setImageResource(R.drawable.searh);
         btnAdmin.setImageResource(R.drawable.admin);

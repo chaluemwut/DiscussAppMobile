@@ -86,7 +86,7 @@ public class StaffActivity extends ActionBarActivity {
         ImageButton btnStaff = (ImageButton) this.findViewById(R.id.btnStaff);
         ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
         ImgUser.setImageResource(R.drawable.bt_id);
-        BtnPost.setImageResource(R.drawable.post);
+        BtnPost.setImageResource(R.drawable.add1);
         BtnUpdate.setImageResource(R.drawable.icon);
         BtnSreach.setImageResource(R.drawable.searh);
         btnStaff.setImageResource(R.drawable.staff);
@@ -106,7 +106,7 @@ public class StaffActivity extends ActionBarActivity {
         JSONObject jsonCate = jParser.getJSONFromUrl(urlStaff);
         try {
 
-// Getting JSON 
+// Getting JSON
             Data = jsonCate.getJSONArray(TAG_DATA);
 
             for (int i = 0; i < Data.length(); i++) {

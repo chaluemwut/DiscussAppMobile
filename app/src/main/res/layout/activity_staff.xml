@@ -134,7 +134,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/PostIcon"
-                    android:src="@drawable/post"
+                    android:src="@drawable/add1"
                     android:background="#ff6fb9ff"
                     android:layout_column="2"
                     android:layout_weight="1" />
