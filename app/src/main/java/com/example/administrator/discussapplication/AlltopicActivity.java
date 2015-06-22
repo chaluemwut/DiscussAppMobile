@@ -2,12 +2,15 @@ package com.example.administrator.discussapplication;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class AlltopicActivity extends Activity {
-    private static   String getURLServer = "http://192.168.1.109:8080/DiscussWeb/";
+    private static   String getURLServer = "http://192.168.42.46:8080/DiscussWeb/";
 
     private static String url = getURLServer+"jsonAllCat";
     //JSON Node Names
@@ -89,5 +92,54 @@ public class AlltopicActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_alltopic, menu);
         return true;
     }
+    private static long back_pressed;
+    private Toast toast;
+    @Override
 
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์",Toast.LENGTH_LONG).show();
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

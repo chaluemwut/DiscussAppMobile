@@ -2,7 +2,6 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -38,7 +37,9 @@ public class SpinnnerActivity extends ActionBarActivity {
     private ImageLoader imageLoader;
     private ListView listV;
     private ImageAdapter imageAdap;
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+
     public String topicID,username,catID,roleID ;
     private String TopicId,CatId,Username,Catname;
     ///value Spinner
@@ -187,7 +188,7 @@ public class SpinnnerActivity extends ActionBarActivity {
                 catID = spinner.get(i).get("cat_id");
 
                 Toast.makeText(SpinnnerActivity.this,
-                        String.valueOf("Your Selected : " + spinnerlist.get(i) + catID),
+                        String.valueOf("เลือก : " + spinnerlist.get(i) ),
                         Toast.LENGTH_SHORT).show();
 
 
@@ -503,38 +504,54 @@ public class SpinnnerActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(SpinnnerActivity.this);
+                System.out.println("");
+                startActivity(it);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+    private static long back_pressed;
+    private Toast toast;
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
 
-            }
-        });
+    public void onBackPressed()
+    {
 
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
 
-        dialog.show();
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
+
 }

@@ -1,7 +1,5 @@
 package com.example.administrator.discussapplication;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -29,7 +27,8 @@ import java.util.List;
 
 
 public class Comment2Activity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
     private static final String TAG_ID = "id";
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_DESC = "description";
@@ -211,7 +210,7 @@ public class Comment2Activity extends ActionBarActivity {
 
 
                             Toast.makeText(getApplicationContext(),
-                                    "สมัครสมาชิกเรียบร้อย", Toast.LENGTH_LONG).show();
+                                    "แสดงความคิด่ห็นเรียบร้อย", Toast.LENGTH_LONG).show();
                             //refresh
                             Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
                             it.putExtra("topic_id", toppicID);
@@ -220,12 +219,7 @@ public class Comment2Activity extends ActionBarActivity {
                             it.putExtra("role_id", roleID);
                             System.out.println("");
                             startActivity(it);
-                      //  } catch (MalformedURLException e) {
-                      //      e.printStackTrace();
-                       // }
-//                    catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+
                     }
 
                 }
@@ -260,40 +254,55 @@ public class Comment2Activity extends ActionBarActivity {
         return true;
     }
 
+    private static long back_pressed;
+    private Toast toast;
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
         }
-
-        return super.onOptionsItemSelected(item);
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(Comment2Activity.this);
+                System.out.println("");
+                startActivity(it);
 
-            }
-        });
 
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

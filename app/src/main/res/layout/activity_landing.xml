@@ -84,7 +84,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/PostIcon"
-                    android:src="@drawable/post"
+                    android:src="@drawable/add1"
                     android:background="#ff6fb9ff"
                     android:layout_column="2"
                     android:layout_weight="1" />
@@ -113,29 +113,15 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" NEW Board "
-        android:id="@+id/TB"
-        android:textColor="#fff1ffff"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#ffffc548"
-        android:layout_margin="5dp"
-        android:layout_below="@+id/linearLayout" />
-
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gridView_Landing"
-        android:layout_below="@+id/TB"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#ffffffff"
-        android:layout_above="@+id/linearLayout7" />
+        android:layout_above="@+id/linearLayout7"
+        android:layout_below="@+id/linearLayout" />
 
     <LinearLayout
         android:orientation="horizontal"

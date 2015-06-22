@@ -10,6 +10,7 @@
         android:maxSdkVersion="18" />
 
     <application
+
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="DiscussApplication"
@@ -28,74 +29,91 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".LandingActivity" >
+        <activity android:name=".LandingActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".RegisterActivity" >
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CommentActivity" >
+        <activity android:name=".CommentActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".PostActivity" >
+        <activity android:name=".PostActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ProfileActivity" >
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".AlltopicActivity" >
+        <activity android:name=".AlltopicActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CateActivity" >
+        <activity android:name=".CateActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".PostImageActivity" >
+        <activity android:name=".PostImageActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Comment2Activity" >
+        <activity android:name=".Comment2Activity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SearchActivity" >
+        <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".EditPostActivity"
+            android:screenOrientation="portrait"
         >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".EditCommentActivity"
           >
         </activity>
         <activity
-            android:name=".Search2Activity"
-            >
-        </activity>
-        <activity
             android:name=".StaffActivity"
+            android:screenOrientation="portrait"
           >
         </activity>
         <activity
             android:name=".AdminActivity"
+            android:screenOrientation="portrait"
            >
         </activity>
         <activity
             android:name=".Admin2Activity"
+            android:screenOrientation="portrait"
         >
         </activity>
         <activity
             android:name=".Admin3Activity"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".Staff2Activity"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".SearchAdminActivity"
+            android:screenOrientation="portrait"
              >
         </activity>
         <activity
             android:name=".SearchStaffActivity"
+            android:screenOrientation="portrait"
            >
         </activity>
         <activity
             android:name=".SpinnnerActivity"
+            android:screenOrientation="portrait"
           >
         </activity>
     </application>

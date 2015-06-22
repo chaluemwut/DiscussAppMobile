@@ -1,18 +1,18 @@
 package com.example.administrator.discussapplication;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class ProfileActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,26 +57,33 @@ public class ProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private static long back_pressed;
+    private Toast toast;
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
 
-            }
-        });
+    public void onBackPressed()
+    {
 
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
 
-        dialog.show();
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

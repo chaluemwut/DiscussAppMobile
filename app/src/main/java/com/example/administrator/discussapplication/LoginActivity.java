@@ -1,10 +1,6 @@
 package com.example.administrator.discussapplication;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -26,13 +22,15 @@ import java.util.Scanner;
 
 
 public class LoginActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
-    SharedPreferences share ;
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+
+    SaveSharedPreference  share;
+
       EditText EDuser;
       EditText  EDpass;
     CheckBox checkBoxRe;
-    public LoginActivity() {
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +53,11 @@ public class LoginActivity extends ActionBarActivity {
          checkBoxRe =(CheckBox)this.findViewById(R.id.checkBoxRe);
         Button BtnLogin = (Button) this.findViewById(R.id.btnLogin);
         TextView signUp = (TextView) this.findViewById(R.id.regis);
-
-
-        share  = getSharedPreferences("MYPREFERRENCE", Context.MODE_PRIVATE);
-        EDuser.setText(share.getString("USERNAME", ""));
-        EDpass.setText(share.getString("PASSWORD", ""));
-        checkBoxRe.setChecked(share.getBoolean("REMEMBER", false));
+        share = new SaveSharedPreference();
+        //getSharedPreferences("MYPREFERRENCE", Context.MODE_PRIVATE);
+//        EDuser.setText(share.getString("USERNAME", ""));
+//        EDpass.setText(share.getString("PASSWORD", ""));
+//        checkBoxRe.setChecked(share.getBoolean("REMEMBER", false));
 
 
 
@@ -97,6 +94,7 @@ public class LoginActivity extends ActionBarActivity {
                                 , "กรุณากรอก  Password", Toast.LENGTH_LONG).show();
                     } else if (!qMessage1.equals("") && (!qMessage2.equals(""))) {
                         if ("yes".equals(is_user)) {
+                            SaveSharedPreference.setUserName(LoginActivity.this, username, role_id, checkBoxRe.isChecked());
 
                             if ("yes".equals(is_user) && role_id.equals("3")) {
 
@@ -171,41 +169,50 @@ public class LoginActivity extends ActionBarActivity {
             });
 
 
-    }
+        }
+
+
+
+    private static long back_pressed;
+    private Toast toast;
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                LoginActivity.super.onBackPressed();
-            }
-        });
 
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+    public void onBackPressed()
+    {
 
-        dialog.show();
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        SharedPreferences.Editor editor = share.edit();
+  //  protected void onDestroy(){
+    //   super.onDestroy();
+//        SharedPreferences.Editor editor = share.edit();
+//
+//        editor.putBoolean("REMEMBER",checkBoxRe.isChecked());
+//
+//
+//            editor.putString("USERNAME", EDuser.getText().toString());
+//            editor.putString("PASSWORD", EDpass.getText().toString());
+//          editor.commit();
 
-        editor.putBoolean("REMEMBER",checkBoxRe.isChecked());
 
-
-            editor.putString("USERNAME", EDuser.getText().toString());
-            editor.putString("PASSWORD", EDpass.getText().toString());
-            editor.commit();
-
-
-    }
+    //}
 }

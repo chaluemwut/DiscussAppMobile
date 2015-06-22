@@ -1,7 +1,5 @@
 package com.example.administrator.discussapplication;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -33,7 +31,9 @@ import java.util.Scanner;
 
 
 public class RegisterActivity extends ActionBarActivity {
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+
     private String topicID,username,catID,roleID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,7 @@ public class RegisterActivity extends ActionBarActivity {
                                 it.putExtra("role_id", roleID);
                                 startActivity(it);
 
-                            }
+                          }
                         }
 
                         else if("yes".equals(chk_user)){
@@ -147,8 +147,12 @@ public class RegisterActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    Toast.makeText(getApplicationContext()
+                            , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext()
+                            , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
 
@@ -216,26 +220,36 @@ public class RegisterActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
+    private static long back_pressed;
+    private Toast toast;
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
 
-            }
-        });
+    public void onBackPressed()
+    {
 
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
 
-        dialog.show();
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

@@ -2,7 +2,6 @@ package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,7 +31,8 @@ import java.util.HashMap;
 
 public class LandingActivity extends ActionBarActivity {
 
-    private static   String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
@@ -74,7 +74,7 @@ public class LandingActivity extends ActionBarActivity {
         ImageButton BtnSreach = (ImageButton) this.findViewById(R.id.btnSearh);
         ImageView ImgUser = (ImageView) this.findViewById(R.id.imgUser_Landing);
         ImgUser.setImageResource(R.drawable.bt_id);
-        BtnPost.setImageResource(R.drawable.post);
+        BtnPost.setImageResource(R.drawable.add1);
         BtnUpdate.setImageResource(R.drawable.icon);
         BtnSreach.setImageResource(R.drawable.searchlist);
 
@@ -92,18 +92,7 @@ public class LandingActivity extends ActionBarActivity {
         NameUser.setText(username);
 
 
-        TextView TB = (TextView)this.findViewById(R.id.TB);
-        TB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(), LandingActivity.class);
 
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id",roleID);
-            }
-        });
 
         String url = getURLServer+"jsonShowCatID";
 
@@ -255,7 +244,7 @@ public class LandingActivity extends ActionBarActivity {
                 it.putExtra("cat_id",catID);
                 it.putExtra("role_id",roleID);
                 Toast.makeText(getApplicationContext()
-                        ,"แก้ไขข้อมูลส่วนตัว"+roleID,Toast.LENGTH_LONG).show();
+                        ,"แก้ไขข้อมูลส่วนตัว",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 startActivity(it);
 
@@ -454,41 +443,55 @@ public class LandingActivity extends ActionBarActivity {
         imageLoader.clearCache();
         super.onDestroy();
     }
+    private static long back_pressed;
+    private Toast toast;
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(LandingActivity.this);
+                System.out.println("");
+                startActivity(it);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("ออกจากแอฟพลิเคชัน ?");
-        dialog.setIcon(R.drawable.ic_launcher);
-        dialog.setCancelable(true);
-        dialog.setMessage("ต้องออกจากแอฟพลิเคชันหรือไม่ ");
-        dialog.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-
-            }
-        });
-
-        dialog.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
     }
 }
