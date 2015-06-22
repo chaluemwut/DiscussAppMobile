@@ -106,7 +106,7 @@ public class StaffActivity extends ActionBarActivity {
         JSONObject jsonCate = jParser.getJSONFromUrl(urlStaff);
         try {
 
-// Getting JSON Array
+// Getting JSON 
             Data = jsonCate.getJSONArray(TAG_DATA);
 
             for (int i = 0; i < Data.length(); i++) {
