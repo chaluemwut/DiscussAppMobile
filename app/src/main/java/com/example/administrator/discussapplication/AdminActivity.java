@@ -701,7 +701,7 @@ public class AdminActivity extends ActionBarActivity {
                 SaveSharedPreference.clearUserName(AdminActivity.this);
                 System.out.println("");
                 startActivity(it);
-
+//
 
             default:
                 return super.onOptionsItemSelected(item);
