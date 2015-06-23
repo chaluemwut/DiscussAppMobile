@@ -343,7 +343,6 @@ public class EditCommentActivity extends ActionBarActivity {
             }else{
 
                 pDialog.dismiss();
-                Toast.makeText(EditCommentActivity.this, "Image Does Not exist or Network Error", Toast.LENGTH_SHORT).show();
 
             }
         }

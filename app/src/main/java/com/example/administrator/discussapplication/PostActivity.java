@@ -308,6 +308,7 @@ public class PostActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext()
                         ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
+                SaveSharedPreference.clearUserName(PostActivity.this);
                 startActivity(it);
 
 

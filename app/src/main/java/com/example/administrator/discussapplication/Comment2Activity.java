@@ -210,7 +210,7 @@ public class Comment2Activity extends ActionBarActivity {
 
 
                             Toast.makeText(getApplicationContext(),
-                                    "แสดงความคิด่ห็นเรียบร้อย", Toast.LENGTH_LONG).show();
+                                    "แสดงความคิดเห็นเรียบร้อย", Toast.LENGTH_LONG).show();
                             //refresh
                             Intent it = new Intent(getApplicationContext(), Comment2Activity.class);
                             it.putExtra("topic_id", toppicID);

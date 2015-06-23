@@ -431,6 +431,7 @@ public class PostImageActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext()
                         ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
+                SaveSharedPreference.clearUserName(PostImageActivity.this);
                 startActivity(it);
 
 
