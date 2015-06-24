@@ -193,7 +193,6 @@ public class EditCommentActivity extends ActionBarActivity {
 
         Button btnEdit =(Button) this.findViewById(R.id.btnEdit);
 
-        //Update to Dataase
         btnEdit.setOnClickListener(new View.OnClickListener (){
             public void onClick (View v){
                 getTopicName=edtTextTopicEdit.getText().toString() ;
