@@ -164,10 +164,7 @@ public class SearchActivity extends ActionBarActivity {
                 // listView is your instance of your ListView
                 cateList.clear();
                 cateList2.clear();
-                if (cateList.equals(null)) {
-                    Toast.makeText(getApplicationContext(),
-                            "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
-                }
+
                 SearchData();
             }
         });
@@ -193,18 +190,29 @@ public class SearchActivity extends ActionBarActivity {
         // Paste Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-        params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
+        String chkTxt =inputText.getText().toString();
+
 
         try {
-            JSONObject json = new JSONObject(jsonParse.getJSONUrl(url, params));
 
+                    if (!chkTxt.equals("")) {
+                        params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
 
+                    }
+                    else{
+
+                        Toast.makeText(getApplicationContext(),
+                                "กรุณาใส่ข้อมูลที่ต้องการค้นหา", Toast.LENGTH_LONG).show();
+                    }
             imageLoader = new ImageLoader(this);
             // GridView and imageAdapter
-
-
+            JSONObject json = new JSONObject(jsonParse.getJSONUrl(url, params));
 // Getting JSON Array
             Data = json.getJSONArray(TAG_DATA);
+            if (Data.length()==0&&!chkTxt.equals("")) {
+                Toast.makeText(getApplicationContext(),
+                        "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
+            }
 
             for (int i = 0; i < Data.length(); i++) {
                 JSONObject c = Data.getJSONObject(i);

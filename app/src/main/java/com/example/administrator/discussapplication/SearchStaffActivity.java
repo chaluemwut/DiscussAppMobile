@@ -93,7 +93,6 @@ public class SearchStaffActivity extends ActionBarActivity {
         JSONObject jsonCate = jParser.getJSONFromUrl(urlStaff);
 
 
-
         try {
 
 // Getting JSON Array
@@ -177,11 +176,7 @@ public class SearchStaffActivity extends ActionBarActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // listView is your instance of your ListView
-                if (cateList.equals(null)) {
-                    Toast.makeText(getApplicationContext(),
-                            "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
-                }
-                cateList.clear();
+
                 SearchData(catIDStaff);
             }
         });
@@ -213,16 +208,32 @@ public class SearchStaffActivity extends ActionBarActivity {
         params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
         params.add(new BasicNameValuePair("cat_id",Catid));
         try {
-            JSONObject json = new JSONObject(jParser.getJSONUrl(url, params));
+            String chkTxt =inputText.getText().toString();
 
 
-            imageLoader = new ImageLoader(this);
+
             // GridView and imageAdapter
 
 
 // Getting JSON Array
-            Data = json.getJSONArray(TAG_DATA);
 
+                if (!chkTxt.equals("")) {
+                    params.add(new BasicNameValuePair("txt", inputText.getText().toString()));
+
+                }
+                else{
+
+                    Toast.makeText(getApplicationContext(),
+                            "กรุณาใส่ข้อมูลที่ต้องการค้นหา", Toast.LENGTH_LONG).show();
+                }
+            imageLoader = new ImageLoader(this);
+            JSONObject json = new JSONObject(jParser.getJSONUrl(url, params));
+
+            Data = json.getJSONArray(TAG_DATA);
+                if (Data.length()==0&&!chkTxt.equals("")) {
+                    Toast.makeText(getApplicationContext(),
+                            "ไม่มีข้อมูลที่ค้นหา", Toast.LENGTH_LONG).show();
+                }
             for (int i = 0; i < Data.length(); i++) {
                 JSONObject c = Data.getJSONObject(i);
                 String topicID = c.getString(TAG_TOPIC_ID);
