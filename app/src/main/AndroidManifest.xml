@@ -15,12 +15,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="DiscussApplication"
         android:theme="@style/AppTheme"
-       
+
         >
 
-
-
-        <!-- Splash screen -->
 
         <activity
 

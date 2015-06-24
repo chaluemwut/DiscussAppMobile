@@ -364,7 +364,7 @@ public class Admin2Activity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.logout:
+            case R.id.action_settings:
                 if (item.isChecked()) item.setChecked(false);
                 else item.setChecked(true);
                 Intent it = new Intent(getApplicationContext(), LoginActivity.class);
@@ -374,8 +374,8 @@ public class Admin2Activity extends ActionBarActivity {
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
                         ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(Admin2Activity.this);
                 System.out.println("");
+                SaveSharedPreference.clearUserName(Admin2Activity.this);
                 startActivity(it);
 
 
