@@ -6,6 +6,6 @@ package com.example.administrator.discussapplication;
 public class Config {
 
 public  String getURL(){
-    return "http://192.168.43.150:8080/DiscussWeB2/";
+    return "http://203.158.201.220/DiscussAppWeb/";
 }
 }
