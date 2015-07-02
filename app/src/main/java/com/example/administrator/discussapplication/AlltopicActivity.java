@@ -116,7 +116,7 @@ public class AlltopicActivity extends Activity {
         else
         {
             // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast=  Toast.makeText(getBaseContext(), "??????????????????????? Discuss App", Toast.LENGTH_SHORT);
             toast.show();
         }
         back_pressed = System.currentTimeMillis();
@@ -133,7 +133,7 @@ public class AlltopicActivity extends Activity {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์",Toast.LENGTH_LONG).show();
+                        ,"????????? ?????????",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 startActivity(it);
 

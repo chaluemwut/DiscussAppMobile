@@ -30,8 +30,8 @@ repositories {
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('F:/workspace/DiscussAppMobile/libs/bolts-android-1.1.4.jar')
-    compile files('F:/workspace/DiscussAppMobile/libs/Parse-1.8.3.jar')
+    compile files('D:/Jobs/Android space/DiscussAppMobile/libs/bolts-android-1.1.4.jar')
+    compile files('D:/Jobs/Android space/DiscussAppMobile/libs/Parse-1.8.3.jar')
 
 }
 

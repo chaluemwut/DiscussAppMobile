@@ -1,9 +1,11 @@
 package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -53,7 +55,7 @@ public class StaffActivity extends ActionBarActivity {
     ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
 
     //JSON Node Names Gridviwe
-    private static String url = getURLServer+"jsonShowCatID";
+
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -137,125 +139,116 @@ public class StaffActivity extends ActionBarActivity {
                 Intent it = new Intent(getApplicationContext(), StaffActivity.class);
 
                 it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id","2");
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", "2");
             }
         });
 
 
-        Bitmap newBitmap;
 
-        // Getting JSON from URL
-        JSONObject json = jParser.getJSONFromUrl(url);
-        imageLoader = new ImageLoader(this);
-        // GridView and imageAdapter
-        cateList.clear();
-        cateList2.clear();
-        try {
+        new LoadViewTask2().execute();
 
-// Getting JSON Array
-            Data = json.getJSONArray(TAG_DATA);
-
-            for (int i = 0; i < Data.length(); i++) {
-                JSONObject c = Data.getJSONObject(i);
-                String topicID = c.getString(TAG_TOPIC_ID);
-                String catID = c.getString(TAG_CAT_ID);
-                String topic = c.getString(TAG_TOPIC);
-                String owner = c.getString(TAG_OWNER);
-                String img = c.getString(TAG_IMG);
-                String dateTime = c.getString(TAG_TIME);
-
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put(TAG_TOPIC_ID, topicID);
-                map.put(TAG_CAT_ID, catID);
-                map.put(TAG_TOPIC, topic);
-                map.put(TAG_OWNER, owner);
-                map.put(TAG_TIME, dateTime);
-                // Thumbnail Get ImageBitmap To Object
-                String urlBitMap = URLImg+img;
-                newBitmap = imageLoader.getBitmap(urlBitMap);
-
-
-                map.put("ImagePathBitmap", newBitmap);
-                cateList.add(map);
-
-                if (!catID.equals(null)) {
-                    String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
-                    // Getting JSON from URL
-                    JSONObject json2 = jParser.getJSONFromUrl(url2);
-
-                    Data2 = json2.getJSONArray(TAG_DATA);
-                    for (int i2 = 0; i2 < Data2.length(); i2++) {
-                        JSONObject c2 = Data2.getJSONObject(i2);
-                        String CAT_NAME = c2.getString(TAG_CAT_NAME);
-                        HashMap<String, Object> map2 = new HashMap<String, Object>();
-                        map2.put(TAG_CAT_NAME, CAT_NAME);
-                        // Thumbnail Get ImageBitmap To Object
-                        cateList2.add(map2);
-
-                    }
-                }
-            }
-
-
-            /// Start Grid//
-            gridV = (GridView) findViewById(R.id.gridViewStaff);
-
-            // Next
-            gridV.setClipToPadding(false);
-
-            imageAdap = new ImageAdapter(getApplicationContext());
-            gridV.setAdapter(imageAdap);
-
-            gridV.setOnScrollListener(new EndlessScrollListener() {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount) {
-                    // Triggered only when new data needs to be appended to the list
-                    // Add whatever code is needed to append new items to your AdapterView
-                    customLoadMoreDataFromApi(page);
-                    // or customLoadMoreDataFromApi(totalItemsCount);
-                }
-            });
-
-
-
-
-
-
-
+//        Bitmap newBitmap;
+//
+//        // Getting JSON from URL
+//        JSONObject json = jParser.getJSONFromUrl(url);
+//        imageLoader = new ImageLoader(this);
+//        // GridView and imageAdapter
+//        cateList.clear();
+//        cateList2.clear();
+//        try {
+//
+//// Getting JSON Array
+//            Data = json.getJSONArray(TAG_DATA);
+//
+//            for (int i = 0; i < Data.length(); i++) {
+//                JSONObject c = Data.getJSONObject(i);
+//                String topicID = c.getString(TAG_TOPIC_ID);
+//                String catID = c.getString(TAG_CAT_ID);
+//                String topic = c.getString(TAG_TOPIC);
+//                String owner = c.getString(TAG_OWNER);
+//                String img = c.getString(TAG_IMG);
+//                String dateTime = c.getString(TAG_TIME);
+//
+//                HashMap<String, Object> map = new HashMap<String, Object>();
+//                map.put(TAG_TOPIC_ID, topicID);
+//                map.put(TAG_CAT_ID, catID);
+//                map.put(TAG_TOPIC, topic);
+//                map.put(TAG_OWNER, owner);
+//                map.put(TAG_TIME, dateTime);
+//                // Thumbnail Get ImageBitmap To Object
+//                String urlBitMap = URLImg+img;
+//                newBitmap = imageLoader.getBitmap(urlBitMap);
+//
+//
+//                map.put("ImagePathBitmap", newBitmap);
+//                cateList.add(map);
+//
+//                if (!catID.equals(null)) {
+//                    String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
+//                    // Getting JSON from URL
+//                    JSONObject json2 = jParser.getJSONFromUrl(url2);
+//
+//                    Data2 = json2.getJSONArray(TAG_DATA);
+//                    for (int i2 = 0; i2 < Data2.length(); i2++) {
+//                        JSONObject c2 = Data2.getJSONObject(i2);
+//                        String CAT_NAME = c2.getString(TAG_CAT_NAME);
+//                        HashMap<String, Object> map2 = new HashMap<String, Object>();
+//                        map2.put(TAG_CAT_NAME, CAT_NAME);
+//                        // Thumbnail Get ImageBitmap To Object
+//                        cateList2.add(map2);
+//
+//                    }
+//                }
+//            }
+//
+//
+//            /// Start Grid//
+//            gridV = (GridView) findViewById(R.id.gridViewStaff);
+//
+//            // Next
+//            gridV.setClipToPadding(false);
+//
+//            imageAdap = new ImageAdapter(getApplicationContext());
+//            gridV.setAdapter(imageAdap);
+//
+//
+//
+//
+//
+//
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getApplicationContext()
+//                    ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
+//        }
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext()
-                    ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
-        }
-
-
-
-        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-        // OnClick Item
-        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                    int position, long mylng) {
-
-                topicID =  cateList.get(position).get("topic_id").toString();
-                SetTopicId(topicID);
-                catID =  cateList.get(position).get("cat_id").toString();
-                SetCatId(catID);
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id","2");
-
-                startActivity(it);
-            }
-
-        });
+//
+//        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+//        // OnClick Item
+//        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            public void onItemClick(AdapterView<?> myAdapter, View myView,
+//                                    int position, long mylng) {
+//
+//                topicID =  cateList.get(position).get("topic_id").toString();
+//                SetTopicId(topicID);
+//                catID =  cateList.get(position).get("cat_id").toString();
+//                SetCatId(catID);
+//                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+//
+//                it.putExtra("topic_id", topicID);
+//                it.putExtra("username",username);
+//                it.putExtra("cat_id",catID);
+//                it.putExtra("role_id","2");
+//
+//                startActivity(it);
+//            }
+//
+//        });
         btnStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -324,76 +317,129 @@ public class StaffActivity extends ActionBarActivity {
             }
         });
     }
-    public void customLoadMoreDataFromApi(int offset) {
-        // This method probably sends out a network request and appends new data items to your adapter.
-        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
-        // Deserialize API response and then construct new objects to append to the adapter
+
+    /////////////////////////
+    public class LoadViewTask2 extends AsyncTask<Void, Void, Boolean> {
+
+
+        ProgressDialog pd;
+
+
+        @Override
+        protected void onPreExecute() {
+            pd = new ProgressDialog(StaffActivity.this);
+            pd.setMessage("Loading Comments...");
+            pd.setIndeterminate(false);
+            pd.setCancelable(true);
+            pd.show();
+
+
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            updateJSON();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            pd.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    displayListView();
+                }
+            });
+        }
     }
+    private void    updateJSON (){
 
-    public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
-        // The minimum amount of items to have below your current scroll position
-        // before loading more.
-        private int visibleThreshold = 5;
-        // The current offset index of data you have loaded
-        private int currentPage = 0;
-        // The total number of items in the dataset after the last load
-        private int previousTotalItemCount = 0;
-        // True if we are still waiting for the last set of data to load.
-        private boolean loading = true;
-        // Sets the starting page index
-        private int startingPageIndex = 0;
+        cateList2 = new ArrayList<>();
+        cateList = new ArrayList<>();
+        String url = getURLServer + "jsonShowCatID";
+        // Creating new JSON Parser
+        Bitmap newBitmap;
+        // Getting JSON from URL
+        JSONObject json = jParser.getJSONFromUrl(url);
+        //String(rs3.getString("owner").getBytes(),"TIS-620")
+        // Log.i("JSONWOW", json.toString());
 
-        public EndlessScrollListener() {
-        }
+        try {
 
-        public EndlessScrollListener(int visibleThreshold) {
-            this.visibleThreshold = visibleThreshold;
-        }
+// Getting JSON Array
+            Data = json.getJSONArray(TAG_DATA);
 
-        public EndlessScrollListener(int visibleThreshold, int startPage) {
-            this.visibleThreshold = visibleThreshold;
-            this.startingPageIndex = startPage;
-            this.currentPage = startPage;
-        }
+            for (int i = 0; i < Data.length(); i++) {
+                JSONObject c = Data.getJSONObject(i);
+                String topicID = c.getString(TAG_TOPIC_ID);
+                String catID = c.getString(TAG_CAT_ID);
+                String topic = c.getString(TAG_TOPIC);
+                String owner = c.getString(TAG_OWNER);
+                String img = c.getString(TAG_IMG);
+                String dateTime = c.getString(TAG_TIME);
 
-        // This happens many times a second during a scroll, so be wary of the code you place here.
-        // We are given a few useful parameters to help us work out if we need to load some more data,
-        // but first we check if we are waiting for the previous load to finish.
-        @Override
-        public void onScroll(AbsListView view,int firstVisibleItem,int visibleItemCount,int totalItemCount)
-        {
-            // If the total item count is zero and the previous isn't, assume the
-            // list is invalidated and should be reset back to initial state
-            if (totalItemCount < previousTotalItemCount) {
-                this.currentPage = this.startingPageIndex;
-                this.previousTotalItemCount = totalItemCount;
-                if (totalItemCount == 0) { this.loading = true; }
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put(TAG_TOPIC_ID, topicID);
+                map.put(TAG_CAT_ID, catID);
+                map.put(TAG_TOPIC, topic);
+                map.put(TAG_OWNER, owner);
+                map.put(TAG_TIME, dateTime);
+                // Thumbnail Get ImageBitmap To Object
+                String urlBitMap =(URLImg+img);
+
+                Log.i("JSONWOW", urlBitMap.toString());
+
+                newBitmap =  imageLoader.getBitmapFromURL(urlBitMap);
+
+                map.put("ImagePathBitmap", newBitmap);
+                cateList.add(map);
+
+
+                String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
+                // Getting JSON from URL
+                JSONObject json2 = jParser.getJSONFromUrl(url2);
+
+                Data2 = json2.getJSONArray(TAG_DATA);
+                for (int i2 = 0; i2 < Data2.length(); i2++) {
+                    JSONObject c2 = Data2.getJSONObject(i2);
+                    String CAT_NAME = c2.getString(TAG_CAT_NAME);
+                    HashMap<String, Object> map2 = new HashMap<String, Object>();
+                    map2.put(TAG_CAT_NAME, CAT_NAME);
+                    // Thumbnail Get ImageBitmap To Object
+                    cateList2.add(map2);
+
+                }
             }
-            // If it’s still loading, we check to see if the dataset count has
-            // changed, if so we conclude it has finished loading and update the current page
-            // number and total item count.
-            if (loading && (totalItemCount > previousTotalItemCount)) {
-                loading = false;
-                previousTotalItemCount = totalItemCount;
-                currentPage++;
-            }
+        } catch (JSONException e) {
 
-            // If it isn’t currently loading, we check to see if we have breached
-            // the visibleThreshold and need to reload more data.
-            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
-            if (!loading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + visibleThreshold)) {
-                onLoadMore(currentPage + 1, totalItemCount);
-                loading = true;
-            }
+            e.printStackTrace();
         }
-
-        // Defines the process for actually loading more data based on page
-        public abstract void onLoadMore(int page, int totalItemsCount);
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            // Don't take any action on changed
-        }
+    }
+    private   void displayListView() {
+        /// Start Grid//
+        gridV = (GridView) findViewById(R.id.gridViewStaff);
+        // Next
+        gridV.setClipToPadding(false);
+        imageAdap = new ImageAdapter(getApplicationContext());
+        gridV.setAdapter(imageAdap);
+        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+        // OnClick Item
+        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                    int position, long mylng) {
+                topicID = cateList.get(position).get("topic_id").toString();
+                SetTopicId(topicID);
+                catID = cateList.get(position).get("cat_id").toString();
+                SetCatId(catID);
+                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", "2");
+                startActivity(it);
+            }
+        });
     }
     public String GetTopicId(){
         return TopicId;
@@ -458,19 +504,11 @@ public class StaffActivity extends ActionBarActivity {
                 convertView.setTag(viewHolder);
 
                 // ColPhoto
-
-                //imageView.getLayoutParams().height = 60;
-                // imageView.getLayoutParams().width = 60;
                 viewHolder.imageView.setPadding(5, 5, 5, 5);
                 viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 try {
                     Log.d("ERROR",cateList.get(position).get("ImagePathBitmap").toString());
                     viewHolder.imageView.setImageBitmap((Bitmap)cateList.get(position).get("ImagePathBitmap"));
-                    //  AsyncTask<String, Integer, Bitmap> exec = new Bitmapload(imageView);
-                    // exec.execute(cateList.get(position).get("ImagePathBitmap").toString());
-
-
-
                 } catch (Exception e) {
                     // When Error
                     viewHolder.imageView.setImageResource(R.drawable.add_image);
@@ -485,7 +523,7 @@ public class StaffActivity extends ActionBarActivity {
                 viewHolder. txtItemID = (TextView) convertView.findViewById(R.id.Owner);
                 viewHolder.txtItemID.setPadding(5, 0, 0, 0);
                 viewHolder.txtItemID.setText(cateList.get(position).get("owner").toString());
-// ColItemTime
+                // ColItemTime
                 viewHolder. txtTimeID = (TextView) convertView.findViewById(R.id.timestamp);
                 viewHolder.txtTimeID.setPadding(5, 0, 0, 0);
                 viewHolder.txtTimeID.setText(cateList2.get(position).get("cat_topic").toString());

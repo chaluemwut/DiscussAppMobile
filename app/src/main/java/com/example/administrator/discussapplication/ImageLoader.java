@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -35,6 +41,9 @@ public class ImageLoader {
     }
     
     final int stub_id=R.drawable.add_image;
+
+
+
     public void DisplayImage(String url, ImageView imageView)
     {
         imageViews.put(imageView, url);
@@ -186,4 +195,72 @@ public class ImageLoader {
         fileCache.clear();
     }
 
+    private static final String TAG = "Image";
+    private static final int IO_BUFFER_SIZE = 4 * 1024;
+    public static Bitmap loadBitmap(String url) {
+        Bitmap bitmap = null;
+        InputStream in = null;
+        BufferedOutputStream out = null;
+
+        try {
+            in = new BufferedInputStream(new URL(url).openStream(), IO_BUFFER_SIZE);
+
+            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+            out = new BufferedOutputStream(dataStream, IO_BUFFER_SIZE);
+            copy(in, out);
+            out.flush();
+
+            final byte[] data = dataStream.toByteArray();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            //options.inSampleSize = 1;
+
+//            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+
+             bitmap = BitmapFactory.decodeFile(url);
+        } catch (IOException e) {
+            Log.e(TAG, "Could not load Bitmap from: " + url);
+        } finally {
+            closeStream(in);
+            closeStream(out);
+        }
+
+        return bitmap;
+    }
+
+    private static void closeStream(Closeable stream) {
+        if (stream != null) {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                android.util.Log.e(TAG, "Could not close stream", e);
+            }
+        }
+    }
+
+    private static void copy(InputStream in, OutputStream out) throws IOException {
+        byte[] b = new byte[IO_BUFFER_SIZE];
+        int read;
+        while ((read = in.read(b)) != -1) {
+            out.write(b, 0, read);
+        }
+    }
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            System.out.printf("src", src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            System.out.printf("Bitmap", "returned");
+            myBitmap = Bitmap.createScaledBitmap(myBitmap, 100,100, false);//This is only if u want to set the image size.
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.printf("Exception", e.getMessage());
+            return null;
+        }
+    }
 }

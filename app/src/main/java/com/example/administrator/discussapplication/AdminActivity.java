@@ -1,10 +1,12 @@
 package com.example.administrator.discussapplication;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -36,8 +38,8 @@ import java.util.List;
 
 
 public class AdminActivity extends ActionBarActivity {
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
+    static Config con = new Config();
+    private static String getURLServer = con.getURL();
     public ImageLoader imageLoader;
     private GridView gridV;
     private ImageAdapter imageAdap;
@@ -93,126 +95,25 @@ public class AdminActivity extends ActionBarActivity {
         // Get Username//
         TextView NameUser = (TextView) this.findViewById(R.id.NameUser);
         NameUser.setText(username);
-        TextView TB = (TextView)this.findViewById(R.id.TB);
+        TextView TB = (TextView) this.findViewById(R.id.TB);
         TB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getApplicationContext(), AdminActivity.class);
 
                 it.putExtra("topic_id", topicID);
-                it.putExtra("username",username);
-                it.putExtra("cat_id",catID);
-                it.putExtra("role_id",roleID);
-            }
-        });
-
-        Bitmap newBitmap;
-        String url = getURLServer + "jsonShowCatID";
-        // Getting JSON from URL
-        JSONObject json = jParser.getJSONFromUrl(url);
-        imageLoader = new ImageLoader(this);
-        // GridView and imageAdapter
-        cateList.clear();
-        cateList2.clear();
-        try {
-
-// Getting JSON Array
-            Data = json.getJSONArray(TAG_DATA);
-
-            for (int i = 0; i < Data.length(); i++) {
-                JSONObject c = Data.getJSONObject(i);
-                String topicID = c.getString(TAG_TOPIC_ID);
-                String catID = c.getString(TAG_CAT_ID);
-                String topic = c.getString(TAG_TOPIC);
-                String owner = c.getString(TAG_OWNER);
-                String img = c.getString(TAG_IMG);
-                String dateTime = c.getString(TAG_TIME);
-
-
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put(TAG_TOPIC_ID, topicID);
-                map.put(TAG_CAT_ID, catID);
-                map.put(TAG_TOPIC, topic);
-                map.put(TAG_OWNER, owner);
-                map.put(TAG_TIME, dateTime);
-                // Thumbnail Get ImageBitmap To Object
-                String urlBitMap = URLImg + img;
-                newBitmap = imageLoader.getBitmap(urlBitMap);
-
-
-                map.put("ImagePathBitmap", newBitmap);
-                cateList.add(map);
-////get Cat_Name
-
-                            String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
-                            // Getting JSON from URL
-                            JSONObject json2 = jParser.getJSONFromUrl(url2);
-
-                            Data2 = json2.getJSONArray(TAG_DATA);
-                            for (int i2 = 0; i2 < Data2.length(); i2++) {
-                                JSONObject c2 = Data2.getJSONObject(i2);
-                                String CAT_NAME = c2.getString(TAG_CAT_NAME);
-                                HashMap<String, Object> map2 = new HashMap<String, Object>();
-                                map2.put(TAG_CAT_NAME, CAT_NAME);
-                                // Thumbnail Get ImageBitmap To Object
-                                cateList2.add(map2);
-
-
-                            }
-
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext()
-                    , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
-        }
-
-        /// Start Grid//
-        gridV = (GridView) findViewById(R.id.gridViewAdmin);
-        // Next
-        gridV.setClipToPadding(false);
-        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-        // OnClick Item
-        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                    int position, long mylng) {
-
-                topicID = cateList.get(position).get("topic_id").toString();
-                SetTopicId(topicID);
-                catID = cateList.get(position).get("cat_id").toString();
-                imageAdap.SetCatId(catID);
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
                 it.putExtra("cat_id", catID);
                 it.putExtra("role_id", roleID);
-
-                startActivity(it);
-            }
-
-        });
-
-        /////////setAdaptet GridView
-        imageAdap = new ImageAdapter(getApplicationContext());
-        gridV.setAdapter(imageAdap);
-
-        gridV.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-                customLoadMoreDataFromApi(page);
-                // or customLoadMoreDataFromApi(totalItemsCount);
             }
         });
+
+
+
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getApplicationContext(),Admin2Activity.class);
+                Intent it = new Intent(getApplicationContext(), Admin2Activity.class);
 
                 it.putExtra("topic_id", topicID);
                 it.putExtra("username", username);
@@ -228,7 +129,7 @@ public class AdminActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                if(roleID.equals("3")) {
+                if (roleID.equals("3")) {
                     Intent it = new Intent(getApplicationContext(), SearchActivity.class);
 
                     it.putExtra("topic_id", topicID);
@@ -236,8 +137,7 @@ public class AdminActivity extends ActionBarActivity {
                     it.putExtra("cat_id", catID);
                     it.putExtra("role_id", "3");
                     startActivity(it);
-                }
-                else  if(roleID.equals("2")) {
+                } else if (roleID.equals("2")) {
                     Intent it = new Intent(getApplicationContext(), SearchActivity.class);
 
                     it.putExtra("topic_id", topicID);
@@ -245,8 +145,7 @@ public class AdminActivity extends ActionBarActivity {
                     it.putExtra("cat_id", catID);
                     it.putExtra("role_id", "2");
                     startActivity(it);
-                }
-                else  if(roleID.equals("1")) {
+                } else if (roleID.equals("1")) {
                     Intent it = new Intent(getApplicationContext(), SearchAdminActivity.class);
 
                     it.putExtra("topic_id", topicID);
@@ -293,6 +192,8 @@ public class AdminActivity extends ActionBarActivity {
 
             }
         });
+
+        new LoadViewTask().execute();
     }
 
     public void customLoadMoreDataFromApi(int offset) {
@@ -377,7 +278,6 @@ public class AdminActivity extends ActionBarActivity {
     }
 
 
-
     public String GetUsername() {
         return Username;
     }
@@ -385,7 +285,157 @@ public class AdminActivity extends ActionBarActivity {
     public void SetUsername(String Username) {
         this.Username = Username;
     }
+//////////////////////////////
+/////////////////////////
+public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
 
+
+    ProgressDialog pd;
+
+
+    @Override
+    protected void onPreExecute() {
+        pd = new ProgressDialog(AdminActivity.this);
+        pd.setMessage("Loading Comments...");
+        pd.setIndeterminate(false);
+        pd.setCancelable(true);
+        pd.show();
+
+
+    }
+
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+
+        updateJSON();
+        return null;
+    }
+
+
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        pd.dismiss();
+        runOnUiThread(new Runnable() {
+            public void run() {
+
+                displayListView();
+
+            }
+        });
+    }
+    private void updateJSON() {
+        Bitmap newBitmap;
+        String url = getURLServer + "jsonShowCatID";
+        // Getting JSON from URL
+        JSONObject json = jParser.getJSONFromUrl(url);
+
+        // GridView and imageAdapter
+        cateList.clear();
+        cateList2.clear();
+        try {
+
+// Getting JSON Array
+            Data = json.getJSONArray(TAG_DATA);
+
+            for (int i = 0; i < Data.length(); i++) {
+                JSONObject c = Data.getJSONObject(i);
+                String topicID = c.getString(TAG_TOPIC_ID);
+                String catID = c.getString(TAG_CAT_ID);
+                String topic = c.getString(TAG_TOPIC);
+                String owner = c.getString(TAG_OWNER);
+                String img = c.getString(TAG_IMG);
+                String dateTime = c.getString(TAG_TIME);
+
+
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put(TAG_TOPIC_ID, topicID);
+                map.put(TAG_CAT_ID, catID);
+                map.put(TAG_TOPIC, topic);
+                map.put(TAG_OWNER, owner);
+                map.put(TAG_TIME, dateTime);
+                // Thumbnail Get ImageBitmap To Object
+                String urlBitMap = URLImg + img;
+                newBitmap = imageLoader.getBitmapFromURL(urlBitMap);
+
+
+                map.put("ImagePathBitmap", newBitmap);
+                cateList.add(map);
+////get Cat_Name
+
+                String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
+                // Getting JSON from URL
+                JSONObject json2 = jParser.getJSONFromUrl(url2);
+
+                Data2 = json2.getJSONArray(TAG_DATA);
+                for (int i2 = 0; i2 < Data2.length(); i2++) {
+                    JSONObject c2 = Data2.getJSONObject(i2);
+                    String CAT_NAME = c2.getString(TAG_CAT_NAME);
+                    HashMap<String, Object> map2 = new HashMap<String, Object>();
+                    map2.put(TAG_CAT_NAME, CAT_NAME);
+                    // Thumbnail Get ImageBitmap To Object
+                    cateList2.add(map2);
+
+
+                }
+
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext()
+                    , "เชื่อมต่อระบบล้มเหลว ", Toast.LENGTH_LONG).show();
+        }
+    }
+}
+
+    private void displayListView() {
+
+        /// Start Grid//
+        gridV = (GridView) findViewById(R.id.gridViewAdmin);
+        // Next
+        gridV.setClipToPadding(false);
+        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+        // OnClick Item
+        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                    int position, long mylng) {
+
+                topicID = cateList.get(position).get("topic_id").toString();
+                SetTopicId(topicID);
+                catID = cateList.get(position).get("cat_id").toString();
+                imageAdap.SetCatId(catID);
+                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+
+                startActivity(it);
+            }
+
+        });
+
+        /////////setAdaptet GridView
+        imageAdap = new ImageAdapter(getApplicationContext());
+        gridV.setAdapter(imageAdap);
+
+        gridV.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                customLoadMoreDataFromApi(page);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+            }
+        });
+    }
+
+    //////////////////////////
     /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
