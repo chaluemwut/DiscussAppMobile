@@ -38,33 +38,33 @@ import java.util.List;
 
 
 public class AdminActivity extends ActionBarActivity {
-    static Config con = new Config();
-    private static String getURLServer = con.getURL();
-    public ImageLoader imageLoader;
-    private GridView gridV;
-    private ImageAdapter imageAdap;
-    ///value Spinner
-
     private static final String TAG_CAT_NAME = "cat_topic";
-    //JSON Node Names Gridviwe
-
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
     private static final String TAG_OWNER = "owner";
+    ///value Spinner
     private static final String TAG_IMG = "img";
+    //JSON Node Names Gridviwe
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer + "images/";
+    static Config con = new Config();
+    private static String getURLServer = con.getURL();
+    private static final String URLImg = getURLServer + "images_re/";
+    private static long back_pressed;
+    public ImageLoader imageLoader;
     JSONArray Data = null;
     JSONArray Data2 = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
+    private GridView gridV;
+    private ImageAdapter imageAdap;
     private String catIDAdmin;
     private String username, topicID, catID, roleID;
     private String TopicId, CatId, Username;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +202,124 @@ public class AdminActivity extends ActionBarActivity {
         // Deserialize API response and then construct new objects to append to the adapter
     }
 
+    public String GetTopicId() {
+        return TopicId;
+    }
+
+    public void SetTopicId(String TopicId) {
+        this.TopicId = TopicId;
+    }
+
+    public String GetUsername() {
+        return Username;
+    }
+
+    public void SetUsername(String Username) {
+        this.Username = Username;
+    }
+
+    private void displayListView() {
+
+        /// Start Grid//
+        gridV = (GridView) findViewById(R.id.gridViewAdmin);
+        // Next
+        gridV.setClipToPadding(false);
+        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
+        // OnClick Item
+        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> myAdapter, View myView,
+                                    int position, long mylng) {
+
+                topicID = cateList.get(position).get("topic_id").toString();
+                SetTopicId(topicID);
+                catID = cateList.get(position).get("cat_id").toString();
+                imageAdap.SetCatId(catID);
+                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
+
+                it.putExtra("topic_id", topicID);
+                it.putExtra("username", username);
+                it.putExtra("cat_id", catID);
+                it.putExtra("role_id", roleID);
+
+                startActivity(it);
+            }
+
+        });
+
+        /////////setAdaptet GridView
+        imageAdap = new ImageAdapter(getApplicationContext());
+        gridV.setAdapter(imageAdap);
+
+        gridV.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                customLoadMoreDataFromApi(page);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_admin, menu);
+        return true;
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                System.out.println("");
+                SaveSharedPreference.clearUserName(AdminActivity.this);
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
         // before loading more.
@@ -269,22 +387,6 @@ public class AdminActivity extends ActionBarActivity {
         }
     }
 
-    public String GetTopicId() {
-        return TopicId;
-    }
-
-    public void SetTopicId(String TopicId) {
-        this.TopicId = TopicId;
-    }
-
-
-    public String GetUsername() {
-        return Username;
-    }
-
-    public void SetUsername(String Username) {
-        this.Username = Username;
-    }
 //////////////////////////////
 /////////////////////////
 public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
@@ -296,7 +398,7 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         pd = new ProgressDialog(AdminActivity.this);
-        pd.setMessage("Loading Comments...");
+        pd.setMessage("กรุณารอสักครู่...");
         pd.setIndeterminate(false);
         pd.setCancelable(true);
         pd.show();
@@ -391,65 +493,22 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
     }
 }
 
-    private void displayListView() {
-
-        /// Start Grid//
-        gridV = (GridView) findViewById(R.id.gridViewAdmin);
-        // Next
-        gridV.setClipToPadding(false);
-        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-        // OnClick Item
-        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> myAdapter, View myView,
-                                    int position, long mylng) {
-
-                topicID = cateList.get(position).get("topic_id").toString();
-                SetTopicId(topicID);
-                catID = cateList.get(position).get("cat_id").toString();
-                imageAdap.SetCatId(catID);
-                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-
-                it.putExtra("topic_id", topicID);
-                it.putExtra("username", username);
-                it.putExtra("cat_id", catID);
-                it.putExtra("role_id", roleID);
-
-                startActivity(it);
-            }
-
-        });
-
-        /////////setAdaptet GridView
-        imageAdap = new ImageAdapter(getApplicationContext());
-        gridV.setAdapter(imageAdap);
-
-        gridV.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-                customLoadMoreDataFromApi(page);
-                // or customLoadMoreDataFromApi(totalItemsCount);
-            }
-        });
-    }
-
     //////////////////////////
     /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
-        private Context mContext;
         String CatId;
+        private Context mContext;
+        public ImageAdapter(Context context) {
+            mContext = context;
+        }
+
         public String GetCatId() {
             return CatId;
         }
 
         public void SetCatId(String CatId) {
             this.CatId = CatId;
-        }
-        public ImageAdapter(Context context) {
-            mContext = context;
         }
 
         public int getCount() {
@@ -462,16 +521,6 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
 
         public long getItemId(int position) {
             return position;
-        }
-
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-            int position = -1;
-            Handler handler;
-            ImageButton btnUpdate, btnDelete, btnPoint, btnGO;
         }
 
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -696,66 +745,16 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
 
         }
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_admin, menu);
-        return true;
-    }
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
+            int position = -1;
+            Handler handler;
+            ImageButton btnUpdate, btnDelete, btnPoint, btnGO;
         }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                System.out.println("");
-                SaveSharedPreference.clearUserName(AdminActivity.this);
-                startActivity(it);
 
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
 }

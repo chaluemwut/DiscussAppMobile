@@ -34,40 +34,36 @@ import java.util.HashMap;
 
 
 public class SpinnnerActivity extends ActionBarActivity {
-    private ImageLoader imageLoader;
-    private ListView listV;
-    private ImageAdapter imageAdap;
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
-
-    public String topicID,username,catID,roleID ;
-    private String TopicId,CatId,Username,Catname;
-    ///value Spinner
-
     private static final String TAG_cat_id_SPINNER = "cat_id";
     private static final String TAG_cat_topic_SPINNER = "cat_topic";
     private static final String TAG_USER_SPINNER = "userName";
     private static final String TAG_DATA_SPINNER = "data";
-    private JSONArray DataSpinner=null;
-    final ArrayList<String> spinnerlist =new ArrayList<String>();
-    ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
-    ////ListView
-    Bitmap newBitmap;
-
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
+    ///value Spinner
     private static final String TAG_OWNER = "owner";
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer+"images/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+    private static final String URLImg = getURLServer+"images_re/";
+    private static long back_pressed;
+    final ArrayList<String> spinnerlist =new ArrayList<String>();
+    public String topicID,username,catID,roleID ;
+    ArrayList<HashMap<String, String>> spinner = new ArrayList<HashMap<String, String>>();
+    ////ListView
+    Bitmap newBitmap;
     ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
-
-
-
+    private ImageLoader imageLoader;
+    private ListView listV;
+    private ImageAdapter imageAdap;
+    private String TopicId,CatId,Username,Catname;
+    private JSONArray DataSpinner=null;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,9 +188,6 @@ public class SpinnnerActivity extends ActionBarActivity {
                         Toast.LENGTH_SHORT).show();
 
 
-                // listV.setAdapter(imageAdap);
-
-                // arrAd.notifyDataSetChanged();
                 final ArrayList<HashMap<String, Object>> backUpList = ListData(catID);
                 imageLoader.clearCache();
                 listV.setClipToPadding(false);
@@ -323,11 +316,81 @@ public class SpinnnerActivity extends ActionBarActivity {
         return cateList;
     }
 
-
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
         // Deserialize API response and then construct new objects to append to the adapter
+    }
+
+    public String GetCatname(){
+        return Catname;
+    }
+    public void SetCatname(String Catname){
+        this.Catname=Catname;
+    }
+    @Override
+    public void onDestroy()
+    {   Log.i("onDestory","end");
+        listV.setAdapter(null);
+        imageLoader.clearCache();
+        super.onDestroy();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(SpinnnerActivity.this);
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
@@ -395,6 +458,7 @@ public class SpinnnerActivity extends ActionBarActivity {
             // Don't take any action on changed
         }
     }
+
     class ImageAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -415,14 +479,6 @@ public class SpinnnerActivity extends ActionBarActivity {
             return position;
         }
 
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-            int position = -1;
-            Handler handler;
-        }
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -481,77 +537,15 @@ public class SpinnnerActivity extends ActionBarActivity {
 
         }
 
-    }
-    public String GetCatname(){
-        return Catname;
-    }
-    public void SetCatname(String Catname){
-        this.Catname=Catname;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        listV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(SpinnnerActivity.this);
-                System.out.println("");
-                startActivity(it);
-
-
-            default:
-                return super.onOptionsItemSelected(item);
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
+            int position = -1;
+            Handler handler;
         }
-    }
-    private static long back_pressed;
-    private Toast toast;
-    @Override
 
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-        }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
     }
 
 }

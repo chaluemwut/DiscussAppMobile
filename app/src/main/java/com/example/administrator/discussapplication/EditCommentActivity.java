@@ -32,27 +32,11 @@ import java.util.List;
 
 
 public class EditCommentActivity extends ActionBarActivity {
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
-
-    Bitmap bitmap;
-
-    ProgressDialog pDialog;
-    ImageView ImgPost,viewImage;
-    EditText etdCate ;
-    EditText edtTextTopicEdit ;
-    TextView edtTextDescEdit;
-
-    ArrayList<HashMap<String, Object>> catList = new ArrayList<>();
     private static final String TAG_CATENAME = "cat_topic";
     private static final String TAG_OWNER_CATE = "username";
     private static final String TAG_DATE = "date_time";
     private static final String TAG_NUM_COUNT = "num_reply";
     private static final String TAG_DATA = "data";
-
-
-    //JSON Node Names Gridviwe
-
     private static final String TAG_TOPIC_ID2 = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -60,8 +44,20 @@ public class EditCommentActivity extends ActionBarActivity {
     private static final String TAG_COMMENT = "description";
     private static final String TAG_IMG = "img";
     private static final String TAG_TIME2 = "dateTime";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+
+
+    //JSON Node Names Gridviwe
     private static final String URLImg = getURLServer+"images/";
-    private  String getTopicName,getDesc;
+    private static long back_pressed;
+    Bitmap bitmap;
+    ProgressDialog pDialog;
+    ImageView ImgPost,viewImage;
+    EditText etdCate ;
+    EditText edtTextTopicEdit ;
+    TextView edtTextDescEdit;
+    ArrayList<HashMap<String, Object>> catList = new ArrayList<>();
     JSONArray Data = null;
 //get Intent
     String topicID,catID,username,roleID;
@@ -71,6 +67,9 @@ public class EditCommentActivity extends ActionBarActivity {
     String catID2,ownerCat,date,numCount,catName;
 
     JSONParser jParser = new JSONParser();
+    private  String getTopicName,getDesc;
+    private Toast toast;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,12 +291,71 @@ public class EditCommentActivity extends ActionBarActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_comment, menu);
+        return true;
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(EditCommentActivity.this);
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private class LoadImage extends AsyncTask<String, String, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(EditCommentActivity.this);
-            pDialog.setMessage("Loading Image ....");
+            pDialog.setMessage("กรุณารอสักครู่...");
             pDialog.show();
 
         }
@@ -344,66 +402,6 @@ public class EditCommentActivity extends ActionBarActivity {
                 pDialog.dismiss();
 
             }
-        }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_edit_comment, menu);
-        return true;
-    }
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-        }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(EditCommentActivity.this);
-                System.out.println("");
-                startActivity(it);
-
-
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

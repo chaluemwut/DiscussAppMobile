@@ -38,20 +38,12 @@ import java.util.List;
 
 
 public class SearchStaffActivity extends ActionBarActivity {
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
-    Bitmap newBitmap;
-    private ImageLoader imageLoader;
-    private ListView lisView1;
-    private ImageAdapter imageAdap;
-
     /////get Staff
     private static final String TAG_CAT_ID_STAFF = "cat_id";
     private static final String TAG_CAT_TOPPIC= "cat_topic";
     private static final String TAG_USERNAME_STAFF = "username";
     private static final String TAG_TIME_CATE = "date";
     private static final String TAG_Count = "num_reply";
-
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -59,15 +51,22 @@ public class SearchStaffActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer + "images/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+    private static final String URLImg = getURLServer + "images_re/";
+    private static long back_pressed;
+    Bitmap newBitmap;
     ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     JSONParser jParser = new JSONParser();
+    String nameCatStaff,catIDStaff,usernameStaff,countComment,timeStaffCat;
+    private ImageLoader imageLoader;
+    private ListView lisView1;
+    private ImageAdapter imageAdap;
     private String username ,topicID,catID,roleID,topic;
     private String TopicId,CatId,Username;
-    String nameCatStaff,catIDStaff,usernameStaff,countComment,timeStaffCat;
-
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +185,6 @@ public class SearchStaffActivity extends ActionBarActivity {
 
 
     }
-
 
     public void SearchData(String Catid) {
         // listView1
@@ -309,12 +307,70 @@ public class SearchStaffActivity extends ActionBarActivity {
 
     }
 
-
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
         // Deserialize API response and then construct new objects to append to the adapter
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search_staff, menu);
+        return true;
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(SearchStaffActivity.this);
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
         // before loading more.
@@ -381,6 +437,7 @@ public class SearchStaffActivity extends ActionBarActivity {
         }
 
     }
+
     class ImageAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -399,16 +456,6 @@ public class SearchStaffActivity extends ActionBarActivity {
 
         public long getItemId(int position) {
             return position;
-        }
-
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-            int position = -1;
-            Handler handler;
-            ImageButton btnUpdate, btnDelete, btnPoint, btnGO;
         }
 
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -624,66 +671,16 @@ public class SearchStaffActivity extends ActionBarActivity {
 
         }
 
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_staff, menu);
-        return true;
-    }
-
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
+            int position = -1;
+            Handler handler;
+            ImageButton btnUpdate, btnDelete, btnPoint, btnGO;
         }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(SearchStaffActivity.this);
-                System.out.println("");
-                startActivity(it);
 
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

@@ -33,18 +33,8 @@ import java.util.HashMap;
 
 public class LandingActivity extends ActionBarActivity {
 
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
-    public ImageLoader imageLoader;
-    private GridView gridV;
-    private ImageAdapter imageAdap;
     ///value Spinner
     private static final String TAG_CAT_NAME = "cat_topic";
-    JSONArray Data2 = null;
-    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
-
-    //JSON Node Names Gridviwe
-
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -52,14 +42,25 @@ public class LandingActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer+"images/";
+
+    //JSON Node Names Gridviwe
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+    private static final String URLImg = getURLServer+"images_re/";
+    private static long back_pressed;
+    public ImageLoader imageLoader;
+    JSONArray Data2 = null;
+    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
-
+    private GridView gridV;
+    private ImageAdapter imageAdap;
     private String username ,topicID,catID,roleID;
     private String TopicId,CatId,Username;
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -110,65 +111,7 @@ public class LandingActivity extends ActionBarActivity {
 
         new LoadViewTask().execute();
 
-//          try {
-//
-//// Getting JSON Array
-//              Data = json.getJSONArray(TAG_DATA);
-//
-//                for (int i = 0; i < Data.length(); i++) {
-//                    JSONObject c = Data.getJSONObject(i);
-//                    String topicID = c.getString(TAG_TOPIC_ID);
-//                    String catID = c.getString(TAG_CAT_ID);
-//                    String topic = c.getString(TAG_TOPIC);
-//                    String owner = c.getString(TAG_OWNER);
-//                    String img = c.getString(TAG_IMG);
-//                    String dateTime = c.getString(TAG_TIME);
-//
-//                    HashMap<String, Object> map = new HashMap<String, Object>();
-//                    map.put(TAG_TOPIC_ID, topicID);
-//                    map.put(TAG_CAT_ID, catID);
-//                    map.put(TAG_TOPIC, topic);
-//                    map.put(TAG_OWNER, owner);
-//                    map.put(TAG_TIME, dateTime);
-//                    // Thumbnail Get ImageBitmap To Object
-//                    String urlBitMap = URLImg+img;
-//                    newBitmap = imageLoader.getBitmap(urlBitMap);
-//                    map.put("ImagePathBitmap", newBitmap);
-//                        cateList.add(map);
-//
-//
-//                        String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
-//                        // Getting JSON from URL
-//                        JSONObject json2 = jParser.getJSONFromUrl(url2);
-//
-//                        Data2 = json2.getJSONArray(TAG_DATA);
-//                        for (int i2 = 0; i2 < Data2.length(); i2++) {
-//                            JSONObject c2 = Data2.getJSONObject(i2);
-//                            String CAT_NAME = c2.getString(TAG_CAT_NAME);
-//                            HashMap<String, Object> map2 = new HashMap<String, Object>();
-//                            map2.put(TAG_CAT_NAME, CAT_NAME);
-//                            // Thumbnail Get ImageBitmap To Object
-//                            cateList2.add(map2);
-//
-//                    }
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//              Toast.makeText(getApplicationContext()
-//                      ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
-//
-//            }
-//
-//        /// Start Grid//
-//        gridV = (GridView) findViewById(R.id.gridView_Landing);
-//
-//        // Next
-//        gridV.setClipToPadding(false);
-//
-//        imageAdap = new ImageAdapter(getApplicationContext());
-//        gridV.setAdapter(imageAdap);
-//
+
 
 
 
@@ -228,47 +171,6 @@ public class LandingActivity extends ActionBarActivity {
         });
                 }
 
-
-
-    /////////////////////////
-    public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
-
-
-        ProgressDialog pd;
-
-
-        @Override
-        protected void onPreExecute() {
-            pd = new ProgressDialog(LandingActivity.this);
-            pd.setMessage("Loading Comments...");
-            pd.setIndeterminate(false);
-            pd.setCancelable(true);
-            pd.show();
-
-
-        }
-
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            updateJSON();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            pd.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-
-                    displayListView();
-
-                }
-            });
-        }
-    }
-
     private   void displayListView() {
 
         gridV = (GridView) findViewById(R.id.gridView_Landing);
@@ -301,10 +203,6 @@ public class LandingActivity extends ActionBarActivity {
 
         });
     }
-
-
-
-
 
     private void    updateJSON (){
 
@@ -369,25 +267,136 @@ public class LandingActivity extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+
     /////////////////////////
     public String GetTopicId(){
         return TopicId;
     }
+
     public void SetTopicId(String TopicId){
         this.TopicId=TopicId;
     }
+
     public String GetCatId(){
         return CatId;
     }
+
     public void SetCatId(String CatId){
         this.CatId=CatId;
     }
+
     public String GetUsername(){
         return Username;
     }
+
     public void SetUsername(String  Username){
         this. Username=Username;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_landing, menu);
+        return true;
+    }
+    @Override
+    public void onDestroy()
+    {   Log.i("onDestory","end");
+        gridV.setAdapter(null);
+        imageLoader.clearCache();
+        super.onDestroy();
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(LandingActivity.this);
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /////////////////////////
+    public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
+
+
+        ProgressDialog pd;
+
+
+        @Override
+        protected void onPreExecute() {
+            pd = new ProgressDialog(LandingActivity.this);
+            pd.setMessage("กรุณารอสักครู่...");
+            pd.setIndeterminate(false);
+            pd.setCancelable(true);
+            pd.show();
+
+
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            updateJSON();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            pd.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    displayListView();
+
+                }
+            });
+        }
+    }
+
     /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
@@ -409,12 +418,6 @@ public class LandingActivity extends ActionBarActivity {
             return position;
         }
 
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-        }
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -474,73 +477,12 @@ public class LandingActivity extends ActionBarActivity {
 
         }
 
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_landing, menu);
-        return true;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        gridV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
         }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(LandingActivity.this);
-                System.out.println("");
-                startActivity(it);
 
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

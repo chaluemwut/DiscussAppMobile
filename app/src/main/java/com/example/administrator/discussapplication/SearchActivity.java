@@ -37,18 +37,7 @@ import java.util.List;
 
 
 public class SearchActivity extends ActionBarActivity {
-    JSONParser jParser = new JSONParser();
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
     private static final String TAG_CAT_NAME = "cat_topic";
-    JSONArray Data2 = null;
-    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
-    //    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
-    public String topicID, username, catID,topic,roleID;
-    Bitmap newBitmap;
-    private ImageLoader imageLoader;
-    private ListView lisView1;
-    private ImageAdapter imageAdap;
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -56,11 +45,24 @@ public class SearchActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
-    private static final String URLImg = getURLServer + "images/";
+    static Config con = new Config() ;
+    private static   String getURLServer = con.getURL();
+    private static final String URLImg = getURLServer + "images_re/";
+    private static long back_pressed;
+    //    private static String getURLServer = "http://192.168.236.1:8070/DiscussAppWeb/";
+    public String topicID, username, catID,topic,roleID;
+    JSONParser jParser = new JSONParser();
+    JSONArray Data2 = null;
+    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
+    Bitmap newBitmap;
     ArrayAdapter<String> arrAd;
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     JSONParser jsonParse = new JSONParser();
+    private ImageLoader imageLoader;
+    private ListView lisView1;
+    private ImageAdapter imageAdap;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,10 +172,6 @@ public class SearchActivity extends ActionBarActivity {
         });
 
     }
-
-
-
-
 
     public void SearchData() {
         // listView1
@@ -308,12 +306,69 @@ public class SearchActivity extends ActionBarActivity {
 
     }
 
-
     public void customLoadMoreDataFromApi(int offset) {
         // This method probably sends out a network request and appends new data items to your adapter.
         // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
         // Deserialize API response and then construct new objects to append to the adapter
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท เรียบร้อย์",Toast.LENGTH_LONG).show();
+                System.out.println("");
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
         // before loading more.
@@ -380,6 +435,7 @@ public class SearchActivity extends ActionBarActivity {
         }
 
     }
+
     class ImageAdapter extends BaseAdapter {
         private List<ImageAdapter> items = null;
         private Context mContext;
@@ -404,14 +460,6 @@ public class SearchActivity extends ActionBarActivity {
             return position;
         }
 
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-            int position = -1;
-            Handler handler;
-        }
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -473,65 +521,15 @@ public class SearchActivity extends ActionBarActivity {
 
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
-    }
-
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
+            int position = -1;
+            Handler handler;
         }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท เรียบร้อย์",Toast.LENGTH_LONG).show();
-                System.out.println("");
-                startActivity(it);
 
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
 }

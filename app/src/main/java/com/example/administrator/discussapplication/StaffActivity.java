@@ -36,26 +36,13 @@ import java.util.HashMap;
 public class StaffActivity extends ActionBarActivity {
 
 
-    /////get Staff
-    String nameCatStaff,catIDStaff,usernameStaff,countComment,timeStaffCat;
     private static final String TAG_CAT_ID_STAFF = "cat_id";
     private static final String TAG_CAT_TOPPIC= "cat_topic";
     private static final String TAG_USERNAME_STAFF = "username";
     private static final String TAG_TIME_CATE = "date";
     private static final String TAG_Count = "num_reply";
-    static Config con = new Config() ;
-    private static   String getURLServer = con.getURL();
-
-    public ImageLoader imageLoader;
-    private GridView gridV;
-    private ImageAdapter imageAdap;
     ///value Spinner
     private static final String TAG_CAT_NAME = "cat_topic";
-    JSONArray Data2 = null;
-    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
-
-    //JSON Node Names Gridviwe
-
     private static final String TAG_TOPIC_ID = "topic_id";
     private static final String TAG_CAT_ID = "cat_id";
     private static final String TAG_TOPIC = "topic";
@@ -63,14 +50,27 @@ public class StaffActivity extends ActionBarActivity {
     private static final String TAG_IMG = "img";
     private static final String TAG_DATA = "data";
     private static final String TAG_TIME = "dateTime";
+    static Config con = new Config() ;
+
+    //JSON Node Names Gridviwe
+    private static   String getURLServer = con.getURL();
     private static final String URLImg = getURLServer+"images/";
+    private static long back_pressed;
+    public ImageLoader imageLoader;
+    /////get Staff
+    String nameCatStaff,catIDStaff,usernameStaff,countComment,timeStaffCat;
+    JSONArray Data2 = null;
+    ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
     JSONArray Data = null;
     ArrayList<HashMap<String, Object>> cateList = new ArrayList<>();
     //ArrayList<HashMap<String, Object>> cateList = new ArrayList<HashMap<String, Object>>();
     JSONParser jParser = new JSONParser();
-
+    private GridView gridV;
+    private ImageAdapter imageAdap;
     private String username ,topicID,catID,roleID;
     private String TopicId,CatId,Username;
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -149,106 +149,7 @@ public class StaffActivity extends ActionBarActivity {
 
         new LoadViewTask2().execute();
 
-//        Bitmap newBitmap;
-//
-//        // Getting JSON from URL
-//        JSONObject json = jParser.getJSONFromUrl(url);
-//        imageLoader = new ImageLoader(this);
-//        // GridView and imageAdapter
-//        cateList.clear();
-//        cateList2.clear();
-//        try {
-//
-//// Getting JSON Array
-//            Data = json.getJSONArray(TAG_DATA);
-//
-//            for (int i = 0; i < Data.length(); i++) {
-//                JSONObject c = Data.getJSONObject(i);
-//                String topicID = c.getString(TAG_TOPIC_ID);
-//                String catID = c.getString(TAG_CAT_ID);
-//                String topic = c.getString(TAG_TOPIC);
-//                String owner = c.getString(TAG_OWNER);
-//                String img = c.getString(TAG_IMG);
-//                String dateTime = c.getString(TAG_TIME);
-//
-//                HashMap<String, Object> map = new HashMap<String, Object>();
-//                map.put(TAG_TOPIC_ID, topicID);
-//                map.put(TAG_CAT_ID, catID);
-//                map.put(TAG_TOPIC, topic);
-//                map.put(TAG_OWNER, owner);
-//                map.put(TAG_TIME, dateTime);
-//                // Thumbnail Get ImageBitmap To Object
-//                String urlBitMap = URLImg+img;
-//                newBitmap = imageLoader.getBitmap(urlBitMap);
-//
-//
-//                map.put("ImagePathBitmap", newBitmap);
-//                cateList.add(map);
-//
-//                if (!catID.equals(null)) {
-//                    String url2 = getURLServer + "jsonShowCat?cat_id=" + catID + "";
-//                    // Getting JSON from URL
-//                    JSONObject json2 = jParser.getJSONFromUrl(url2);
-//
-//                    Data2 = json2.getJSONArray(TAG_DATA);
-//                    for (int i2 = 0; i2 < Data2.length(); i2++) {
-//                        JSONObject c2 = Data2.getJSONObject(i2);
-//                        String CAT_NAME = c2.getString(TAG_CAT_NAME);
-//                        HashMap<String, Object> map2 = new HashMap<String, Object>();
-//                        map2.put(TAG_CAT_NAME, CAT_NAME);
-//                        // Thumbnail Get ImageBitmap To Object
-//                        cateList2.add(map2);
-//
-//                    }
-//                }
-//            }
-//
-//
-//            /// Start Grid//
-//            gridV = (GridView) findViewById(R.id.gridViewStaff);
-//
-//            // Next
-//            gridV.setClipToPadding(false);
-//
-//            imageAdap = new ImageAdapter(getApplicationContext());
-//            gridV.setAdapter(imageAdap);
-//
-//
-//
-//
-//
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            Toast.makeText(getApplicationContext()
-//                    ,"เชื่อมต่อระบบล้มเหลว ",Toast.LENGTH_LONG).show();
-//        }
 
-
-//
-//        final AlertDialog.Builder viewDetail = new AlertDialog.Builder(this);
-//        // OnClick Item
-//        gridV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            public void onItemClick(AdapterView<?> myAdapter, View myView,
-//                                    int position, long mylng) {
-//
-//                topicID =  cateList.get(position).get("topic_id").toString();
-//                SetTopicId(topicID);
-//                catID =  cateList.get(position).get("cat_id").toString();
-//                SetCatId(catID);
-//                Intent it = new Intent(getApplicationContext(), CommentActivity.class);
-//
-//                it.putExtra("topic_id", topicID);
-//                it.putExtra("username",username);
-//                it.putExtra("cat_id",catID);
-//                it.putExtra("role_id","2");
-//
-//                startActivity(it);
-//            }
-//
-//        });
         btnStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,41 +219,6 @@ public class StaffActivity extends ActionBarActivity {
         });
     }
 
-    /////////////////////////
-    public class LoadViewTask2 extends AsyncTask<Void, Void, Boolean> {
-
-
-        ProgressDialog pd;
-
-
-        @Override
-        protected void onPreExecute() {
-            pd = new ProgressDialog(StaffActivity.this);
-            pd.setMessage("Loading Comments...");
-            pd.setIndeterminate(false);
-            pd.setCancelable(true);
-            pd.show();
-
-
-        }
-
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            updateJSON();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            pd.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    displayListView();
-                }
-            });
-        }
-    }
     private void    updateJSON (){
 
         cateList2 = new ArrayList<>();
@@ -416,6 +282,7 @@ public class StaffActivity extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+
     private   void displayListView() {
         /// Start Grid//
         gridV = (GridView) findViewById(R.id.gridViewStaff);
@@ -441,24 +308,132 @@ public class StaffActivity extends ActionBarActivity {
             }
         });
     }
+
     public String GetTopicId(){
         return TopicId;
     }
+
     public void SetTopicId(String TopicId){
         this.TopicId=TopicId;
     }
+
     public String GetCatId(){
         return CatId;
     }
+
     public void SetCatId(String CatId){
         this.CatId=CatId;
     }
+
     public String GetUsername(){
         return Username;
     }
+
     public void SetUsername(String  Username){
         this. Username=Username;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_staff, menu);
+        return true;
+    }
+    @Override
+    public void onDestroy()
+    {   Log.i("onDestory","end");
+        gridV.setAdapter(null);
+        imageLoader.clearCache();
+        super.onDestroy();
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                System.out.println("");
+                SaveSharedPreference.clearUserName(StaffActivity.this);
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /////////////////////////
+    public class LoadViewTask2 extends AsyncTask<Void, Void, Boolean> {
+
+
+        ProgressDialog pd;
+
+
+        @Override
+        protected void onPreExecute() {
+            pd = new ProgressDialog(StaffActivity.this);
+            pd.setMessage("กรุณารอสักครู่...");
+            pd.setIndeterminate(false);
+            pd.setCancelable(true);
+            pd.show();
+
+
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            updateJSON();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            pd.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    displayListView();
+                }
+            });
+        }
+    }
+
     /////ImageAdapter/////
     class ImageAdapter extends BaseAdapter {
 
@@ -480,14 +455,6 @@ public class StaffActivity extends ActionBarActivity {
             return position;
         }
 
-        class ViewHolderItem {
-            ImageView imageView;
-            TextView txtImageID;
-            TextView txtItemID;
-            TextView txtTimeID;
-            int position = -1;
-            Handler handler;
-        }
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
 
@@ -538,74 +505,14 @@ public class StaffActivity extends ActionBarActivity {
 
         }
 
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_staff, menu);
-        return true;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        gridV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
-
-
-    private static long back_pressed;
-    private Toast toast;
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+        class ViewHolderItem {
+            ImageView imageView;
+            TextView txtImageID;
+            TextView txtItemID;
+            TextView txtTimeID;
+            int position = -1;
+            Handler handler;
         }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                System.out.println("");
-                SaveSharedPreference.clearUserName(StaffActivity.this);
-                startActivity(it);
 
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }
