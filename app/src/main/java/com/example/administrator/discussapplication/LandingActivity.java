@@ -47,7 +47,6 @@ public class LandingActivity extends ActionBarActivity {
     static Config con = new Config() ;
     private static   String getURLServer = con.getURL();
     private static final String URLImg = getURLServer+"images_re/";
-    private static long back_pressed;
     public ImageLoader imageLoader;
     JSONArray Data2 = null;
     ArrayList<HashMap<String, Object>> cateList2 = new ArrayList<>();
@@ -59,7 +58,7 @@ public class LandingActivity extends ActionBarActivity {
     private ImageAdapter imageAdap;
     private String username ,topicID,catID,roleID;
     private String TopicId,CatId,Username;
-    private Toast toast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,56 +306,6 @@ public class LandingActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-        }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(LandingActivity.this);
-                System.out.println("");
-                startActivity(it);
-
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     /////////////////////////
     public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
@@ -484,5 +433,56 @@ public class LandingActivity extends ActionBarActivity {
             TextView txtTimeID;
         }
 
+    }
+    private static long back_pressed;
+    private Toast toast;
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                System.out.println("");
+                SaveSharedPreference.clearUserName(LandingActivity.this);
+                startActivity(it);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
