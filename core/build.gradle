@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.2.5'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "21.1.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 20
+    }
+}
+
+publish {
+    repoName = 'maven-private'
+    userOrg = 'novoda'
+    groupId = 'com.novoda'
+    artifactId = 'image-loader'
+    version = project.version
+    description = 'ImageLoader for Android'
+    website = 'https://github.com/novoda/image-loader'
+}

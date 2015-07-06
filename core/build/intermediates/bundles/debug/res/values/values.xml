@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/F:/workspace/DiscussAppMobile/core/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="px__debug_imageloader_file_overlay">#804040FF</color>
+    <color name="px__debug_imageloader_memory_overlay">#8040FF40</color>
+    <color name="px__debug_imageloader_network_overlay">#80FF4040</color>
+    <!-- From: file:/F:/workspace/DiscussAppMobile/core/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">PixelFetcher</string>
+</resources>
