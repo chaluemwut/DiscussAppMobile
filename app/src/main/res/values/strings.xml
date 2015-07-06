@@ -3,7 +3,7 @@
     <string name="LOGIN">LOGIN</string>
     <string name="action_settings">Logout</string>
     <string name="app_name">DiscussApp</string>
-    <string name="no_image">ไม่มีรูปภาพ</string>
-
+    <string name="no_image">  ไม่มีรูปภาพ  </string>
+    <string name="add_image">ใส่รูปภาพ</string>
     app_name
 </resources>
