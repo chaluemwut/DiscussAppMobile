@@ -1,23 +1,23 @@
 <resources>
 
-    <string name="PassWord">UTF-8</string>
-    <string name="Username">UTF-8</string>
-    <string name="action_settings">UTF-8</string>
-    <string name="app_name">UTF-8</string>
-    <string name="LOGIN">UTF-8</string>
-    <string name="hello_world">UTF-8</string>
-    <string name="title_activity_alltopic">UTF-8</string>
-    <string name="title_activity_cate">UTF-8</string>
-    <string name="title_activity_category">UTF-8</string>
-    <string name="title_activity_categoty">UTF-8</string>
-    <string name="title_activity_comment">UTF-8</string>
-    <string name="title_activity_comment2">UTF-8</string>
-    <string name="title_activity_home">UTF-8</string>
-    <string name="title_activity_landing">UTF-8</string>
-    <string name="title_activity_post">UTF-8</string>
-    <string name="title_activity_post_image">UTF-8</string>
-    <string name="title_activity_profile">UTF-8</string>
-    <string name="title_activity_register">UTF-8</string>
-    <string name="title_activity_test_grid_adapter">UTF-8</string>
+    <string name="PassWord">PASSWORD</string>
+    <string name="Username">USERNAME</string>
+    <string name="action_settings">LOGOUT</string>
+    <string name="app_name">DiscussApp</string>
+    <string name="LOGIN">LOGIN</string>
+    <string name="hello_world">Hello</string>
+    <string name="title_activity_alltopic">DiscussApp</string>
+    <string name="title_activity_cate">DiscussApp</string>
+    <string name="title_activity_category">DiscussApp</string>
+    <string name="title_activity_categoty">DiscussApp</string>
+    <string name="title_activity_comment">DiscussApp</string>
+    <string name="title_activity_comment2">DiscussApp</string>
+    <string name="title_activity_home">DiscussApp</string>
+    <string name="title_activity_landing">DiscussApp</string>
+    <string name="title_activity_post">DiscussApp</string>
+    <string name="title_activity_post_image">DiscussApp</string>
+    <string name="title_activity_profile">DiscussApp</string>
+    <string name="title_activity_register">DiscussApp</string>
+    <string name="title_activity_test_grid_adapter">DiscussApp</string>
 
 </resources>
