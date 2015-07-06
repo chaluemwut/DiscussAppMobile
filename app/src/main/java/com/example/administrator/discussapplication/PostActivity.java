@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -196,8 +197,9 @@ public class PostActivity extends ActionBarActivity {
             }
         });
 
-        TextView clickpost = (TextView) this.findViewById(R.id.ClickPost);
-        clickpost.setOnClickListener(new View.OnClickListener() {
+/////S
+        Button noImage = (Button)this.findViewById(R.id.noImage);
+        noImage.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
