@@ -292,6 +292,61 @@ public class EditCommentActivity extends ActionBarActivity {
         });
     }
 
+
+    private class LoadImage extends AsyncTask<String, String, Bitmap> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(EditCommentActivity.this);
+            pDialog.setMessage("กรุณารอสักครู่...");
+            pDialog.show();
+
+        }
+
+        protected Bitmap doInBackground(String... args) {
+            try {
+                bitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        } protected void onPostExecute(final Bitmap image) {
+
+            if(image != null){
+                ImgPost.setImageBitmap(image);
+
+                ImgPost.setOnClickListener(new View.OnClickListener() {
+                    ImageView imageView;
+
+                    boolean isImageFitToScreen;
+                    @Override
+                    public void onClick(View v) {
+                        ImgPost.setImageBitmap(null);
+                        viewImage.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+                        viewImage.setImageBitmap(image);
+                        ImgPost.setImageBitmap(null);
+                    }
+                });
+                viewImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewImage.setImageBitmap(null);
+                        ImgPost.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+                        ImgPost.setImageBitmap(image);
+
+                    }
+                });
+                pDialog.dismiss();
+            }else{
+
+                pDialog.dismiss();
+
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -350,58 +405,4 @@ public class EditCommentActivity extends ActionBarActivity {
         }
     }
 
-    private class LoadImage extends AsyncTask<String, String, Bitmap> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(EditCommentActivity.this);
-            pDialog.setMessage("กรุณารอสักครู่...");
-            pDialog.show();
-
-        }
-
-        protected Bitmap doInBackground(String... args) {
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        } protected void onPostExecute(final Bitmap image) {
-
-            if(image != null){
-                ImgPost.setImageBitmap(image);
-
-                ImgPost.setOnClickListener(new View.OnClickListener() {
-                    ImageView imageView;
-
-                    boolean isImageFitToScreen;
-                    @Override
-                    public void onClick(View v) {
-                        ImgPost.setImageBitmap(null);
-                        viewImage.setVisibility(View.VISIBLE);
-                        v.setVisibility(View.GONE);
-                        viewImage.setImageBitmap(image);
-                        ImgPost.setImageBitmap(null);
-                    }
-                });
-                viewImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewImage.setImageBitmap(null);
-                        ImgPost.setVisibility(View.VISIBLE);
-                        v.setVisibility(View.GONE);
-                        ImgPost.setImageBitmap(image);
-
-                    }
-                });
-                pDialog.dismiss();
-            }else{
-
-                pDialog.dismiss();
-
-            }
-        }
-    }
 }

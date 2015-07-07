@@ -314,62 +314,7 @@ public class SearchAdminActivity extends ActionBarActivity {
         // Deserialize API response and then construct new objects to append to the adapter
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
-                it.putExtra("topic_id", "");
-                it.putExtra("username","");
-                it.putExtra("cat_id","");
-                it.putExtra("role_id","");
-                Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
-                SaveSharedPreference.clearUserName(SearchAdminActivity.this);
-                System.out.println("");
-                startActivity(it);
 
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-
-    public void onBackPressed()
-    {
-
-
-        if (back_pressed + 2000 > System.currentTimeMillis())
-        {
-
-            // need to cancel the toast here
-            toast.cancel();
-
-            // code for exit
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-        }
-        else
-        {
-            // ask user to press back button one more time to close app
-            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        back_pressed = System.currentTimeMillis();
-    }
 
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // The minimum amount of items to have below your current scroll position
@@ -705,5 +650,60 @@ public class SearchAdminActivity extends ActionBarActivity {
         }
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                it.putExtra("topic_id", "");
+                it.putExtra("username","");
+                it.putExtra("cat_id","");
+                it.putExtra("role_id","");
+                Toast.makeText(getApplicationContext()
+                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                SaveSharedPreference.clearUserName(SearchAdminActivity.this);
+                System.out.println("");
+                startActivity(it);
 
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+
+    public void onBackPressed()
+    {
+
+
+        if (back_pressed + 2000 > System.currentTimeMillis())
+        {
+
+            // need to cancel the toast here
+            toast.cancel();
+
+            // code for exit
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        else
+        {
+            // ask user to press back button one more time to close app
+            toast=  Toast.makeText(getBaseContext(), "คลิกอีกครั้งเพื่อออกจาก Discuss App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
 }
