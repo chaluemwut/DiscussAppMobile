@@ -34,6 +34,9 @@ import java.net.URL;
 
 
 public class PostImageActivity extends ActionBarActivity {
+
+    PostActivity previousScree;
+
     static Config con = new Config() ;
     private static   String getURLServer = con.getURL();
 
@@ -439,4 +442,13 @@ public class PostImageActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public PostActivity getPreviousScree(){
+        return previousScree;
+    }
+
+    public void setPreviousScree(PostActivity postActivity){
+        this.previousScree = postActivity;
+    }
+
 }

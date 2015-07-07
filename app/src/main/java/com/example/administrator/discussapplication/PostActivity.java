@@ -148,6 +148,8 @@ public class PostActivity extends ActionBarActivity {
 
                     Toast.makeText(getApplicationContext(),
                             "เลือกรูปภาพ" , Toast.LENGTH_LONG).show();
+
+
                     Intent it = new Intent(getApplicationContext(), PostImageActivity.class);
                     it.putExtra("topic_id", topicID);
                     it.putExtra("username", username);
