@@ -292,19 +292,7 @@ public class LandingActivity extends ActionBarActivity {
         this. Username=Username;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_landing, menu);
-        return true;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        gridV.setAdapter(null);
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
+
 
 
     /////////////////////////
@@ -484,5 +472,17 @@ public class LandingActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_landing, menu);
+        return true;
+    }
+    @Override
+    public void onDestroy()
+    {   Log.i("onDestory","end");
+        imageLoader.clearCache();
+        super.onDestroy();
     }
 }
