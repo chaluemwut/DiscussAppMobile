@@ -422,6 +422,12 @@ public class LandingActivity extends ActionBarActivity {
         }
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
+        return true;
+    }
     private static long back_pressed;
     private Toast toast;
     @Override
@@ -473,16 +479,6 @@ public class LandingActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_landing, menu);
-        return true;
-    }
-    @Override
-    public void onDestroy()
-    {   Log.i("onDestory","end");
-        imageLoader.clearCache();
-        super.onDestroy();
-    }
+
+
 }

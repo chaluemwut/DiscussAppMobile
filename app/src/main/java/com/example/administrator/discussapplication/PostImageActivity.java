@@ -13,6 +13,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -391,6 +392,12 @@ public class PostImageActivity extends ActionBarActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
+        return true;
+    }
     private static long back_pressed;
     private Toast toast;
     @Override
@@ -432,7 +439,7 @@ public class PostImageActivity extends ActionBarActivity {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(PostImageActivity.this);
                 startActivity(it);
@@ -443,12 +450,6 @@ public class PostImageActivity extends ActionBarActivity {
         }
     }
 
-    public PostActivity getPreviousScree(){
-        return previousScree;
-    }
 
-    public void setPreviousScree(PostActivity postActivity){
-        this.previousScree = postActivity;
-    }
 
 }

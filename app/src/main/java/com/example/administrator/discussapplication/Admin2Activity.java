@@ -329,7 +329,7 @@ public class Admin2Activity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_admin2, menu);
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
         return true;
     }
     private static long back_pressed;
@@ -373,7 +373,7 @@ public class Admin2Activity extends ActionBarActivity {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(Admin2Activity.this);
                 startActivity(it);

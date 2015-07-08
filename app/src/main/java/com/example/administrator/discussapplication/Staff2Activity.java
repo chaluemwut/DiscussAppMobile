@@ -624,10 +624,9 @@ public class Staff2Activity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_staff2, menu);
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
         return true;
     }
-
     @Override
 
     public void onBackPressed()
@@ -668,7 +667,7 @@ public class Staff2Activity extends ActionBarActivity {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(Staff2Activity.this);
                 startActivity(it);

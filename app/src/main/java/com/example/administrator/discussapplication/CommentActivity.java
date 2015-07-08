@@ -249,7 +249,7 @@ public class CommentActivity extends ActionBarActivity {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(CommentActivity.this);
                 startActivity(it);

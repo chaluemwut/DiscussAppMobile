@@ -703,7 +703,7 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_admin, menu);
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
         return true;
     }
 
@@ -747,7 +747,7 @@ public class LoadViewTask extends AsyncTask<Void, Void, Boolean> {
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(AdminActivity.this);
                 startActivity(it);

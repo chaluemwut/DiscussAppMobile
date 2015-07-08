@@ -220,7 +220,7 @@ public class Admin3Activity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_admin3, menu);
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
         return true;
     }
 
@@ -259,13 +259,13 @@ public class Admin3Activity extends ActionBarActivity {
             case R.id.action_settings:
                 if (item.isChecked()) item.setChecked(false);
                 else item.setChecked(true);
-                Intent it = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent it = new Intent(getApplicationContext(),LoginActivity.class);
                 it.putExtra("topic_id", "");
                 it.putExtra("username","");
                 it.putExtra("cat_id","");
                 it.putExtra("role_id","");
                 Toast.makeText(getApplicationContext()
-                        ,"ล็อกเอาท์ เรียบร้อย",Toast.LENGTH_LONG).show();
+                        ,"ล็อกเอาท์เรียบร้อย",Toast.LENGTH_LONG).show();
                 System.out.println("");
                 SaveSharedPreference.clearUserName(Admin3Activity.this);
                 startActivity(it);
