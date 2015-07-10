@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="no_image">  โพสข้อความ  </string>
+    <string name="add_image">ใส่รูปภาพ</string>
     <string name="PassWord">PASSWORD</string>
     <string name="Username">USERNAME</string>
     <string name="action_settings">LOGOUT</string>
