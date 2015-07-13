@@ -127,7 +127,7 @@ public class Admin2Activity extends ActionBarActivity {
                 startActivity(it);
             }
        });
-        ///Add ew Cat
+        ///Add new Cat/
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
