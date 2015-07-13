@@ -142,15 +142,19 @@ public class Admin2Activity extends ActionBarActivity {
                 startActivity(it);
             }
         });
-        final EditText edAddTopNm = (EditText) this.findViewById(R.id.editAddtopic);
+
         Button btAddTopNm = (Button) this.findViewById(R.id.btnAddtopic);
-        final AlertDialog.Builder adb = new AlertDialog.Builder(Admin2Activity.this);
-        final String GetTopNm = edAddTopNm.getText().toString();
+
+
 
             btAddTopNm.setOnClickListener(new View.OnClickListener() {
+                 AlertDialog.Builder adb = new AlertDialog.Builder(Admin2Activity.this);
+                 EditText edAddTopNm = (EditText)findViewById(R.id.editAddtopic);
+
                 @Override
                 public void onClick(View v) {
-                    if (!GetTopNm.equals("")) {
+                    String GetTopNm = edAddTopNm.getText().toString();
+                    if (!GetTopNm.isEmpty()) {
                         adb.setTitle("ต้องการเพิ่มประเภทกระทู้ ?");
                         adb.setMessage("ต้องเพิ่มกระทู้ " + GetTopNm);
                         adb.setNegativeButton("ยกเลิก", null);
